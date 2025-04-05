@@ -1,18 +1,31 @@
+export interface Project {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+  tags: string[];
+  videoUrl?: string; // Optional video or gif link
+  productLink?: string; // Optional link to the actual product
+}
 
-export const featuredProjects = [
+export const featuredProjects: Project[] = [
   {
     id: 1,
     title: "Task Management Dashboard",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80",
     description: "A beautiful task management system with drag-and-drop functionality.",
-    tags: ["React", "Tailwind CSS", "Lovable"]
+    tags: ["React", "Tailwind CSS", "Lovable"],
+    videoUrl: "https://example.com/videos/task-dashboard.mp4",
+    productLink: "https://task-dashboard.example.com"
   },
   {
     id: 2,
     title: "E-commerce Store",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80",
     description: "A fully functional e-commerce platform with product listings and cart functionality.",
-    tags: ["React", "TypeScript", "Lovable"]
+    tags: ["React", "TypeScript", "Lovable"],
+    videoUrl: "https://example.com/videos/ecommerce.mp4",
+    productLink: "https://store.example.com"
   },
   {
     id: 3,
@@ -44,13 +57,15 @@ export const featuredProjects = [
   }
 ];
 
-export const webApps = [
+export const webApps: Project[] = [
   {
     id: 7,
     title: "Chat Application",
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80",
     description: "A real-time chat application with multiple rooms.",
-    tags: ["React", "WebSockets", "Lovable"]
+    tags: ["React", "WebSockets", "Lovable"],
+    videoUrl: "https://example.com/videos/chat-app.mp4",
+    productLink: "https://chat.example.com"
   },
   {
     id: 8,
@@ -89,13 +104,15 @@ export const webApps = [
   }
 ];
 
-export const designProjects = [
+export const designProjects: Project[] = [
   {
     id: 13,
     title: "Admin Dashboard",
     image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80",
     description: "A comprehensive admin dashboard with data visualization.",
-    tags: ["Design", "UI/UX", "Lovable"]
+    tags: ["Design", "UI/UX", "Lovable"],
+    videoUrl: "https://example.com/videos/admin-dashboard.mp4",
+    productLink: "https://admin.example.com"
   },
   {
     id: 14,
@@ -114,7 +131,7 @@ export const designProjects = [
   {
     id: 16,
     title: "E-learning Platform",
-    image: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1434491534298-04dcbce3278c?auto=format&fit=crop&q=80",
     description: "Design for an interactive e-learning platform.",
     tags: ["Education", "UI/UX", "Lovable"]
   },
@@ -134,13 +151,15 @@ export const designProjects = [
   }
 ];
 
-export const experiments = [
+export const experiments: Project[] = [
   {
     id: 19,
     title: "3D Graphics Demo",
     image: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80",
     description: "Experimenting with 3D graphics in the browser.",
-    tags: ["WebGL", "3D", "Lovable"]
+    tags: ["WebGL", "3D", "Lovable"],
+    videoUrl: "https://example.com/videos/3d-graphics.mp4",
+    productLink: "https://3d-demo.example.com"
   },
   {
     id: 20,

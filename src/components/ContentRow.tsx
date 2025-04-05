@@ -1,17 +1,11 @@
-
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
+import { Project } from '@/data/projects';
 
 interface ContentRowProps {
   title: string;
-  projects: {
-    id: number;
-    title: string;
-    image: string;
-    description: string;
-    tags: string[];
-  }[];
+  projects: Project[];
 }
 
 const ContentRow = ({ title, projects }: ContentRowProps) => {
