@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +90,47 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-netflix-background text-netflix-white;
+    margin: 0;
+    padding: 0;
+    font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .netflix-container {
+    @apply w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .netflix-card {
+    @apply relative overflow-hidden rounded-md transition-all duration-300;
+  }
+  
+  .netflix-card:hover {
+    @apply animate-card-hover;
+  }
+  
+  .netflix-card:hover .netflix-card-content {
+    @apply opacity-100;
+  }
+  
+  .netflix-card-content {
+    @apply absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300;
+  }
+  
+  .netflix-row {
+    @apply mb-8;
+  }
+  
+  .netflix-scrollbar::-webkit-scrollbar {
+    @apply h-1;
+  }
+  
+  .netflix-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  .netflix-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-netflix-gray bg-opacity-50 rounded-full;
   }
 }

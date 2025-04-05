@@ -1,0 +1,65 @@
+
+import React, { useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ProjectCard from './ProjectCard';
+
+interface ContentRowProps {
+  title: string;
+  projects: {
+    id: number;
+    title: string;
+    image: string;
+    description: string;
+    tags: string[];
+  }[];
+}
+
+const ContentRow = ({ title, projects }: ContentRowProps) => {
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (rowRef.current) {
+      const { current } = rowRef;
+      const scrollAmount = direction === 'left' 
+        ? current.scrollLeft - current.clientWidth
+        : current.scrollLeft + current.clientWidth;
+      
+      current.scrollTo({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <div className="netflix-row">
+      <h2 className="text-xl font-medium mb-2 pl-4">{title}</h2>
+      <div className="group relative">
+        <button 
+          className="absolute left-0 top-0 bottom-0 z-40 bg-netflix-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={() => scroll('left')}
+        >
+          <ChevronLeft className="text-white" size={24} />
+        </button>
+        
+        <div 
+          ref={rowRef}
+          className="flex space-x-2 overflow-x-scroll scrollbar-hide py-4 pl-4 netflix-scrollbar"
+        >
+          {projects.map(project => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+        
+        <button 
+          className="absolute right-0 top-0 bottom-0 z-40 bg-netflix-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={() => scroll('right')}
+        >
+          <ChevronRight className="text-white" size={24} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ContentRow;
