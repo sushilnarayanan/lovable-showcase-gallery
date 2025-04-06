@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Play, Plus, ThumbsUp, ExternalLink } from 'lucide-react';
+import { Play, Plus, ThumbsUp, ExternalLink, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
 
 interface ProjectProps {
@@ -9,6 +9,7 @@ interface ProjectProps {
 
 const ProjectCard = ({ project }: ProjectProps) => {
   const [showVideo, setShowVideo] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handlePlayClick = () => {
     if (project.videoUrl) {
@@ -20,6 +21,44 @@ const ProjectCard = ({ project }: ProjectProps) => {
     if (project.productLink) {
       window.open(project.productLink, '_blank');
     }
+  };
+
+  // Convert Google Drive URL to a direct download URL if it's a Google Drive link
+  const getProcessedImageUrl = (url: string) => {
+    if (!url) return '/placeholder.svg';
+    
+    // Check if it's a Google Drive URL
+    if (url.includes('drive.google.com') || url.includes('googleusercontent.com')) {
+      // Extract the file ID
+      let fileId = '';
+      
+      if (url.includes('id=')) {
+        // Format: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+        // or: https://drive.google.com/open?id=FILE_ID
+        const idMatch = url.match(/[?&]id=([^&]+)/);
+        if (idMatch && idMatch[1]) {
+          fileId = idMatch[1];
+        }
+      } else if (url.includes('/d/')) {
+        // Format: https://drive.google.com/file/d/FILE_ID/view
+        const parts = url.split('/d/');
+        if (parts.length > 1) {
+          fileId = parts[1].split('/')[0];
+        }
+      } else if (url.includes('drive.google.com/uc?export=view&id=')) {
+        // Format: https://drive.google.com/uc?export=view&id=FILE_ID
+        const idMatch = url.match(/id=([^&]+)/);
+        if (idMatch && idMatch[1]) {
+          fileId = idMatch[1];
+        }
+      }
+      
+      if (fileId) {
+        return `https://drive.google.com/uc?export=view&id=${fileId}`;
+      }
+    }
+    
+    return url;
   };
 
   return (
@@ -50,11 +89,21 @@ const ProjectCard = ({ project }: ProjectProps) => {
           </button>
         </div>
       ) : (
-        <img 
-          src={project.image} 
-          alt={project.title}
-          className="w-full h-full object-cover"
-        />
+        <>
+          {imageError ? (
+            <div className="w-full h-full flex items-center justify-center bg-gray-800">
+              <ImageIcon className="w-12 h-12 text-gray-400" />
+              <p className="text-sm text-gray-400 mt-2">Image unavailable</p>
+            </div>
+          ) : (
+            <img 
+              src={getProcessedImageUrl(project.image)} 
+              alt={project.title}
+              className="w-full h-full object-cover"
+              onError={() => setImageError(true)}
+            />
+          )}
+        </>
       )}
       
       <div className="netflix-card-content">
