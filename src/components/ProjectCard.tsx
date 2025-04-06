@@ -113,7 +113,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
       )}
       
       {/* Enhanced hover content - similar to Netflix */}
-      <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
+      <div className="netflix-card-content bg-gradient-to-t from-black/90 to-black/30 group-hover:opacity-100 flex flex-col justify-between h-full">
         <div className="pt-16">
           <h3 className="text-base font-bold mb-1">{project.title}</h3>
           
