@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 import { Play, Plus, ThumbsUp, ExternalLink, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
+import { 
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent
+} from "@/components/ui/hover-card";
 
 interface ProjectProps {
   project: Project;
@@ -11,7 +16,8 @@ const ProjectCard = ({ project }: ProjectProps) => {
   const [showVideo, setShowVideo] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const handlePlayClick = () => {
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (project.videoUrl) {
       setShowVideo(true);
     }
@@ -62,7 +68,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
   };
 
   return (
-    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative">
+    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative group">
       {showVideo && project.videoUrl ? (
         <div className="w-full h-full absolute top-0 left-0 z-20">
           {project.videoUrl.endsWith('.gif') ? (
@@ -91,7 +97,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
       ) : (
         <>
           {imageError ? (
-            <div className="w-full h-full flex items-center justify-center bg-gray-800">
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gray-800">
               <ImageIcon className="w-12 h-12 text-gray-400" />
               <p className="text-sm text-gray-400 mt-2">Image unavailable</p>
             </div>
@@ -106,17 +112,32 @@ const ProjectCard = ({ project }: ProjectProps) => {
         </>
       )}
       
-      <div className="netflix-card-content">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medium">{project.title}</h3>
+      {/* Enhanced hover content - similar to Netflix */}
+      <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
+        <div className="pt-16">
+          <h3 className="text-base font-bold mb-1">{project.title}</h3>
+          
+          <div className="flex flex-wrap gap-1 mt-1">
+            {project.tags.map((tag, index) => (
+              <span key={index} className="text-xs text-white/80">{tag}{index !== project.tags.length - 1 && ' • '}</span>
+            ))}
+          </div>
+          
+          {/* Description - Optional, shown on hover */}
+          {project.description && (
+            <p className="text-xs text-white/70 mt-2 line-clamp-2">{project.description}</p>
+          )}
+        </div>
+        
+        <div className="flex items-center justify-between mt-2">
           <div className="flex space-x-2">
             {project.videoUrl && (
               <button 
-                className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
+                className="w-8 h-8 rounded-full bg-white text-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:bg-white/90"
                 onClick={handlePlayClick}
                 title="Play preview"
               >
-                <Play size={16} className="text-white" />
+                <Play size={16} className="text-netflix-dark" />
               </button>
             )}
             <button 
@@ -131,22 +152,26 @@ const ProjectCard = ({ project }: ProjectProps) => {
             >
               <ThumbsUp size={16} className="text-white" />
             </button>
-            {project.productLink && (
-              <button 
-                className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
-                onClick={handleCardClick}
-                title="Visit Project"
-              >
-                <ExternalLink size={16} className="text-white" />
-              </button>
-            )}
           </div>
+          
+          {project.productLink && (
+            <button 
+              className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCardClick();
+              }}
+              title="Visit Project"
+            >
+              <ExternalLink size={16} className="text-white" />
+            </button>
+          )}
         </div>
-        <div className="flex flex-wrap gap-1 mt-2">
-          {project.tags.map((tag, index) => (
-            <span key={index} className="text-xs text-white/80">{tag}{index !== project.tags.length - 1 && ' • '}</span>
-          ))}
-        </div>
+      </div>
+      
+      {/* Enhanced hover effect - Makes card bigger on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-netflix-dark shadow-xl z-10">
+        {/* This creates the expanded card effect that Netflix has */}
       </div>
     </div>
   );

@@ -106,8 +106,11 @@
     @apply relative overflow-hidden rounded-md transition-all duration-300;
   }
   
+  /* Enhanced Netflix card hover effect */
   .netflix-card:hover {
-    @apply animate-card-hover;
+    @apply z-30 scale-110 shadow-2xl;
+    transform-origin: center;
+    transition: all 0.3s ease;
   }
   
   .netflix-card:hover .netflix-card-content {
@@ -115,7 +118,8 @@
   }
   
   .netflix-card-content {
-    @apply absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300;
+    @apply absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300 z-20;
+    height: 100%;
   }
   
   .netflix-row {
