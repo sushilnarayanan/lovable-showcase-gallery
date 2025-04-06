@@ -1,4 +1,8 @@
 
+import { Database } from '../types';
+
+export type Portfolio = Database['public']['Tables']['Portfolio']['Row'];
+
 export interface PortfolioItem {
   id: number;
   created_at: string;

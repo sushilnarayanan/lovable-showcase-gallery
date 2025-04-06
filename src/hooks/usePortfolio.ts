@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { PortfolioItem, PortfolioCreateInput, PortfolioUpdateInput } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
+import { Database } from '@/integrations/supabase/types';
 
 export const usePortfolioData = () => {
   return useQuery({
