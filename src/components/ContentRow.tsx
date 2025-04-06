@@ -1,14 +1,17 @@
+
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import { Project } from '@/data/projects';
+import { PortfolioItem } from '@/integrations/supabase/types/portfolio';
 
 interface ContentRowProps {
   title: string;
-  projects: Project[];
+  projects?: Project[];
+  portfolioItems?: PortfolioItem[];
 }
 
-const ContentRow = ({ title, projects }: ContentRowProps) => {
+const ContentRow = ({ title, projects, portfolioItems }: ContentRowProps) => {
   const rowRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -25,6 +28,18 @@ const ContentRow = ({ title, projects }: ContentRowProps) => {
     }
   };
 
+  // Convert portfolio items to project format if provided
+  const displayItems = portfolioItems 
+    ? portfolioItems.map(item => ({
+        id: String(item.id),
+        title: item.title,
+        image: item.thumbnail_url || '/placeholder.svg',
+        videoUrl: item.Product_video || undefined,
+        tags: item.description ? [item.description] : [],
+        productLink: undefined
+      }))
+    : projects || [];
+
   return (
     <div className="netflix-row">
       <h2 className="text-xl font-medium mb-2 pl-4">{title}</h2>
@@ -40,7 +55,7 @@ const ContentRow = ({ title, projects }: ContentRowProps) => {
           ref={rowRef}
           className="flex space-x-2 overflow-x-scroll scrollbar-hide py-4 pl-4 netflix-scrollbar"
         >
-          {projects.map(project => (
+          {displayItems.map(project => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
