@@ -112,8 +112,11 @@ const ProjectCard = ({ project }: ProjectProps) => {
         </>
       )}
       
-      {/* Enhanced hover content - similar to Netflix */}
-      <div className="netflix-card-content bg-gradient-to-t from-black/90 to-black/30 group-hover:opacity-100 flex flex-col justify-between h-full">
+      {/* Gradient overlay that shows on hover */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      {/* Enhanced hover content - Netflix style */}
+      <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
         <div className="pt-16">
           <h3 className="text-base font-bold mb-1">{project.title}</h3>
           
@@ -170,7 +173,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
       </div>
       
       {/* Enhanced hover effect - Makes card bigger on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-netflix-dark shadow-xl z-10">
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-transparent shadow-xl z-10">
         {/* This creates the expanded card effect that Netflix has */}
       </div>
     </div>
