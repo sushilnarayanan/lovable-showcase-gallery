@@ -4,10 +4,16 @@ import Hero from '@/components/Hero';
 import ContentRow from '@/components/ContentRow';
 import Footer from '@/components/Footer';
 import { featuredProjects, webApps, designProjects, experiments } from '@/data/projects';
-import { usePortfolioData } from '@/hooks/usePortfolio';
+import { useProductData, useCategoryData, useProductsByCategory } from '@/hooks/usePortfolio';
 
 const Index = () => {
-  const { data: portfolioItems, isLoading, error } = usePortfolioData();
+  const { data: productItems, isLoading: productsLoading, error: productsError } = useProductData();
+  const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategoryData();
+  
+  // Get featured products using the category slug
+  const { data: featuredProductItems } = useProductsByCategory('featured-products');
+  const { data: vibedCodedItems } = useProductsByCategory('vibe-coded');
+  const { data: microSaasItems } = useProductsByCategory('microsaas');
 
   return (
     <div className="min-h-screen bg-netflix-background">
@@ -15,16 +21,37 @@ const Index = () => {
       <Hero />
       
       <div className="pt-8 pb-16">
-        {/* Display portfolio items from Supabase if available */}
-        {!isLoading && !error && portfolioItems && portfolioItems.length > 0 && (
-          <ContentRow title="My Portfolio" portfolioItems={portfolioItems} />
+        {/* Display products from Supabase if available */}
+        {!productsLoading && !productsError && productItems && productItems.length > 0 && (
+          <ContentRow title="All Products" productItems={productItems} />
+        )}
+        
+        {/* Display category-specific products */}
+        {!productsLoading && !productsError && (
+          <>
+            {featuredProductItems && featuredProductItems.length > 0 && (
+              <ContentRow title="Featured Products" productItems={featuredProductItems} />
+            )}
+            
+            {vibedCodedItems && vibedCodedItems.length > 0 && (
+              <ContentRow title="Vibe-coded" productItems={vibedCodedItems} />
+            )}
+            
+            {microSaasItems && microSaasItems.length > 0 && (
+              <ContentRow title="MicroSaaS" productItems={microSaasItems} />
+            )}
+          </>
         )}
         
         {/* Keep existing content rows as fallback */}
-        <ContentRow title="Featured Projects" projects={featuredProjects} />
-        <ContentRow title="Web Applications" projects={webApps} />
-        <ContentRow title="Design Projects" projects={designProjects} />
-        <ContentRow title="Experiments" projects={experiments} />
+        {(productsLoading || categoriesLoading || productItems?.length === 0) && (
+          <>
+            <ContentRow title="Featured Projects" projects={featuredProjects} />
+            <ContentRow title="Web Applications" projects={webApps} />
+            <ContentRow title="Design Projects" projects={designProjects} />
+            <ContentRow title="Experiments" projects={experiments} />
+          </>
+        )}
       </div>
       
       <Footer />

@@ -1,25 +1,24 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { PortfolioItem, PortfolioCreateInput, PortfolioUpdateInput } from '@/integrations/supabase/types/portfolio';
+import { ProductItem, ProductCreateInput, ProductUpdateInput, CategoryItem } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
 import { Database } from '@/integrations/supabase/types';
 
-export const usePortfolioData = () => {
+export const useProductData = () => {
   return useQuery({
-    queryKey: ['portfolio'],
-    queryFn: async (): Promise<PortfolioItem[]> => {
+    queryKey: ['products'],
+    queryFn: async (): Promise<ProductItem[]> => {
       const { data, error } = await supabase
-        .from('Portfolio')
+        .from('Products')
         .select('*')
         .order('created_at', { ascending: false });
       
       if (error) {
-        console.error('Error fetching portfolio data:', error);
+        console.error('Error fetching product data:', error);
         toast({
           title: 'Error',
-          description: 'Failed to load portfolio data',
+          description: 'Failed to load product data',
           variant: 'destructive',
         });
         throw new Error(error.message);
@@ -30,18 +29,84 @@ export const usePortfolioData = () => {
   });
 };
 
-export const addPortfolioItem = async (item: PortfolioCreateInput) => {
+export const useCategoryData = () => {
+  return useQuery({
+    queryKey: ['categories'],
+    queryFn: async (): Promise<CategoryItem[]> => {
+      const { data, error } = await supabase
+        .from('Categories')
+        .select('*')
+        .order('name', { ascending: true });
+      
+      if (error) {
+        console.error('Error fetching category data:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load category data',
+          variant: 'destructive',
+        });
+        throw new Error(error.message);
+      }
+      
+      return data || [];
+    },
+  });
+};
+
+export const useProductsByCategory = (categorySlug: string) => {
+  return useQuery({
+    queryKey: ['products', 'category', categorySlug],
+    queryFn: async (): Promise<ProductItem[]> => {
+      const { data: categoryData, error: categoryError } = await supabase
+        .from('Categories')
+        .select('id')
+        .eq('slug', categorySlug)
+        .single();
+      
+      if (categoryError) {
+        console.error('Error fetching category:', categoryError);
+        toast({
+          title: 'Error',
+          description: 'Failed to load category',
+          variant: 'destructive',
+        });
+        throw new Error(categoryError.message);
+      }
+      
+      const { data, error } = await supabase
+        .from('Products')
+        .select('*')
+        .eq('category_id', categoryData.id)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching products by category:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load products',
+          variant: 'destructive',
+        });
+        throw new Error(error.message);
+      }
+      
+      return data || [];
+    },
+    enabled: !!categorySlug,
+  });
+};
+
+export const addProduct = async (item: ProductCreateInput) => {
   const { data, error } = await supabase
-    .from('Portfolio')
+    .from('Products')
     .insert(item)
     .select()
     .single();
   
   if (error) {
-    console.error('Error adding portfolio item:', error);
+    console.error('Error adding product item:', error);
     toast({
       title: 'Error',
-      description: 'Failed to add portfolio item',
+      description: 'Failed to add product item',
       variant: 'destructive',
     });
     throw new Error(error.message);
@@ -49,25 +114,25 @@ export const addPortfolioItem = async (item: PortfolioCreateInput) => {
   
   toast({
     title: 'Success',
-    description: 'Portfolio item added successfully',
+    description: 'Product item added successfully',
   });
   
   return data;
 };
 
-export const updatePortfolioItem = async (id: number, updates: PortfolioUpdateInput) => {
+export const updateProduct = async (id: number, updates: ProductUpdateInput) => {
   const { data, error } = await supabase
-    .from('Portfolio')
+    .from('Products')
     .update(updates)
     .eq('id', id)
     .select()
     .single();
   
   if (error) {
-    console.error('Error updating portfolio item:', error);
+    console.error('Error updating product item:', error);
     toast({
       title: 'Error',
-      description: 'Failed to update portfolio item',
+      description: 'Failed to update product item',
       variant: 'destructive',
     });
     throw new Error(error.message);
@@ -75,23 +140,23 @@ export const updatePortfolioItem = async (id: number, updates: PortfolioUpdateIn
   
   toast({
     title: 'Success',
-    description: 'Portfolio item updated successfully',
+    description: 'Product item updated successfully',
   });
   
   return data;
 };
 
-export const deletePortfolioItem = async (id: number) => {
+export const deleteProduct = async (id: number) => {
   const { error } = await supabase
-    .from('Portfolio')
+    .from('Products')
     .delete()
     .eq('id', id);
   
   if (error) {
-    console.error('Error deleting portfolio item:', error);
+    console.error('Error deleting product item:', error);
     toast({
       title: 'Error',
-      description: 'Failed to delete portfolio item',
+      description: 'Failed to delete product item',
       variant: 'destructive',
     });
     throw new Error(error.message);
@@ -99,6 +164,11 @@ export const deletePortfolioItem = async (id: number) => {
   
   toast({
     title: 'Success',
-    description: 'Portfolio item deleted successfully',
+    description: 'Product item deleted successfully',
   });
 };
+
+export const usePortfolioData = useProductData;
+export const addPortfolioItem = addProduct;
+export const updatePortfolioItem = updateProduct;
+export const deletePortfolioItem = deleteProduct;

@@ -3,15 +3,15 @@ import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import { Project } from '@/data/projects';
-import { PortfolioItem } from '@/integrations/supabase/types/portfolio';
+import { ProductItem } from '@/integrations/supabase/types/portfolio';
 
 interface ContentRowProps {
   title: string;
   projects?: Project[];
-  portfolioItems?: PortfolioItem[];
+  productItems?: ProductItem[];
 }
 
-const ContentRow = ({ title, projects, portfolioItems }: ContentRowProps) => {
+const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
   const rowRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -29,14 +29,14 @@ const ContentRow = ({ title, projects, portfolioItems }: ContentRowProps) => {
   };
 
   // Convert portfolio items to project format if provided
-  const displayItems = portfolioItems 
-    ? portfolioItems.map(item => ({
+  const displayItems = productItems 
+    ? productItems.map(item => ({
         id: String(item.id),
         title: item.title,
         image: item.thumbnail_url || '/placeholder.svg',
-        videoUrl: item.Product_video || undefined,
-        tags: item.description ? [item.description] : [],
-        productLink: undefined
+        videoUrl: item.product_video || undefined,
+        tags: item.tags || [],
+        productLink: item.product_link || undefined
       }))
     : projects || [];
 
