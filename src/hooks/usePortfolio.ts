@@ -58,13 +58,15 @@ export const useProductsByCategory = (categorySlug: string) => {
   return useQuery({
     queryKey: ['products', 'category', categorySlug],
     queryFn: async (): Promise<ProductItem[]> => {
+      // First check if the category exists
       const { data: categoryData, error: categoryError } = await supabase
         .from('Categories')
         .select('id')
         .eq('slug', categorySlug)
-        .single();
+        .maybeSingle(); // Use maybeSingle instead of single to prevent errors
       
-      if (categoryError) {
+      if (categoryError && categoryError.code !== 'PGRST116') {
+        // Only throw for errors other than "no rows returned"
         console.error('Error fetching category:', categoryError);
         toast({
           title: 'Error',
@@ -72,6 +74,12 @@ export const useProductsByCategory = (categorySlug: string) => {
           variant: 'destructive',
         });
         throw new Error(categoryError.message);
+      }
+      
+      // If no category found, return empty array
+      if (!categoryData) {
+        console.log(`Category with slug "${categorySlug}" not found`);
+        return [];
       }
       
       const { data, error } = await supabase
