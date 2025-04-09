@@ -112,21 +112,27 @@ const ProjectCard = ({ project }: ProjectProps) => {
         </>
       )}
       
-      {/* Gradient overlay that shows on hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      {/* Gradient overlay always visible */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 transition-opacity duration-300"></div>
+      
+      {/* Always visible title and description, not just on hover */}
+      <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
+        <h3 className="text-base font-bold mb-1">{project.title}</h3>
+        {project.description && (
+          <p className="text-xs text-white/70 line-clamp-1">{project.description}</p>
+        )}
+      </div>
       
       {/* Enhanced hover content - Netflix style */}
       <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
         <div className="pt-16">
-          <h3 className="text-base font-bold mb-1">{project.title}</h3>
-          
           <div className="flex flex-wrap gap-1 mt-1">
             {project.tags.map((tag, index) => (
               <span key={index} className="text-xs text-white/80">{tag}{index !== project.tags.length - 1 && ' • '}</span>
             ))}
           </div>
           
-          {/* Description - Optional, shown on hover */}
+          {/* Description expanded on hover */}
           {project.description && (
             <p className="text-xs text-white/70 mt-2 line-clamp-2">{project.description}</p>
           )}

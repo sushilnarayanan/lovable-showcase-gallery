@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -14,6 +15,7 @@ const Index = () => {
   const { data: featuredProductItems } = useProductsByCategory('featured-products');
   const { data: vibedCodedItems } = useProductsByCategory('vibe-coded');
   const { data: microSaasItems } = useProductsByCategory('microsaas');
+  const { data: noCodeItems } = useProductsByCategory('nocode');
 
   return (
     <div className="min-h-screen bg-netflix-background">
@@ -39,6 +41,10 @@ const Index = () => {
             
             {microSaasItems && microSaasItems.length > 0 && (
               <ContentRow title="MicroSaaS" productItems={microSaasItems} />
+            )}
+            
+            {noCodeItems && noCodeItems.length > 0 && (
+              <ContentRow title="NoCode" productItems={noCodeItems} />
             )}
           </>
         )}
