@@ -3,6 +3,7 @@ import { Database } from '../types';
 
 export type Category = Database['public']['Tables']['Categories']['Row'];
 export type Product = Database['public']['Tables']['Products']['Row'];
+export type ProductCategory = Database['public']['Tables']['product_categories']['Row'];
 
 export interface CategoryItem {
   id: number;
@@ -21,14 +22,20 @@ export interface ProductItem {
   product_video: string | null;
   product_link: string | null;
   github_link: string | null;
-  category_id: number | null;
+  category_id: number | null;  // Keep for backward compatibility
+  categories?: CategoryItem[];  // New field for multiple categories
   tags: string[] | null;
   created_at: string;
   updated_at: string | null;
 }
 
-export type ProductCreateInput = Omit<ProductItem, 'id' | 'created_at' | 'updated_at'>;
-export type ProductUpdateInput = Partial<ProductCreateInput>;
+export type ProductCreateInput = Omit<ProductItem, 'id' | 'created_at' | 'updated_at' | 'categories'> & {
+  categoryIds?: number[];  // For assigning multiple categories
+};
+
+export type ProductUpdateInput = Partial<Omit<ProductCreateInput, 'categoryIds'>> & {
+  categoryIds?: number[];  // For updating multiple categories
+};
 
 export type CategoryCreateInput = Omit<CategoryItem, 'id' | 'created_at' | 'updated_at'>;
 export type CategoryUpdateInput = Partial<CategoryCreateInput>;

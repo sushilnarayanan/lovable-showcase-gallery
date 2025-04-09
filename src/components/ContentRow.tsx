@@ -39,6 +39,7 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
         videoUrl: item.product_video || undefined,
         tags: item.tags || [],
         productLink: item.product_link || undefined,
+        categories: item.categories || [],
         showTitleByDefault: true
       }))
     : projects || [];

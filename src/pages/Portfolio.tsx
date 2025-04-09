@@ -15,7 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useProductData, addProduct, updateProduct, deleteProduct, useCategoryData } from '@/hooks/usePortfolio';
+import { Checkbox } from '@/components/ui/checkbox';
+import { 
+  useProductData, 
+  addProduct, 
+  updateProduct, 
+  deleteProduct, 
+  useCategoryData 
+} from '@/hooks/usePortfolio';
 import { ProductItem, ProductCreateInput, CategoryItem } from '@/integrations/supabase/types/portfolio';
 import { useForm } from 'react-hook-form';
 import { toast } from '@/hooks/use-toast';
@@ -25,6 +32,7 @@ const Portfolio = () => {
   const { data: productItems, isLoading, error } = useProductData();
   const { data: categories } = useCategoryData();
   const [editingItem, setEditingItem] = useState<ProductItem | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const queryClient = useQueryClient();
   
   const form = useForm<ProductCreateInput>({
@@ -52,6 +60,16 @@ const Portfolio = () => {
         category_id: editingItem.category_id,
         tags: editingItem.tags || []
       });
+      
+      // Set selected categories from the editing item
+      if (editingItem.categories) {
+        setSelectedCategories(editingItem.categories.map(c => c.id));
+      } else if (editingItem.category_id) {
+        // Fallback to legacy category_id
+        setSelectedCategories([editingItem.category_id]);
+      } else {
+        setSelectedCategories([]);
+      }
     }
   }, [editingItem, form]);
 
@@ -60,7 +78,9 @@ const Portfolio = () => {
       // Handle tags as array
       const formattedData = {
         ...data,
-        tags: data.tags || []
+        tags: data.tags || [],
+        // Add categoryIds for multi-category support
+        categoryIds: selectedCategories.length > 0 ? selectedCategories : undefined
       };
       
       if (editingItem) {
@@ -70,7 +90,9 @@ const Portfolio = () => {
       }
       queryClient.invalidateQueries({ queryKey: ['products'] });
       queryClient.invalidateQueries({ queryKey: ['products', 'category'] });
+      queryClient.invalidateQueries({ queryKey: ['products', 'categoryId'] });
       setEditingItem(null);
+      setSelectedCategories([]);
       form.reset({
         title: '',
         description: '',
@@ -92,6 +114,7 @@ const Portfolio = () => {
         await deleteProduct(id);
         queryClient.invalidateQueries({ queryKey: ['products'] });
         queryClient.invalidateQueries({ queryKey: ['products', 'category'] });
+        queryClient.invalidateQueries({ queryKey: ['products', 'categoryId'] });
       } catch (error) {
         console.error('Error deleting product item:', error);
       }
@@ -104,6 +127,7 @@ const Portfolio = () => {
   
   const cancelEdit = () => {
     setEditingItem(null);
+    setSelectedCategories([]);
     form.reset({
       title: '',
       description: '',
@@ -133,6 +157,15 @@ const Portfolio = () => {
     // Convert comma-separated string to array and trim whitespace
     const tagsArray = e.target.value.split(',').map(tag => tag.trim()).filter(tag => tag);
     form.setValue('tags', tagsArray);
+  };
+  
+  // Toggle a category selection
+  const toggleCategory = (categoryId: number) => {
+    setSelectedCategories(current => 
+      current.includes(categoryId)
+        ? current.filter(id => id !== categoryId)
+        : [...current, categoryId]
+    );
   };
 
   return (
@@ -183,33 +216,26 @@ const Portfolio = () => {
                   )}
                 />
                 
-                <FormField
-                  control={form.control}
-                  name="category_id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <Select
-                        onValueChange={(value) => field.onChange(parseInt(value))}
-                        defaultValue={field.value?.toString() || ''}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categories?.map((category) => (
-                            <SelectItem key={category.id} value={category.id.toString()}>
-                              {category.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div>
+                  <FormLabel>Categories (select multiple)</FormLabel>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                    {categories?.map((category) => (
+                      <div key={category.id} className="flex items-center space-x-2">
+                        <Checkbox 
+                          id={`category-${category.id}`} 
+                          checked={selectedCategories.includes(category.id)}
+                          onCheckedChange={() => toggleCategory(category.id)}
+                        />
+                        <label 
+                          htmlFor={`category-${category.id}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {category.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 
                 <FormItem>
                   <FormLabel>Tags (comma-separated)</FormLabel>
@@ -317,9 +343,34 @@ const Portfolio = () => {
                 {item.description && (
                   <CardDescription>{item.description}</CardDescription>
                 )}
-                {categories && item.category_id && (
+                
+                {/* Display all categories for this item */}
+                {item.categories && item.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {item.categories.map(category => (
+                      <span 
+                        key={category.id} 
+                        className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded-full"
+                      >
+                        {category.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Fallback to single category if categories array is not available */}
+                {(!item.categories || item.categories.length === 0) && item.category_id && categories && (
                   <div className="text-sm">
                     Category: {categories.find(c => c.id === item.category_id)?.name || 'Unknown'}
+                  </div>
+                )}
+                
+                {/* Show tags if available */}
+                {item.tags && item.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {item.tags.map((tag, index) => (
+                      <span key={index} className="text-xs text-gray-500">#{tag}</span>
+                    ))}
                   </div>
                 )}
               </CardHeader>

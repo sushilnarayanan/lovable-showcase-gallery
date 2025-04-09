@@ -2,14 +2,16 @@
 import React, { useState } from 'react';
 import { Play, Plus, ThumbsUp, ExternalLink, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
+import { CategoryItem } from '@/integrations/supabase/types/portfolio';
 import { 
   HoverCard,
   HoverCardTrigger,
   HoverCardContent
 } from "@/components/ui/hover-card";
 
+// Extend Project type to include categories
 interface ProjectProps {
-  project: Project;
+  project: Project & { categories?: CategoryItem[] };
 }
 
 const ProjectCard = ({ project }: ProjectProps) => {
@@ -126,6 +128,17 @@ const ProjectCard = ({ project }: ProjectProps) => {
       {/* Enhanced hover content - Netflix style */}
       <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
         <div className="pt-16">
+          {/* Display categories if available */}
+          {project.categories && project.categories.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-1">
+              {project.categories.map((category) => (
+                <span key={category.id} className="text-xs bg-white/20 px-1.5 py-0.5 rounded-sm">
+                  {category.name}
+                </span>
+              ))}
+            </div>
+          )}
+          
           <div className="flex flex-wrap gap-1 mt-1">
             {project.tags.map((tag, index) => (
               <span key={index} className="text-xs text-white/80">{tag}{index !== project.tags.length - 1 && ' • '}</span>
