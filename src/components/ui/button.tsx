@@ -19,9 +19,9 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        netflix: "bg-netflix-red hover:bg-netflix-red/90 text-white",
-        netflixOutline: "border border-netflix-red bg-transparent text-white hover:bg-netflix-red/20",
-        netflixGhost: "bg-transparent text-netflix-red hover:bg-netflix-red/10",
+        netflix: "bg-netflix-red hover:bg-netflix-red/90 text-white font-medium",
+        netflixOutline: "border border-white bg-white/10 text-white hover:bg-white/20 font-medium",
+        netflixGhost: "bg-transparent text-white hover:bg-white/10",
       },
       size: {
         default: "h-10 px-4 py-2",
