@@ -56,11 +56,11 @@ export default {
 				modern: {
 					dark: '#0A0A0A',
 					card: '#121212',
-					accent: '#1DB954',       // Spotify green
-					secondary: '#4BF4B0',    // Lighter green
-					border: '#1DB95433',     // Semi-transparent green border
+					accent: '#E50914',       // Netflix red
+					secondary: '#FF3B30',    // Lighter red
+					border: '#E5091433',     // Semi-transparent red border
 					tag: '#121212',
-					highlight: '#1ED760',    // Bright Spotify green
+					highlight: '#E50914',    // Bright Netflix red
 					text: '#FFFFFF',
 					subtext: '#9e9e9e',
 					overlay: 'rgba(0, 0, 0, 0.85)',

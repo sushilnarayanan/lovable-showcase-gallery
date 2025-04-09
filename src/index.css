@@ -76,16 +76,16 @@
   }
 }
 
-/* Modern UI specific styles with updated colors - Spotify green theme */
+/* Modern UI specific styles with updated colors - Netflix theme */
 .modern-gradient-text {
-  background: linear-gradient(to right, #1DB954, #1ED760);
+  background: linear-gradient(to right, #E50914, #FF3B30);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+  text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
 }
 
 .modern-subtitle-gradient {
-  background: linear-gradient(to right, #4BF4B0, #1ED760);
+  background: linear-gradient(to right, #FF3B30, #E50914);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -111,27 +111,27 @@
 }
 
 .text-shadow {
-  text-shadow: 0 0 10px rgba(29, 185, 84, 0.7);
+  text-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
 }
 
 .neon-border {
-  box-shadow: 0 0 8px rgba(29, 185, 84, 0.7), inset 0 0 8px rgba(29, 185, 84, 0.5);
+  box-shadow: 0 0 8px rgba(229, 9, 20, 0.7), inset 0 0 8px rgba(229, 9, 20, 0.5);
 }
 
 .neon-text {
-  text-shadow: 0 0 5px rgba(29, 185, 84, 0.8), 0 0 10px rgba(29, 185, 84, 0.5);
+  text-shadow: 0 0 5px rgba(229, 9, 20, 0.8), 0 0 10px rgba(229, 9, 20, 0.5);
 }
 
 .cyberpunk-grid {
   background-image: 
-    linear-gradient(to right, rgba(29, 185, 84, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(46, 213, 115, 0.1) 1px, transparent 1px);
+    linear-gradient(to right, rgba(229, 9, 20, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(229, 9, 20, 0.1) 1px, transparent 1px);
   background-size: 30px 30px;
 }
 
 /* Used for background patterns */
 .bg-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231DB954' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E50914' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .animated-gradient-bg {
@@ -141,12 +141,12 @@
 }
 
 .cyber-button {
-  @apply relative overflow-hidden border border-spotify-green/50 bg-[#121212] px-5 py-2 text-spotify-green transition-all duration-300;
+  @apply relative overflow-hidden border border-netflix-red/50 bg-[#121212] px-5 py-2 text-netflix-red transition-all duration-300;
 }
 
 .cyber-button:before {
   content: '';
-  @apply absolute inset-0 bg-spotify-green/20 scale-x-0 transition-transform duration-500 origin-left;
+  @apply absolute inset-0 bg-netflix-red/20 scale-x-0 transition-transform duration-500 origin-left;
 }
 
 .cyber-button:hover:before {
@@ -172,9 +172,9 @@
 
 @keyframes text-glow {
   from {
-    text-shadow: 0 0 5px rgba(29, 185, 84, 0.7), 0 0 10px rgba(29, 185, 84, 0.5);
+    text-shadow: 0 0 5px rgba(229, 9, 20, 0.7), 0 0 10px rgba(229, 9, 20, 0.5);
   }
   to {
-    text-shadow: 0 0 10px rgba(29, 185, 84, 1), 0 0 20px rgba(29, 185, 84, 0.8), 0 0 30px rgba(29, 185, 84, 0.6);
+    text-shadow: 0 0 10px rgba(229, 9, 20, 1), 0 0 20px rgba(229, 9, 20, 0.8), 0 0 30px rgba(229, 9, 20, 0.6);
   }
 }
