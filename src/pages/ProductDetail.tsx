@@ -183,7 +183,7 @@ const ProductDetail = () => {
         </Button>
         
         {/* Hero Image / Video Player */}
-        <div className="relative w-full h-[40vh] lg:h-[50vh]">
+        <div className="relative w-full h-[50vh] lg:h-[60vh]">
           {isVideoPlaying && project.videoUrl ? (
             <div className="absolute inset-0 bg-black z-40">
               <div className="relative w-full h-full">
@@ -203,12 +203,12 @@ const ProductDetail = () => {
             </div>
           ) : (
             <>
-              {/* Decreased opacity of these overlays to make image more visible */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"></div>
+              {/* Reduced opacity of overlays to make image more visible */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10"></div>
               <img 
                 src={project.image || '/placeholder.svg'} 
                 alt={project.title}
-                className="w-full h-full object-cover brightness-90" // Increased brightness for better visibility
+                className="w-full h-full object-cover brightness-100" 
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                 }}
@@ -292,31 +292,6 @@ const ProductDetail = () => {
       
       {/* Main Content with Tabs */}
       <div className="container mx-auto py-6 px-4">
-        {/* Author info section */}
-        <div className="mb-8 bg-black border border-netflix-red/20 p-6 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16 border-2 border-netflix-red">
-              <AvatarImage src="/lovable-uploads/d9597c68-f658-4b3a-9acf-cc0ec8a567c7.png" />
-              <AvatarFallback className="bg-netflix-red text-black">PJ</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-bold flex items-center gap-1 text-white">Project Creator <span className="text-netflix-red">★</span></h3>
-              <p className="text-gray-400">Created this project with passion and expertise</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <div className="bg-black border border-netflix-red/20 px-3 py-1 rounded-full text-sm font-medium text-white">
-              Web App
-            </div>
-            <div className="bg-black border border-netflix-red/20 px-3 py-1 rounded-full text-sm font-medium text-white">
-              Team Project
-            </div>
-            <div className="bg-black border border-netflix-red/20 px-3 py-1 rounded-full text-sm font-medium text-white">
-              Featured
-            </div>
-          </div>
-        </div>
-        
         {/* Product Images Section */}
         <div className="mb-8">
           <div className="flex items-center mb-4">
@@ -479,7 +454,7 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Features Tab - Restored with original icons/effects */}
+          {/* Features Tab */}
           <TabsContent value="features" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -531,7 +506,7 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Tools Tab - Simplified for manual input */}
+          {/* Tools Tab - Empty for manual input */}
           <TabsContent value="tools" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
