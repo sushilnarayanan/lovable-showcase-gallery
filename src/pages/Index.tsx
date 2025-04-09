@@ -5,7 +5,12 @@ import Hero from '@/components/Hero';
 import ContentRow from '@/components/ContentRow';
 import Footer from '@/components/Footer';
 import { featuredProjects, webApps, designProjects, experiments } from '@/data/projects';
-import { useProductData, useCategoryData, useProductsByCategory } from '@/hooks/usePortfolio';
+import { 
+  useProductData, 
+  useCategoryData, 
+  useProductsByCategory, 
+  useProductsByCategoryId 
+} from '@/hooks/usePortfolio';
 
 const Index = () => {
   const { data: productItems, isLoading: productsLoading, error: productsError } = useProductData();
@@ -14,8 +19,10 @@ const Index = () => {
   // Get featured products using the category slug
   const { data: featuredProductItems } = useProductsByCategory('featured-products');
   const { data: vibedCodedItems } = useProductsByCategory('vibe-coded');
-  const { data: microSaasItems } = useProductsByCategory('microsaas');
-  const { data: noCodeItems } = useProductsByCategory('nocode');
+  
+  // Use specific category IDs for MicroSaaS (2) and NoCode (6)
+  const { data: microSaasItems } = useProductsByCategoryId(2);
+  const { data: noCodeItems } = useProductsByCategoryId(6);
 
   return (
     <div className="min-h-screen bg-netflix-background">
@@ -39,13 +46,14 @@ const Index = () => {
               <ContentRow title="Vibe-coded" productItems={vibedCodedItems} />
             )}
             
-            {/* Always show MicroSaaS and NoCode categories, even if empty */}
+            {/* Display MicroSaaS items (category ID 2) */}
             <ContentRow 
               title="MicroSaaS" 
               productItems={microSaasItems || []} 
               projects={microSaasItems && microSaasItems.length === 0 ? webApps : undefined} 
             />
             
+            {/* Display NoCode items (category ID 6) */}
             <ContentRow 
               title="NoCode" 
               productItems={noCodeItems || []} 

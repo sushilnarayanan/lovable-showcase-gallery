@@ -33,13 +33,13 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
     ? productItems.map(item => ({
         id: String(item.id),
         title: item.title,
-        subtitle: item.description || '', // Use description instead of sub_title
+        subtitle: item.description || '', 
         description: item.description || '',
         image: item.thumbnail_url || '/placeholder.svg',
         videoUrl: item.product_video || undefined,
         tags: item.tags || [],
         productLink: item.product_link || undefined,
-        showTitleByDefault: true // Add this flag to show title by default
+        showTitleByDefault: true
       }))
     : projects || [];
 
@@ -63,8 +63,8 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
               <ProjectCard key={project.id} project={project} />
             ))
           ) : (
-            <div className="flex items-center justify-center w-full h-[170px] text-gray-400">
-              No items in this category yet
+            <div className="flex items-center justify-center w-full h-[170px] text-gray-400 bg-gray-800/30 rounded p-4">
+              No items in this category yet. Check category IDs are set correctly.
             </div>
           )}
         </div>

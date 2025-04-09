@@ -106,6 +106,42 @@ export const useCategoryData = () => {
   });
 };
 
+// New function to fetch products by direct category ID
+export const useProductsByCategoryId = (categoryId: number) => {
+  return useQuery({
+    queryKey: ['products', 'categoryId', categoryId],
+    queryFn: async (): Promise<ProductItem[]> => {
+      try {
+        if (!categoryId) {
+          return [];
+        }
+        
+        const { data, error } = await supabase
+          .from('Products')
+          .select('*')
+          .eq('category_id', categoryId)
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error(`Error fetching products by category ID ${categoryId}:`, error);
+          toast({
+            title: 'Error',
+            description: `Failed to load products for category ID ${categoryId}`,
+            variant: 'destructive',
+          });
+          throw new Error(error.message);
+        }
+        
+        return data || [];
+      } catch (error) {
+        console.error(`Error in useProductsByCategoryId for ID ${categoryId}:`, error);
+        return [];
+      }
+    },
+    enabled: !!categoryId,
+  });
+};
+
 export const useProductsByCategory = (categorySlug: string) => {
   return useQuery({
     queryKey: ['products', 'category', categorySlug],
