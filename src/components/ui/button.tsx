@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none",
   {
     variants: {
       variant: {
@@ -22,12 +22,15 @@ const buttonVariants = cva(
         netflix: "bg-netflix-red hover:bg-netflix-red/90 text-white font-medium",
         netflixOutline: "border border-white bg-white/10 text-white hover:bg-white/20 font-medium",
         netflixGhost: "bg-transparent text-white hover:bg-white/10",
+        play: "bg-white text-black hover:bg-white/90 font-medium rounded-md",
+        moreInfo: "bg-gray-500/70 text-white hover:bg-gray-500/80 font-medium rounded-md",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        netflix: "h-9 px-5 py-1.5 text-base",
       },
     },
     defaultVariants: {

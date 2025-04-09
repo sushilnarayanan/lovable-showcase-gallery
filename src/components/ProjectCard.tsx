@@ -1,14 +1,9 @@
 
 import React, { useState } from 'react';
-import { Play, Plus, ThumbsUp, ExternalLink, Image as ImageIcon } from 'lucide-react';
+import { Play, Plus, ThumbsUp, Info, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
 import { CategoryItem } from '@/integrations/supabase/types/portfolio';
 import { useNavigate } from 'react-router-dom';
-import { 
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent
-} from "@/components/ui/hover-card";
 
 // Extend Project type to include categories
 interface ProjectProps {
@@ -16,23 +11,15 @@ interface ProjectProps {
 }
 
 const ProjectCard = ({ project }: ProjectProps) => {
-  const [showVideo, setShowVideo] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
-  const handlePlayClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (project.videoUrl) {
-      setShowVideo(true);
-    }
-  };
-
   const handleCardClick = () => {
-    // Navigate to the product detail page instead of opening external link directly
     navigate(`/product/${project.id || 'detail'}`, { state: { project } });
   };
 
-  // Convert Google Drive URL to a direct download URL if it's a Google Drive link
+  // Process image URL if needed
   const getProcessedImageUrl = (url: string) => {
     if (!url) return '/placeholder.svg';
     
@@ -67,131 +54,94 @@ const ProjectCard = ({ project }: ProjectProps) => {
   };
 
   return (
-    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative group" onClick={handleCardClick}>
-      {showVideo && project.videoUrl ? (
-        <div className="w-full h-full absolute top-0 left-0 z-20">
-          {project.videoUrl.endsWith('.gif') ? (
-            <img 
-              src={project.videoUrl} 
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <video 
-              src={project.videoUrl} 
-              autoPlay 
-              controls 
-              className="w-full h-full object-cover"
-            >
-              Your browser does not support the video tag.
-            </video>
-          )}
-          <button 
-            className="absolute top-2 right-2 bg-netflix-dark/80 text-white p-1 rounded-full"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowVideo(false);
-            }}
-          >
-            Close
-          </button>
+    <div 
+      className="netflix-card relative min-w-[16.5%] aspect-video cursor-pointer transition-transform duration-300 ease-out"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleCardClick}
+    >
+      {imageError ? (
+        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-800">
+          <ImageIcon className="w-8 h-8 text-gray-400" />
         </div>
       ) : (
-        <>
-          {imageError ? (
-            <div className="w-full h-full flex flex-col items-center justify-center bg-gray-800">
-              <ImageIcon className="w-12 h-12 text-gray-400" />
-              <p className="text-sm text-gray-400 mt-2">Image unavailable</p>
-            </div>
-          ) : (
-            <img 
-              src={getProcessedImageUrl(project.image)} 
-              alt={project.title}
-              className="w-full h-full object-cover"
-              onError={() => setImageError(true)}
-            />
-          )}
-        </>
+        <img 
+          src={getProcessedImageUrl(project.image)} 
+          alt={project.title}
+          className="w-full h-full object-cover"
+          onError={() => setImageError(true)}
+        />
+      )}
+
+      {/* Netflix badging */}
+      {project.tags?.includes('new') && (
+        <div className="absolute top-0 right-0 bg-netflix-red text-white text-xs font-bold py-0.5 px-2">
+          NEW
+        </div>
       )}
       
-      {/* Gradient overlay always visible */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 transition-opacity duration-300"></div>
+      {/* Episode badge - show if it's in the format "Episode X" */}
+      {project.subtitle?.toLowerCase().includes('episode') && (
+        <div className="absolute bottom-0 left-0 bg-netflix-red text-white text-xs font-bold py-0.5 px-2">
+          New Episode
+        </div>
+      )}
       
-      {/* Always visible title and subtitle - now with better wrapping for subtitle */}
-      <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-        <h3 className="text-base font-bold mb-1">{project.title}</h3>
-        {project.description && (
-          <p className="text-xs text-white/70 line-clamp-2 break-words">{project.description}</p>
-        )}
-      </div>
+      {/* Watch Now badge */}
+      {project.productLink && (
+        <div className="absolute bottom-0 right-0 bg-black/70 text-white text-xs font-bold py-0.5 px-2">
+          Watch Now
+        </div>
+      )}
       
-      {/* Modified hover content - tags at top right and buttons at bottom */}
-      <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
-        {/* Tags at top right corner */}
-        <div className="absolute top-2 right-2 z-20">
-          <div className="flex flex-wrap gap-1 justify-end">
-            {project.tags.map((tag, index) => (
-              <span key={index} className="text-xs bg-black/70 text-white px-1.5 py-0.5 rounded-sm">{tag}</span>
-            ))}
-          </div>
+      {/* Hover state with extra information */}
+      {isHovered && (
+        <div className="absolute -top-1/3 left-0 right-0 bottom-0 bg-zinc-800 z-10 rounded shadow-xl scale-125 origin-bottom">
+          <img 
+            src={getProcessedImageUrl(project.image)} 
+            alt={project.title}
+            className="w-full aspect-video object-cover rounded-t"
+            onError={() => setImageError(true)}
+          />
           
-          {/* Categories shown on hover */}
-          {project.categories && project.categories.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-1 justify-end">
-              {project.categories.map((category) => (
-                <span key={category.id} className="text-xs bg-white/30 px-1.5 py-0.5 rounded-sm">
-                  {category.name}
+          <div className="p-3">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex space-x-2">
+                <button className="bg-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200">
+                  <Play size={18} className="text-black" />
+                </button>
+                <button className="border border-gray-400 rounded-full w-8 h-8 flex items-center justify-center hover:border-white">
+                  <Plus size={18} className="text-white" />
+                </button>
+                <button className="border border-gray-400 rounded-full w-8 h-8 flex items-center justify-center hover:border-white">
+                  <ThumbsUp size={18} className="text-white" />
+                </button>
+              </div>
+              
+              <button className="border border-gray-400 rounded-full w-8 h-8 flex items-center justify-center hover:border-white">
+                <Info size={18} className="text-white" />
+              </button>
+            </div>
+            
+            <h3 className="text-white font-medium text-sm mb-1">{project.title}</h3>
+            
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-green-500 font-bold text-xs">98% Match</span>
+              <span className="text-xs border border-gray-500 px-1">16+</span>
+              <span className="text-xs text-gray-400">1 Season</span>
+            </div>
+            
+            <div className="flex flex-wrap gap-1">
+              {project.tags.slice(0, 3).map((tag, index) => (
+                <span key={index} className="text-xs text-gray-300">
+                  {index > 0 && <span className="mx-1 text-gray-500">•</span>}
+                  {tag}
                 </span>
               ))}
             </div>
-          )}
-        </div>
-        
-        {/* Action buttons at bottom */}
-        <div className="flex items-center justify-between mt-2 px-3 pb-3">
-          <div className="flex space-x-2">
-            {project.videoUrl && (
-              <button 
-                className="w-8 h-8 rounded-full bg-white text-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:bg-white/90"
-                onClick={handlePlayClick}
-                title="Play preview"
-              >
-                <Play size={16} className="text-netflix-dark" />
-              </button>
-            )}
-            <button 
-              className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
-              title="Add to My List"
-            >
-              <Plus size={16} className="text-white" />
-            </button>
-            <button 
-              className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
-              title="Like"
-            >
-              <ThumbsUp size={16} className="text-white" />
-            </button>
           </div>
-          
-          {project.productLink && (
-            <button 
-              className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
-              onClick={(e) => {
-                e.stopPropagation();
-                window.open(project.productLink, '_blank');
-              }}
-              title="Visit Project"
-            >
-              <ExternalLink size={16} className="text-white" />
-            </button>
-          )}
         </div>
-      </div>
-      
-      {/* Enhanced hover effect - Makes card bigger on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-transparent shadow-xl z-10">
-        {/* This creates the expanded card effect that Netflix has */}
-      </div>
+      )}
     </div>
   );
 };

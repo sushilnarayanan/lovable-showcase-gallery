@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -56,11 +55,11 @@ export default {
 				modern: {
 					dark: '#0A0A0A',
 					card: '#121212',
-					accent: '#E50914',       // Netflix red
-					secondary: '#FF3B30',    // Lighter red
-					border: '#E5091433',     // Semi-transparent red border
+					accent: '#E50914',
+					secondary: '#FF3B30',
+					border: '#E5091433',
 					tag: '#121212',
-					highlight: '#E50914',    // Bright Netflix red
+					highlight: '#E50914',
 					text: '#FFFFFF',
 					subtext: '#9e9e9e',
 					overlay: 'rgba(0, 0, 0, 0.85)',
