@@ -34,6 +34,7 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
         id: String(item.id),
         title: item.title,
         subtitle: item.description || '', // Use description instead of sub_title
+        description: item.description || '',
         image: item.thumbnail_url || '/placeholder.svg',
         videoUrl: item.product_video || undefined,
         tags: item.tags || [],
@@ -57,9 +58,15 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
           ref={rowRef}
           className="flex space-x-2 overflow-x-scroll scrollbar-hide py-4 pl-4 netflix-scrollbar"
         >
-          {displayItems.map(project => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          {displayItems.length > 0 ? (
+            displayItems.map(project => (
+              <ProjectCard key={project.id} project={project} />
+            ))
+          ) : (
+            <div className="flex items-center justify-center w-full h-[170px] text-gray-400">
+              No items in this category yet
+            </div>
+          )}
         </div>
         
         <button 

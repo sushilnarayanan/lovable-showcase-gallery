@@ -8,38 +8,43 @@ import { Database } from '@/integrations/supabase/types';
 
 // Helper function to ensure category exists
 const ensureCategoryExists = async (slug: string, name: string) => {
-  // First check if the category exists
-  const { data: existingCategory, error: categoryError } = await supabase
-    .from('Categories')
-    .select('id')
-    .eq('slug', slug)
-    .maybeSingle();
-    
-  if (categoryError) {
-    console.error('Error checking category:', categoryError);
-    return null;
-  }
-  
-  // If category doesn't exist, create it
-  if (!existingCategory) {
-    console.log(`Creating missing category: ${name} (${slug})`);
-    const { data: newCategory, error: createError } = await supabase
+  try {
+    // First check if the category exists
+    const { data: existingCategory, error: categoryError } = await supabase
       .from('Categories')
-      .insert([
-        { name: name, slug: slug, description: `${name} products` }
-      ])
-      .select()
-      .single();
+      .select('id')
+      .eq('slug', slug)
+      .maybeSingle();
       
-    if (createError) {
-      console.error('Error creating category:', createError);
+    if (categoryError) {
+      console.error('Error checking category:', categoryError);
       return null;
     }
     
-    return newCategory.id;
+    // If category doesn't exist, create it
+    if (!existingCategory) {
+      console.log(`Creating missing category: ${name} (${slug})`);
+      const { data: newCategory, error: createError } = await supabase
+        .from('Categories')
+        .insert([
+          { name: name, slug: slug, description: `${name} products` }
+        ])
+        .select()
+        .single();
+        
+      if (createError) {
+        console.error('Error creating category:', createError);
+        return null;
+      }
+      
+      return newCategory.id;
+    }
+    
+    return existingCategory.id;
+  } catch (error) {
+    console.error('Unexpected error in ensureCategoryExists:', error);
+    return null;
   }
-  
-  return existingCategory.id;
 };
 
 export const useProductData = () => {
@@ -70,26 +75,33 @@ export const useCategoryData = () => {
   return useQuery({
     queryKey: ['categories'],
     queryFn: async (): Promise<CategoryItem[]> => {
-      // Check for required categories
-      await ensureCategoryExists('microsaas', 'MicroSaaS');
-      await ensureCategoryExists('nocode', 'NoCode');
-      
-      const { data, error } = await supabase
-        .from('Categories')
-        .select('*')
-        .order('name', { ascending: true });
-      
-      if (error) {
-        console.error('Error fetching category data:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to load category data',
-          variant: 'destructive',
-        });
-        throw new Error(error.message);
+      try {
+        // Check for required categories
+        await ensureCategoryExists('microsaas', 'MicroSaaS');
+        await ensureCategoryExists('nocode', 'NoCode');
+        await ensureCategoryExists('featured-products', 'Featured Products');
+        await ensureCategoryExists('vibe-coded', 'Vibe Coded');
+        
+        const { data, error } = await supabase
+          .from('Categories')
+          .select('*')
+          .order('name', { ascending: true });
+        
+        if (error) {
+          console.error('Error fetching category data:', error);
+          toast({
+            title: 'Error',
+            description: 'Failed to load category data',
+            variant: 'destructive',
+          });
+          throw new Error(error.message);
+        }
+        
+        return data || [];
+      } catch (error) {
+        console.error('Error in useCategoryData:', error);
+        return [];
       }
-      
-      return data || [];
     },
   });
 };
@@ -98,57 +110,66 @@ export const useProductsByCategory = (categorySlug: string) => {
   return useQuery({
     queryKey: ['products', 'category', categorySlug],
     queryFn: async (): Promise<ProductItem[]> => {
-      // Create category if it doesn't exist based on slug
-      let categoryId;
-      
-      if (categorySlug === 'microsaas') {
-        categoryId = await ensureCategoryExists('microsaas', 'MicroSaaS');
-      } else if (categorySlug === 'nocode') {
-        categoryId = await ensureCategoryExists('nocode', 'NoCode');
-      } else {
-        // For other categories, check if they exist
-        const { data: categoryData, error: categoryError } = await supabase
-          .from('Categories')
-          .select('id')
-          .eq('slug', categorySlug)
-          .maybeSingle();
+      try {
+        // Create category if it doesn't exist based on slug
+        let categoryId;
         
-        if (categoryError && categoryError.code !== 'PGRST116') {
-          console.error('Error fetching category:', categoryError);
-          toast({
-            title: 'Error',
-            description: 'Failed to load category',
-            variant: 'destructive',
-          });
-          throw new Error(categoryError.message);
+        if (categorySlug === 'microsaas') {
+          categoryId = await ensureCategoryExists('microsaas', 'MicroSaaS');
+        } else if (categorySlug === 'nocode') {
+          categoryId = await ensureCategoryExists('nocode', 'NoCode');
+        } else if (categorySlug === 'featured-products') {
+          categoryId = await ensureCategoryExists('featured-products', 'Featured Products');
+        } else if (categorySlug === 'vibe-coded') {
+          categoryId = await ensureCategoryExists('vibe-coded', 'Vibe Coded');
+        } else {
+          // For other categories, check if they exist
+          const { data: categoryData, error: categoryError } = await supabase
+            .from('Categories')
+            .select('id')
+            .eq('slug', categorySlug)
+            .maybeSingle();
+          
+          if (categoryError) {
+            console.error('Error fetching category:', categoryError);
+            toast({
+              title: 'Error',
+              description: 'Failed to load category',
+              variant: 'destructive',
+            });
+            throw new Error(categoryError.message);
+          }
+          
+          categoryId = categoryData?.id;
         }
         
-        categoryId = categoryData?.id;
-      }
-      
-      // If no category found, return empty array
-      if (!categoryId) {
-        console.log(`Category with slug "${categorySlug}" not found`);
+        // If no category found, return empty array
+        if (!categoryId) {
+          console.log(`Category with slug "${categorySlug}" not found`);
+          return [];
+        }
+        
+        const { data, error } = await supabase
+          .from('Products')
+          .select('*')
+          .eq('category_id', categoryId)
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error('Error fetching products by category:', error);
+          toast({
+            title: 'Error',
+            description: 'Failed to load products',
+            variant: 'destructive',
+          });
+          throw new Error(error.message);
+        }
+        
+        return data || [];
+      } catch (error) {
+        console.error('Error in useProductsByCategory:', error);
         return [];
       }
-      
-      const { data, error } = await supabase
-        .from('Products')
-        .select('*')
-        .eq('category_id', categoryId)
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error('Error fetching products by category:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to load products',
-          variant: 'destructive',
-        });
-        throw new Error(error.message);
-      }
-      
-      return data || [];
     },
     enabled: !!categorySlug,
   });
