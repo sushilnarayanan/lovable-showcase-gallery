@@ -2,6 +2,7 @@
 export interface Project {
   id: number;
   title: string;
+  subtitle?: string; // Add optional subtitle property
   image: string;
   description: string;
   tags: string[];

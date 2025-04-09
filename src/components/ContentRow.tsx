@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
@@ -85,16 +84,15 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
   // Convert portfolio items to project format if provided
   const displayItems = productItems 
     ? productItems.map(item => ({
-        id: String(item.id),
+        id: item.id,
         title: item.title,
-        subtitle: item.description || '', 
+        subtitle: item.description || '', // Add subtitle from description
         description: item.description || '',
         image: item.thumbnail_url || '/placeholder.svg',
         videoUrl: item.product_video || undefined,
         tags: item.tags || [],
         productLink: item.product_link || undefined,
         categories: item.categories || [],
-        showTitleByDefault: false
       }))
     : projects || [];
 

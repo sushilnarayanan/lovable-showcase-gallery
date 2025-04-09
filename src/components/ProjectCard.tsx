@@ -1,13 +1,15 @@
-
 import React, { useState } from 'react';
 import { Play, Plus, ThumbsUp, Info, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
 import { CategoryItem } from '@/integrations/supabase/types/portfolio';
 import { useNavigate } from 'react-router-dom';
 
-// Extend Project type to include categories
+// Extend Project type to include categories and subtitle
 interface ProjectProps {
-  project: Project & { categories?: CategoryItem[] };
+  project: Project & { 
+    categories?: CategoryItem[];
+    subtitle?: string; 
+  };
 }
 
 const ProjectCard = ({ project }: ProjectProps) => {
@@ -81,7 +83,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
       )}
       
       {/* Episode badge - show if it's in the format "Episode X" */}
-      {project.subtitle?.toLowerCase().includes('episode') && (
+      {project.description?.toLowerCase().includes('episode') && (
         <div className="absolute bottom-0 left-0 bg-netflix-red text-white text-xs font-bold py-0.5 px-2">
           New Episode
         </div>
