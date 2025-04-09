@@ -17,7 +17,7 @@ import {
   Watch,
   Info,
   Code,
-  Tool,
+  Wrench, // Replacing Tool with Wrench which is available in lucide-react
   History
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
