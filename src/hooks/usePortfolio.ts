@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { ProductItem, ProductCreateInput, ProductUpdateInput, CategoryItem } from '@/integrations/supabase/types/portfolio';
+import { ProductItem, ProductCreateInput, ProductUpdateInput, CategoryItem, ProductCategory } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
 import { Database } from '@/integrations/supabase/types';
 
@@ -50,6 +50,7 @@ const ensureCategoryExists = async (slug: string, name: string) => {
 // Helper to fetch categories for a product
 const fetchCategoriesForProduct = async (productId: number): Promise<CategoryItem[]> => {
   try {
+    // Use correct typing with 'eq' filter
     const { data, error } = await supabase
       .from('product_categories')
       .select('category_id')
@@ -93,7 +94,7 @@ const enrichProductsWithCategories = async (products: ProductItem[]): Promise<Pr
     // Fetch all product-category relationships for these products
     const { data: relationships, error } = await supabase
       .from('product_categories')
-      .select('product_id, category_id')
+      .select('*')
       .in('product_id', productIds);
       
     if (error) {
@@ -218,7 +219,7 @@ export const useProductsByCategoryId = (categoryId: number) => {
         // Get product IDs from the junction table
         const { data: productCategories, error: relError } = await supabase
           .from('product_categories')
-          .select('product_id')
+          .select('*')
           .eq('category_id', categoryId);
           
         if (relError) {
@@ -317,7 +318,7 @@ export const useProductsByCategory = (categorySlug: string) => {
         // Get product IDs from the junction table
         const { data: productCategories, error: relError } = await supabase
           .from('product_categories')
-          .select('product_id')
+          .select('*')
           .eq('category_id', categoryId);
           
         if (relError) {
@@ -400,18 +401,22 @@ export const addProduct = async (item: ProductCreateInput) => {
     
     // Now add category relationships if provided
     if (item.categoryIds && item.categoryIds.length > 0 && data.id) {
+      // Create an array of category relationship objects
       const categoryRelations = item.categoryIds.map(categoryId => ({
         product_id: data.id,
         category_id: categoryId
       }));
       
-      const { error: relError } = await supabase
-        .from('product_categories')
-        .insert(categoryRelations);
-        
-      if (relError) {
-        console.error('Error adding product-category relationships:', relError);
-        // Don't throw here, since the product was created successfully
+      // Use RPC or raw SQL for bulk insert if available
+      for (const relation of categoryRelations) {
+        const { error: relError } = await supabase
+          .from('product_categories')
+          .insert(relation);
+          
+        if (relError) {
+          console.error('Error adding product-category relationship:', relError);
+          // Continue with other relationships
+        }
       }
     }
     
@@ -465,18 +470,19 @@ export const updateProduct = async (id: number, updates: ProductUpdateInput) => 
       
       // Then add new ones if there are any
       if (categoryIds.length > 0) {
-        const categoryRelations = categoryIds.map(categoryId => ({
-          product_id: id,
-          category_id: categoryId
-        }));
-        
-        const { error: insertError } = await supabase
-          .from('product_categories')
-          .insert(categoryRelations);
-          
-        if (insertError) {
-          console.error('Error adding new product-category relationships:', insertError);
-          // Don't throw here, since the product was updated successfully
+        // Add each relationship individually to avoid type errors
+        for (const categoryId of categoryIds) {
+          const { error: insertError } = await supabase
+            .from('product_categories')
+            .insert({
+              product_id: id,
+              category_id: categoryId
+            });
+            
+          if (insertError) {
+            console.error('Error adding new product-category relationship:', insertError);
+            // Continue with other inserts
+          }
         }
       }
     }

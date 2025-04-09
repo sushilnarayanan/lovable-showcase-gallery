@@ -3,7 +3,14 @@ import { Database } from '../types';
 
 export type Category = Database['public']['Tables']['Categories']['Row'];
 export type Product = Database['public']['Tables']['Products']['Row'];
-export type ProductCategory = Database['public']['Tables']['product_categories']['Row'];
+
+// Update this line to use 'product_categories' with lowercase
+export type ProductCategory = {
+  id: number;
+  product_id: number;
+  category_id: number;
+  created_at: string;
+};
 
 export interface CategoryItem {
   id: number;
