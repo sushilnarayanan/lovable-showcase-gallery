@@ -200,6 +200,43 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
   
+  /* Modern UI classes inspired by the image */
+  .modern-card {
+    @apply bg-modern-card rounded-2xl border border-modern-border transition-all duration-300 overflow-hidden;
+  }
+  
+  .modern-card:hover {
+    @apply shadow-neon;
+  }
+  
+  .modern-tag {
+    @apply px-3 py-1 rounded-full bg-modern-tag text-modern-text text-sm font-medium transition-all duration-300;
+  }
+  
+  .modern-tag:hover {
+    @apply bg-modern-accent text-white scale-105;
+  }
+  
+  .modern-tab {
+    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-300;
+  }
+  
+  .modern-tab-active {
+    @apply bg-modern-accent text-white shadow-neon;
+  }
+  
+  .modern-tab-inactive {
+    @apply bg-modern-tag text-modern-subtext hover:bg-modern-accent/30;
+  }
+  
+  .modern-glassmorphism {
+    @apply backdrop-blur-md bg-modern-dark/60 border border-modern-accent/20;
+  }
+  
+  .modern-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-modern-accent via-modern-highlight to-modern-secondary bg-[length:200%_auto] animate-gradient-shift;
+  }
+  
   .section-fade-in > * {
     @apply opacity-0;
     animation: fade-in-up 0.6s ease-out forwards;
@@ -211,4 +248,23 @@
   .section-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
   .section-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
   .section-fade-in > *:nth-child(6) { animation-delay: 0.6s; }
+  
+  /* New slide-in animation for sections */
+  .section-slide-in > * {
+    @apply opacity-0;
+    animation: slide-in 0.5s ease-out forwards;
+  }
+  
+  .section-slide-in > *:nth-child(1) { animation-delay: 0.05s; }
+  .section-slide-in > *:nth-child(2) { animation-delay: 0.1s; }
+  .section-slide-in > *:nth-child(3) { animation-delay: 0.15s; }
+  .section-slide-in > *:nth-child(4) { animation-delay: 0.2s; }
+  .section-slide-in > *:nth-child(5) { animation-delay: 0.25s; }
+  .section-slide-in > *:nth-child(6) { animation-delay: 0.3s; }
+  
+  /* Pop animation for elements */
+  .pop-in {
+    @apply opacity-0;
+    animation: pop 0.4s cubic-bezier(0.17, 0.67, 0.48, 1.32) forwards;
+  }
 }

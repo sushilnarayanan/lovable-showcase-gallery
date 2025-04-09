@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -35,15 +34,14 @@ export default {
 					hover: '#333333'
 				},
 				spotify: {
-					dark: '#121212',     // Main background
-					card: '#181818',     // Card background
-					light: '#282828',    // Lighter elements
-					green: '#1DB954',    // Primary green
-					accent: '#9b87f5',   // Purple accent
-					border: '#333333',   // Border colors
-					text: '#FFFFFF',     // Main text
-					subtext: '#B3B3B3',   // Secondary text
-					// Adding new bright theme colors
+					dark: '#121212',
+					card: '#181818',
+					light: '#282828',
+					green: '#1DB954',
+					accent: '#9b87f5',
+					border: '#333333',
+					text: '#FFFFFF',
+					subtext: '#B3B3B3',
 					bright: {
 						background: '#FFFFFF',
 						card: '#F8F8F8',
@@ -53,6 +51,18 @@ export default {
 						border: '#E0E0E0',
 						hover: '#EFEFEF'
 					}
+				},
+				modern: {
+					dark: '#18191A',
+					card: '#242526',
+					accent: '#9B6BFA',
+					secondary: '#4BFFBE',
+					border: '#3A3B3C',
+					tag: '#303031',
+					highlight: '#FF53B4',
+					text: '#E4E6EB',
+					subtext: '#B0B3B8',
+					overlay: 'rgba(24, 25, 26, 0.7)',
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
@@ -96,7 +106,9 @@ export default {
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'2xl': '1rem',
+				'3xl': '1.5rem',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -146,6 +158,18 @@ export default {
 					'0%': { transform: 'rotate(0deg)', boxShadow: '0 0 10px rgba(155, 135, 245, 0.5)' },
 					'50%': { transform: 'rotate(180deg)', boxShadow: '0 0 20px rgba(155, 135, 245, 0.7)' },
 					'100%': { transform: 'rotate(360deg)', boxShadow: '0 0 10px rgba(155, 135, 245, 0.5)' },
+				},
+				'slide-in': {
+					'0%': { transform: 'translateX(-20px)', opacity: '0' },
+					'100%': { transform: 'translateX(0)', opacity: '1' },
+				},
+				'pop': {
+					'0%': { transform: 'scale(0.95)', opacity: '0' },
+					'100%': { transform: 'scale(1)', opacity: '1' },
+				},
+				'glow-pulse': {
+					'0%, 100%': { boxShadow: '0 0 8px 2px rgba(155, 107, 250, 0.4)' },
+					'50%': { boxShadow: '0 0 16px 4px rgba(155, 107, 250, 0.6)' },
 				}
 			},
 			animation: {
@@ -158,7 +182,16 @@ export default {
 				'gradient-shift': 'gradient-shift 8s ease infinite',
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
 				'ping-slow': 'ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite',
-				'rotate-glow': 'rotate-glow 5s linear infinite'
+				'rotate-glow': 'rotate-glow 5s linear infinite',
+				'slide-in': 'slide-in 0.4s ease-out forwards',
+				'pop': 'pop 0.3s cubic-bezier(0.17, 0.67, 0.48, 1.32) forwards',
+				'glow-pulse': 'glow-pulse 2s infinite',
+			},
+			boxShadow: {
+				'neon': '0 0 10px rgba(155, 107, 250, 0.7), 0 0 20px rgba(155, 107, 250, 0.4)',
+				'neon-hover': '0 0 15px rgba(155, 107, 250, 0.8), 0 0 30px rgba(155, 107, 250, 0.5)',
+				'neon-pink': '0 0 10px rgba(255, 83, 180, 0.7), 0 0 20px rgba(255, 83, 180, 0.4)',
+				'neon-green': '0 0 10px rgba(75, 255, 190, 0.7), 0 0 20px rgba(75, 255, 190, 0.4)',
 			}
 		}
 	},
