@@ -5,51 +5,37 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[85vh] w-full">
+    <div className="relative h-[80vh] w-full">
       {/* Hero Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('https://assets-prd.ignimgs.com/2022/09/26/love-in-contract-1664221399787.jpg')",
-          backgroundPosition: "center 20%",
+          backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')", 
         }}
       >
-        {/* Gradient overlays for Netflix-like look */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-netflix-black to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-netflix-background via-transparent to-transparent" />
       </div>
       
       {/* Hero Content */}
-      <div className="relative h-full flex flex-col justify-end pb-[15%] px-[60px]">
-        <div className="max-w-[36%]">
-          {/* Show Title Logo */}
-          <img 
-            src="https://i.ibb.co/cyJVfZM/love-in-the-moonlight.png" 
-            alt="Love in the Moonlight" 
-            className="w-[50%] mb-6"
-          />
-          
-          {/* Description */}
-          <p className="text-white text-lg mb-4 line-clamp-3">
-            When a young noblewoman crosses paths with a mysterious man living in disguise, she finds herself caught up in palace intrigue and unexpected romance.
+      <div className="netflix-container relative h-full flex flex-col justify-end pb-20">
+        <div className="max-w-2xl">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">My Lovable Portfolio</h1>
+          <p className="text-lg mb-6 text-gray-300">
+            Check out my latest projects built with Lovable. 
+            This portfolio showcases web applications created with React, Tailwind CSS, and more.
           </p>
-          
-          {/* Buttons */}
           <div className="flex space-x-4">
-            <Button variant="play" size="lg" className="flex items-center gap-2 px-8">
-              <Play size={24} /> Play
+            <Button className="bg-netflix-red hover:bg-netflix-red/80 text-white rounded-md px-6 py-2 flex items-center">
+              <Play size={20} className="mr-2" />
+              Play
             </Button>
-            <Button variant="moreInfo" size="lg" className="flex items-center gap-2 px-8">
-              <Info size={24} /> More Info
+            <Button variant="outline" className="bg-netflix-gray/30 text-white hover:bg-netflix-gray/50 border-none rounded-md px-6 py-2 flex items-center">
+              <Info size={20} className="mr-2" />
+              More Info
             </Button>
           </div>
-        </div>
-      </div>
-      
-      {/* Age rating badge */}
-      <div className="absolute bottom-[25%] right-[60px] flex items-center">
-        <div className="border-l-4 border-white pl-3 py-1">
-          <span className="text-white text-lg font-medium">U/A 16+</span>
         </div>
       </div>
     </div>
