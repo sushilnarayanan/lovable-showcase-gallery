@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -20,6 +21,7 @@ import {
   Target,
   Users,
   Shield,
+  Image,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -158,6 +160,13 @@ const ProductDetail = () => {
     setActiveTab(value);
   };
 
+  // Sample images for Product Images section
+  const productImages = [
+    project.image || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
@@ -194,11 +203,12 @@ const ProductDetail = () => {
             </div>
           ) : (
             <>
-              <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/70 z-10"></div>
+              {/* Decreased opacity of these overlays to make image more visible */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"></div>
               <img 
                 src={project.image || '/placeholder.svg'} 
                 alt={project.title}
-                className="w-full h-full object-cover brightness-75"
+                className="w-full h-full object-cover brightness-90" // Increased brightness for better visibility
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                 }}
@@ -304,6 +314,34 @@ const ProductDetail = () => {
             <div className="bg-black border border-netflix-red/20 px-3 py-1 rounded-full text-sm font-medium text-white">
               Featured
             </div>
+          </div>
+        </div>
+        
+        {/* Product Images Section */}
+        <div className="mb-8">
+          <div className="flex items-center mb-4">
+            <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
+              <Image className="h-5 w-5 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-white">Product Images</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {productImages.map((img, index) => (
+              <div key={index} className="relative overflow-hidden rounded-md border border-netflix-red/20 aspect-video group">
+                <img 
+                  src={img} 
+                  alt={`${project.title} image ${index + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <p className="text-white text-sm">Product Screenshot {index + 1}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         
@@ -441,7 +479,7 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Features Tab */}
+          {/* Features Tab - Restored with original icons/effects */}
           <TabsContent value="features" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -457,35 +495,35 @@ const ProductDetail = () => {
               </div>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300">
+                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
                     <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
                       <Check className="text-black" size={24} />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red">Feature 1</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 1</h3>
                     <p className="text-gray-300">Detailed description of the first main feature.</p>
                   </div>
                   
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300">
+                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
                     <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
                       <Check className="text-black" size={24} />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red">Feature 2</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 2</h3>
                     <p className="text-gray-300">Detailed description of the second main feature.</p>
                   </div>
                   
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300">
+                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
                     <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
                       <Check className="text-black" size={24} />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red">Feature 3</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 3</h3>
                     <p className="text-gray-300">Detailed description of the third main feature.</p>
                   </div>
                   
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300">
+                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
                     <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
                       <Check className="text-black" size={24} />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red">Feature 4</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 4</h3>
                     <p className="text-gray-300">Detailed description of the fourth main feature.</p>
                   </div>
                 </div>
