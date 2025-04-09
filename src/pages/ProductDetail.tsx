@@ -15,10 +15,10 @@ import {
   Tag, 
   Check, 
   Watch,
-  Info,
-  Code,
+  AlertCircle,
+  Lightbulb,
+  PanelTopOpen,
   Wrench, // Replacing Tool with Wrench which is available in lucide-react
-  History
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -93,7 +93,7 @@ const ProductDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-spotify-dark text-white flex items-center justify-center">
+      <div className="min-h-screen bg-spotify-bright-background text-spotify-bright-text flex items-center justify-center">
         <div className="animate-pulse text-2xl">Loading...</div>
       </div>
     );
@@ -101,9 +101,11 @@ const ProductDetail = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-spotify-dark text-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-spotify-bright-background text-spotify-bright-text flex flex-col items-center justify-center">
         <div className="text-2xl mb-4">Product not found</div>
-        <Button onClick={() => navigate('/')}>Return Home</Button>
+        <Button onClick={() => navigate('/')} className="bg-spotify-green hover:bg-spotify-green/90 text-white">
+          Return Home
+        </Button>
       </div>
     );
   }
@@ -134,14 +136,14 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-spotify-dark text-white">
+    <div className="min-h-screen bg-spotify-bright-background text-spotify-bright-text">
       <Navbar />
       
       {/* Hero Section with Back Button */}
       <div className="relative w-full">
         <Button 
           variant="ghost" 
-          className="absolute top-4 left-4 z-50 hover:bg-black/30" 
+          className="absolute top-4 left-4 z-50 hover:bg-black/10 text-spotify-bright-text" 
           onClick={handleBackClick}
         >
           <ArrowLeft className="mr-2" />
@@ -149,12 +151,12 @@ const ProductDetail = () => {
         </Button>
         
         {/* Hero Image / Video Player */}
-        <div className="relative w-full h-[50vh] lg:h-[60vh]">
+        <div className="relative w-full h-[40vh] lg:h-[50vh]">
           {isVideoPlaying && project.videoUrl ? (
-            <div className="absolute inset-0 bg-black z-40">
+            <div className="absolute inset-0 bg-spotify-bright-background z-40">
               <div className="relative w-full h-full">
                 <Button 
-                  className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/80" 
+                  className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/80 text-white" 
                   onClick={() => setIsVideoPlaying(false)}
                 >
                   Close
@@ -177,7 +179,7 @@ const ProductDetail = () => {
                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-spotify-dark via-spotify-dark/70 to-transparent" />
+              <div className="absolute inset-0 product-hero-bright" />
             </>
           )}
           
@@ -186,26 +188,26 @@ const ProductDetail = () => {
             <div className="container mx-auto">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div className="max-w-3xl">
-                  <h1 className="text-4xl md:text-5xl font-bold mb-2">{project.title}</h1>
+                  <h1 className="text-4xl md:text-5xl font-bold mb-2 text-spotify-bright-text">{project.title}</h1>
                   
                   {/* Tagline */}
-                  <p className="text-xl text-white/80 mb-4 max-w-2xl">{project.description}</p>
+                  <p className="text-xl text-spotify-bright-subtext mb-4 max-w-2xl">{project.description}</p>
                   
                   {/* Quick Stats */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-spotify-bright-subtext">
                     {project.created_at && (
-                      <div className="flex items-center bg-spotify-accent/30 px-3 py-1 rounded-full">
+                      <div className="flex items-center bg-spotify-green/10 px-3 py-1 rounded-full">
                         <Calendar size={14} className="mr-1" />
                         {formatDate(project.created_at)}
                       </div>
                     )}
                     {project.tags && project.tags.length > 0 && (
-                      <div className="flex items-center bg-spotify-accent/30 px-3 py-1 rounded-full">
+                      <div className="flex items-center bg-spotify-green/10 px-3 py-1 rounded-full">
                         <Tag size={14} className="mr-1" />
                         {project.tags.length} Tags
                       </div>
                     )}
-                    <div className="flex items-center bg-spotify-green/30 px-3 py-1 rounded-full">
+                    <div className="flex items-center bg-spotify-green/20 px-3 py-1 rounded-full">
                       <Check size={14} className="mr-1" />
                       Live
                     </div>
@@ -226,7 +228,7 @@ const ProductDetail = () => {
                   {project.productLink && (
                     <Button
                       variant="outline"
-                      className="border-white/30 hover:border-white" 
+                      className="border-spotify-bright-border hover:border-spotify-green text-spotify-bright-text" 
                       onClick={() => window.open(project.productLink, '_blank')}
                     >
                       <ExternalLink className="mr-2" size={18} />
@@ -237,7 +239,7 @@ const ProductDetail = () => {
                   {project.github_link && (
                     <Button
                       variant="outline"
-                      className="border-white/30 hover:border-white" 
+                      className="border-spotify-bright-border hover:border-spotify-green text-spotify-bright-text" 
                       onClick={() => window.open(project.github_link, '_blank')}
                     >
                       <Github className="mr-2" size={18} />
@@ -253,51 +255,90 @@ const ProductDetail = () => {
       
       {/* Main Content with Tabs */}
       <div className="container mx-auto py-6 px-4">
-        <Tabs defaultValue="about" className="w-full">
-          <TabsList className="w-full max-w-2xl mx-auto mb-8 grid grid-cols-4 bg-spotify-light">
-            <TabsTrigger value="about" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
-              <Info className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">About</span>
+        <Tabs defaultValue="problem" className="w-full">
+          <TabsList className="w-full max-w-2xl mx-auto mb-8 grid grid-cols-4 bg-spotify-bright-hover">
+            <TabsTrigger value="problem" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <AlertCircle className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Problem</span>
+            </TabsTrigger>
+            <TabsTrigger value="solution" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <Lightbulb className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Solution</span>
             </TabsTrigger>
             <TabsTrigger value="features" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
-              <Check className="mr-2 h-4 w-4" />
+              <PanelTopOpen className="mr-2 h-4 w-4" />
               <span className="hidden sm:inline">Features</span>
             </TabsTrigger>
-            <TabsTrigger value="tech" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
-              <Code className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Tech</span>
-            </TabsTrigger>
-            <TabsTrigger value="timeline" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
-              <History className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Timeline</span>
+            <TabsTrigger value="tools" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <Wrench className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Tools</span>
             </TabsTrigger>
           </TabsList>
           
-          {/* About Tab */}
-          <TabsContent value="about" className="space-y-6">
-            <Card className="bg-spotify-card border-spotify-border overflow-hidden">
-              <div className="bg-gradient-to-r from-spotify-accent/20 to-spotify-accent/10 p-6">
-                <h2 className="text-2xl font-bold mb-2">The Story</h2>
-                <p className="text-white/70">Why I built it</p>
+          {/* Problem Tab */}
+          <TabsContent value="problem" className="space-y-6">
+            <Card className="spotify-bright-card overflow-hidden">
+              <div className="bg-gradient-to-r from-spotify-green/10 to-transparent p-6">
+                <h2 className="text-2xl font-bold mb-2 text-spotify-bright-text">The Problem</h2>
+                <p className="text-spotify-bright-subtext">What needed to be solved</p>
               </div>
               <CardContent className="pt-6">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">🎬 Inspired by</h3>
-                    <p className="text-white/80">A need to create something unique and valuable for users.</p>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">📌 Problem</h3>
-                    <p className="text-white/80">
-                      {project.description || "This project addresses a unique problem in the market."}
+                    <h3 className="text-lg font-semibold mb-2">🔍 Problem Statement</h3>
+                    <p className="text-spotify-bright-subtext">
+                      {project.description || "This project addresses a specific problem in the market."}
                     </p>
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">💡 Solution</h3>
-                    <p className="text-white/80">
+                    <h3 className="text-lg font-semibold mb-2">👥 Target Users</h3>
+                    <p className="text-spotify-bright-subtext">
+                      People who needed a solution to efficiently manage their tasks and improve productivity.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">🚩 Challenges</h3>
+                    <p className="text-spotify-bright-subtext">
+                      The main challenges included creating an intuitive interface while maintaining powerful features.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          {/* Solution Tab */}
+          <TabsContent value="solution" className="space-y-6">
+            <Card className="spotify-bright-card">
+              <div className="bg-gradient-to-r from-spotify-green/10 to-transparent p-6">
+                <h2 className="text-2xl font-bold mb-2">The Solution</h2>
+                <p className="text-spotify-bright-subtext">How we approached it</p>
+              </div>
+              <CardContent className="pt-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">💡 Our Approach</h3>
+                    <p className="text-spotify-bright-subtext">
                       {project.title} provides a comprehensive solution with a user-friendly interface and powerful features.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">🧩 Key Components</h3>
+                    <ul className="list-disc pl-5 space-y-2 text-spotify-bright-subtext">
+                      <li>Intuitive user interface</li>
+                      <li>Powerful backend processing</li>
+                      <li>Cross-platform compatibility</li>
+                      <li>Data security and privacy</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">🎯 Outcome</h3>
+                    <p className="text-spotify-bright-subtext">
+                      The solution successfully addresses the identified problems and provides users with an efficient tool.
                     </p>
                   </div>
                 </div>
@@ -305,18 +346,18 @@ const ProductDetail = () => {
             </Card>
             
             {/* Tags Card */}
-            <Card className="bg-spotify-card border-spotify-border">
+            <Card className="spotify-bright-card">
               <div className="p-6">
-                <h2 className="text-xl font-bold mb-4">Tags</h2>
+                <h2 className="text-xl font-bold mb-4">Approach Tags</h2>
                 <div className="flex flex-wrap gap-2">
                   {project.tags && project.tags.length > 0 ? (
                     project.tags.map((tag, index) => (
-                      <span key={index} className="px-3 py-1 bg-spotify-accent/20 hover:bg-spotify-accent/30 cursor-pointer rounded-full text-sm transition-colors">
+                      <span key={index} className="px-3 py-1 bg-spotify-green/10 hover:bg-spotify-green/20 cursor-pointer rounded-full text-sm transition-colors">
                         {tag}
                       </span>
                     ))
                   ) : (
-                    <span className="text-white/60">No tags available</span>
+                    <span className="text-spotify-bright-subtext">No tags available</span>
                   )}
                 </div>
               </div>
@@ -325,86 +366,95 @@ const ProductDetail = () => {
           
           {/* Features Tab */}
           <TabsContent value="features" className="space-y-6">
-            <Card className="bg-spotify-card border-spotify-border">
-              <div className="bg-gradient-to-r from-spotify-green/30 to-spotify-green/10 p-6">
+            <Card className="spotify-bright-card">
+              <div className="bg-gradient-to-r from-spotify-green/10 to-transparent p-6">
                 <h2 className="text-2xl font-bold mb-2">Key Features</h2>
-                <p className="text-white/70">What makes it special</p>
+                <p className="text-spotify-bright-subtext">What makes it special</p>
               </div>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
-                    <div className="h-12 w-12 bg-gradient-to-br from-spotify-green to-spotify-accent rounded-xl flex items-center justify-center mb-4">
+                  <div className="bg-white p-5 rounded-lg hover:bg-spotify-bright-hover transition-colors shadow-sm">
+                    <div className="h-12 w-12 bg-gradient-to-br from-spotify-green to-spotify-green/70 rounded-xl flex items-center justify-center mb-4">
                       <Check className="text-white" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2">Feature 1</h3>
-                    <p className="text-white/80">Detailed description of the first main feature.</p>
+                    <p className="text-spotify-bright-subtext">Detailed description of the first main feature.</p>
                   </div>
                   
-                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
-                    <div className="h-12 w-12 bg-gradient-to-br from-spotify-accent to-purple-500 rounded-xl flex items-center justify-center mb-4">
+                  <div className="bg-white p-5 rounded-lg hover:bg-spotify-bright-hover transition-colors shadow-sm">
+                    <div className="h-12 w-12 bg-gradient-to-br from-spotify-green/80 to-blue-500/80 rounded-xl flex items-center justify-center mb-4">
                       <Watch className="text-white" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2">Feature 2</h3>
-                    <p className="text-white/80">Detailed description of the second main feature.</p>
+                    <p className="text-spotify-bright-subtext">Detailed description of the second main feature.</p>
                   </div>
                   
-                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
-                    <div className="h-12 w-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
+                  <div className="bg-white p-5 rounded-lg hover:bg-spotify-bright-hover transition-colors shadow-sm">
+                    <div className="h-12 w-12 bg-gradient-to-br from-blue-500/80 to-purple-500/80 rounded-xl flex items-center justify-center mb-4">
                       <Tag className="text-white" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2">Feature 3</h3>
-                    <p className="text-white/80">Detailed description of the third main feature.</p>
+                    <p className="text-spotify-bright-subtext">Detailed description of the third main feature.</p>
                   </div>
                   
-                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
-                    <div className="h-12 w-12 bg-gradient-to-br from-blue-500 to-spotify-green rounded-xl flex items-center justify-center mb-4">
+                  <div className="bg-white p-5 rounded-lg hover:bg-spotify-bright-hover transition-colors shadow-sm">
+                    <div className="h-12 w-12 bg-gradient-to-br from-purple-500/80 to-spotify-green rounded-xl flex items-center justify-center mb-4">
                       <Calendar className="text-white" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2">Feature 4</h3>
-                    <p className="text-white/80">Detailed description of the fourth main feature.</p>
+                    <p className="text-spotify-bright-subtext">Detailed description of the fourth main feature.</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
           
-          {/* Tech Tab */}
-          <TabsContent value="tech" className="space-y-6">
-            <Card className="bg-spotify-card border-spotify-border">
-              <div className="bg-gradient-to-r from-purple-900/20 to-spotify-accent/20 p-6">
-                <h2 className="text-xl font-bold mb-2">Behind the Scenes</h2>
-                <p className="text-white/70">How it works</p>
+          {/* Tools Tab */}
+          <TabsContent value="tools" className="space-y-6">
+            <Card className="spotify-bright-card">
+              <div className="bg-gradient-to-r from-spotify-green/10 to-transparent p-6">
+                <h2 className="text-xl font-bold mb-2">Tools & Technologies</h2>
+                <p className="text-spotify-bright-subtext">What powers this project</p>
               </div>
               <CardContent className="pt-6">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold mb-3">🛠️ Tools Used</h3>
-                    <div className="flex flex-wrap gap-2">
+                    <h3 className="text-lg font-semibold mb-3">🛠️ Technologies Used</h3>
+                    <div className="flex flex-wrap gap-2 mb-4">
                       {["React", "Tailwind CSS", "Supabase", "TypeScript"].map((tool, index) => (
-                        <span key={index} className="px-3 py-1 bg-spotify-light rounded-full text-sm">
+                        <span key={index} className="px-3 py-1 bg-spotify-green/10 rounded-full text-sm">
                           {tool}
                         </span>
                       ))}
                     </div>
                   </div>
                   
-                  <Separator className="bg-spotify-border" />
+                  <Separator className="bg-spotify-bright-border" />
                   
                   <div>
-                    <h3 className="text-lg font-semibold mb-3">💻 Development</h3>
-                    <p className="text-white/80">
-                      This project was developed using modern web technologies with a focus on performance and user experience.
-                      The codebase follows best practices and maintains high code quality standards.
-                    </p>
-                    
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-spotify-light p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-3">💻 Development Stack</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-lg shadow-sm">
                         <h4 className="font-medium mb-2">Frontend</h4>
-                        <p className="text-white/70 text-sm">React, TypeScript, Tailwind CSS</p>
+                        <p className="text-spotify-bright-subtext text-sm">React, TypeScript, Tailwind CSS</p>
                       </div>
-                      <div className="bg-spotify-light p-4 rounded-lg">
+                      <div className="bg-white p-4 rounded-lg shadow-sm">
                         <h4 className="font-medium mb-2">Backend</h4>
-                        <p className="text-white/70 text-sm">Node.js, Supabase, PostgreSQL</p>
+                        <p className="text-spotify-bright-subtext text-sm">Node.js, Supabase, PostgreSQL</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3">🔧 Development Tools</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-lg shadow-sm">
+                        <h4 className="font-medium mb-2">Design</h4>
+                        <p className="text-spotify-bright-subtext text-sm">Figma, Adobe XD</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg shadow-sm">
+                        <h4 className="font-medium mb-2">Deployment</h4>
+                        <p className="text-spotify-bright-subtext text-sm">Vercel, GitHub Actions</p>
                       </div>
                     </div>
                   </div>
@@ -413,8 +463,8 @@ const ProductDetail = () => {
             </Card>
             
             {/* Call-to-Action */}
-            <Card className="bg-spotify-card border-spotify-border overflow-hidden">
-              <div className="bg-gradient-to-r from-spotify-green/30 to-purple-900/30 p-6">
+            <Card className="spotify-bright-card overflow-hidden">
+              <div className="bg-gradient-to-r from-spotify-green/20 to-blue-500/10 p-6">
                 <h2 className="text-xl font-bold mb-2">Try It Now</h2>
               </div>
               <CardContent className="pt-6">
@@ -432,54 +482,13 @@ const ProductDetail = () => {
                   {project.github_link && (
                     <Button 
                       variant="outline" 
-                      className="w-full border-white/30 hover:border-white" 
+                      className="w-full border-spotify-bright-border hover:border-spotify-green text-spotify-bright-text" 
                       onClick={() => window.open(project.github_link, '_blank')}
                     >
                       <Github className="mr-2" size={18} />
                       View Source Code
                     </Button>
                   )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          {/* Timeline Tab */}
-          <TabsContent value="timeline" className="space-y-6">
-            <Card className="bg-spotify-card border-spotify-border">
-              <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 p-6">
-                <h2 className="text-xl font-bold mb-2">Project Timeline</h2>
-                <p className="text-white/70">Development journey</p>
-              </div>
-              <CardContent className="pt-6">
-                <div className="space-y-8">
-                  <div className="relative pl-8 border-l-2 border-spotify-green pb-8">
-                    <div className="absolute w-4 h-4 bg-spotify-green rounded-full -left-[9px] top-0"></div>
-                    <h3 className="text-lg font-semibold mb-1">Project Inception</h3>
-                    <p className="text-sm text-white/60 mb-2">January 2023</p>
-                    <p className="text-white/80">Initial concept and planning phase.</p>
-                  </div>
-                  
-                  <div className="relative pl-8 border-l-2 border-spotify-accent pb-8">
-                    <div className="absolute w-4 h-4 bg-spotify-accent rounded-full -left-[9px] top-0"></div>
-                    <h3 className="text-lg font-semibold mb-1">Design & Prototyping</h3>
-                    <p className="text-sm text-white/60 mb-2">March 2023</p>
-                    <p className="text-white/80">Creating wireframes and interactive prototypes.</p>
-                  </div>
-                  
-                  <div className="relative pl-8 border-l-2 border-purple-500 pb-8">
-                    <div className="absolute w-4 h-4 bg-purple-500 rounded-full -left-[9px] top-0"></div>
-                    <h3 className="text-lg font-semibold mb-1">Development</h3>
-                    <p className="text-sm text-white/60 mb-2">May 2023</p>
-                    <p className="text-white/80">Building the core functionality and features.</p>
-                  </div>
-                  
-                  <div className="relative pl-8">
-                    <div className="absolute w-4 h-4 bg-spotify-green rounded-full -left-[9px] top-0"></div>
-                    <h3 className="text-lg font-semibold mb-1">Launch</h3>
-                    <p className="text-sm text-white/60 mb-2">September 2023</p>
-                    <p className="text-white/80">Official release and public launch.</p>
-                  </div>
                 </div>
               </CardContent>
             </Card>

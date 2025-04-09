@@ -42,7 +42,17 @@ export default {
 					accent: '#9b87f5',   // Purple accent
 					border: '#333333',   // Border colors
 					text: '#FFFFFF',     // Main text
-					subtext: '#B3B3B3'   // Secondary text
+					subtext: '#B3B3B3',   // Secondary text
+					// Adding new bright theme colors
+					bright: {
+						background: '#FFFFFF',
+						card: '#F8F8F8',
+						accent: '#1DB954',
+						text: '#121212',
+						subtext: '#6A6A6A',
+						border: '#E0E0E0',
+						hover: '#EFEFEF'
+					}
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',

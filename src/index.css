@@ -120,6 +120,19 @@
   .spotify-tab-inactive {
     @apply bg-spotify-light text-white/70 hover:text-white hover:bg-spotify-light/80;
   }
+
+  /* Bright Spotify-styled tabs */
+  .spotify-bright-tab {
+    @apply rounded-md px-4 py-2 text-sm font-medium transition-colors;
+  }
+  
+  .spotify-bright-tab-active {
+    @apply bg-spotify-green text-white shadow-md;
+  }
+  
+  .spotify-bright-tab-inactive {
+    @apply bg-spotify-bright-hover text-spotify-bright-text hover:bg-spotify-bright-hover/80;
+  }
   
   /* Timeline styling */
   .timeline-item {
@@ -133,5 +146,19 @@
   /* Product detail page specific styles */
   .product-hero {
     background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(18,18,18,1));
+  }
+
+  /* Bright product detail styles */
+  .product-hero-bright {
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,1));
+  }
+
+  /* Card styles for bright theme */
+  .spotify-bright-card {
+    @apply bg-spotify-bright-card border border-spotify-bright-border rounded-lg transition-all duration-300 shadow-sm;
+  }
+  
+  .spotify-bright-card:hover {
+    @apply shadow-md bg-spotify-bright-hover;
   }
 }
