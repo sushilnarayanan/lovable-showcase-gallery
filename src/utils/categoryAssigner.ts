@@ -14,23 +14,52 @@ export async function assignProductsToCategory(productIds: number[], categorySlu
     let categoryData = null;
     let categoryError = null;
     
+    console.log(`Assigning products ${productIds.join(', ')} to category ${categorySlug}`);
+    
     // Retry fetching category with exponential backoff
     while (retryCount < maxRetries && !categoryData) {
       try {
         // First get the category ID
         const response = await supabase
           .from('Categories')
-          .select('id')
+          .select('id, name')
           .eq('slug', categorySlug)
           .maybeSingle();
           
         categoryData = response.data;
         categoryError = response.error;
         
-        if (categoryData) break;
+        if (categoryData) {
+          console.log(`Found category: ${JSON.stringify(categoryData)}`);
+          break;
+        }
         
         if (categoryError) {
           console.error(`Retry ${retryCount + 1}: Error fetching category:`, categoryError);
+        } else if (!categoryData) {
+          console.log(`Category ${categorySlug} not found, creating it...`);
+          
+          // Try to create the category
+          let categoryName = categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
+          if (categorySlug === 'microsaas') categoryName = 'MicroSaaS';
+          
+          const { data: newCategory, error: createError } = await supabase
+            .from('Categories')
+            .insert({
+              name: categoryName,
+              slug: categorySlug,
+              description: `${categoryName} products`
+            })
+            .select()
+            .single();
+            
+          if (createError) {
+            console.error(`Error creating category ${categorySlug}:`, createError);
+          } else {
+            categoryData = newCategory;
+            console.log(`Created category: ${JSON.stringify(categoryData)}`);
+            break;
+          }
         }
       } catch (error) {
         console.error(`Retry ${retryCount + 1}: Network error:`, error);

@@ -1,18 +1,23 @@
 
 import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCcw } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import { Project } from '@/data/projects';
 import { ProductItem } from '@/integrations/supabase/types/portfolio';
+import { assignProductsToCategory } from '@/utils/categoryAssigner';
+import { toast } from '@/hooks/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ContentRowProps {
   title: string;
   projects?: Project[];
   productItems?: ProductItem[];
+  categorySlug?: string;
 }
 
-const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
+const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowProps) => {
   const rowRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
 
   const scroll = (direction: 'left' | 'right') => {
     if (rowRef.current) {
@@ -24,6 +29,55 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
       current.scrollTo({
         left: scrollAmount,
         behavior: 'smooth'
+      });
+    }
+  };
+
+  // Function to handle assigning specific products to categories from the UI
+  const assignToCategory = async () => {
+    if (!categorySlug) return;
+    
+    let productIds: number[] = [];
+    
+    if (categorySlug === 'microsaas') {
+      productIds = [1, 9, 13, 14, 16];
+    } else if (categorySlug === 'nocode') {
+      productIds = [2, 3, 7, 11];
+    }
+    
+    if (productIds.length === 0) return;
+    
+    try {
+      toast({
+        title: 'Assigning products',
+        description: `Assigning products to ${title} category...`,
+      });
+      
+      const success = await assignProductsToCategory(productIds, categorySlug);
+      
+      if (success) {
+        toast({
+          title: 'Success',
+          description: `Products assigned to ${title} category successfully!`,
+        });
+        
+        // Invalidate queries to trigger refetch
+        queryClient.invalidateQueries({
+          queryKey: ['products', 'category', categorySlug],
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: `Failed to assign products to ${title} category`,
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Error assigning products:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to assign products to category',
+        variant: 'destructive',
       });
     }
   };
@@ -46,7 +100,17 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
 
   return (
     <div className="netflix-row">
-      <h2 className="text-xl font-medium mb-2 pl-4">{title}</h2>
+      <h2 className="text-xl font-medium mb-2 pl-4 flex items-center justify-between">
+        <span>{title}</span>
+        {categorySlug && displayItems.length === 0 && (
+          <button 
+            onClick={assignToCategory}
+            className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md flex items-center mr-4"
+          >
+            <RefreshCcw size={16} className="mr-1" /> Assign Products
+          </button>
+        )}
+      </h2>
       <div className="group relative">
         <button 
           className="absolute left-0 top-0 bottom-0 z-40 bg-netflix-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"

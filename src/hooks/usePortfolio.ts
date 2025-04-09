@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -272,11 +271,13 @@ export const useProductsByCategoryId = (categoryId: number) => {
   });
 };
 
-export const useProductsByCategory = (categorySlug: string) => {
+export const useProductsByCategory = (categorySlug: string, refreshKey: number = 0) => {
   return useQuery({
-    queryKey: ['products', 'category', categorySlug],
+    queryKey: ['products', 'category', categorySlug, refreshKey],
     queryFn: async (): Promise<ProductItem[]> => {
       try {
+        console.log(`Fetching products for category: ${categorySlug}, refreshKey: ${refreshKey}`);
+        
         // Create category if it doesn't exist based on slug
         let categoryId;
         
@@ -316,6 +317,7 @@ export const useProductsByCategory = (categorySlug: string) => {
         }
         
         // Get product IDs from the junction table
+        console.log(`Fetching product relations for category ID ${categoryId}`);
         const { data: productCategories, error: relError } = await supabase
           .from('product_categories')
           .select('*')
@@ -325,6 +327,8 @@ export const useProductsByCategory = (categorySlug: string) => {
           console.error(`Error fetching product relations for category slug ${categorySlug}:`, relError);
           return [];
         }
+        
+        console.log(`Found ${productCategories?.length || 0} product relations for category ${categorySlug}`);
         
         if (!productCategories || productCategories.length === 0) {
           // Fall back to direct category_id for backward compatibility
@@ -339,10 +343,12 @@ export const useProductsByCategory = (categorySlug: string) => {
             return [];
           }
           
+          console.log(`Found ${legacyProducts?.length || 0} legacy products for category ${categorySlug}`);
           return enrichProductsWithCategories(legacyProducts || []);
         }
         
         const productIds = productCategories.map(pc => pc.product_id);
+        console.log(`Product IDs for category ${categorySlug}:`, productIds);
         
         // Get the actual products
         const { data: products, error } = await supabase
@@ -361,6 +367,7 @@ export const useProductsByCategory = (categorySlug: string) => {
           throw new Error(error.message);
         }
         
+        console.log(`Found ${products?.length || 0} products for category ${categorySlug}`);
         return enrichProductsWithCategories(products || []);
       } catch (error) {
         console.error('Error in useProductsByCategory:', error);
@@ -368,6 +375,7 @@ export const useProductsByCategory = (categorySlug: string) => {
       }
     },
     enabled: !!categorySlug,
+    staleTime: 1000 * 60, // 1 minute
   });
 };
 
