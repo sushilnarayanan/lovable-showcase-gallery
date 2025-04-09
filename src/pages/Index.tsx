@@ -20,8 +20,8 @@ const Index = () => {
   const { data: featuredProductItems } = useProductsByCategory('featured-products');
   const { data: vibedCodedItems } = useProductsByCategory('vibe-coded');
   
-  // Use specific category IDs for MicroSaaS (2) and NoCode (6)
-  const { data: microSaasItems } = useProductsByCategoryId(2);
+  // Use category ID 3 for MicroSaaS (changed from 2) and 6 for NoCode
+  const { data: microSaasItems } = useProductsByCategoryId(3);
   const { data: noCodeItems } = useProductsByCategoryId(6);
 
   return (
@@ -46,7 +46,7 @@ const Index = () => {
               <ContentRow title="Vibe-coded" productItems={vibedCodedItems} />
             )}
             
-            {/* Display MicroSaaS items (category ID 2) */}
+            {/* Display MicroSaaS items (category ID 3) */}
             <ContentRow 
               title="MicroSaaS" 
               productItems={microSaasItems || []} 
