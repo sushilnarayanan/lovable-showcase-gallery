@@ -5,266 +5,110 @@
  
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
  
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
  
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
  
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
  
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
  
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
  
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 0 84.2% 55.3%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 240 4.9% 83.9%;
- 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
   }
  
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
  
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
  
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
  
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
  
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
  
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
  
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
  
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
  
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
  
 @layer base {
   * {
     @apply border-border;
-    box-sizing: border-box;
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
 
-  /* Netflix-style hover effects for the cards */
-  .netflix-card {
-    @apply overflow-hidden transition-transform duration-300 cursor-pointer;
-  }
+/* Modern UI specific styles */
+.modern-gradient-text {
+  background: linear-gradient(to right, #9B6BFA, #4BFFBE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(155, 107, 250, 0.5);
+}
 
-  .netflix-card:hover {
-    @apply scale-105 z-30;
-  }
+.modern-card {
+  @apply bg-modern-card border border-modern-border rounded-xl backdrop-blur-sm;
+}
 
-  .netflix-card-content {
-    @apply absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 z-20;
-  }
-  
-  /* Spotify-styled card hover effects */
-  .spotify-card {
-    @apply bg-spotify-card border border-spotify-border rounded-lg transition-all duration-300;
-  }
-  
-  .spotify-card:hover {
-    @apply shadow-lg bg-spotify-light;
-  }
-  
-  /* Spotify-styled tabs */
-  .spotify-tab {
-    @apply rounded-md px-4 py-2 text-sm font-medium transition-colors;
-  }
-  
-  .spotify-tab-active {
-    @apply bg-spotify-green text-white;
-  }
-  
-  .spotify-tab-inactive {
-    @apply bg-spotify-light text-white/70 hover:text-white hover:bg-spotify-light/80;
-  }
+.modern-glassmorphism {
+  @apply bg-modern-card/30 backdrop-blur-md border border-modern-border/40 text-modern-text;
+}
 
-  /* Bright Spotify-styled tabs */
-  .spotify-bright-tab {
-    @apply rounded-md px-4 py-2 text-sm font-medium transition-colors;
-  }
-  
-  .spotify-bright-tab-active {
-    @apply bg-spotify-green text-white shadow-md;
-  }
-  
-  .spotify-bright-tab-inactive {
-    @apply bg-spotify-bright-hover text-spotify-bright-text hover:bg-spotify-bright-hover/80;
-  }
-  
-  /* Timeline styling */
-  .timeline-item {
-    @apply relative pl-6 border-l-2 border-spotify-accent pb-6;
-  }
-  
-  .timeline-dot {
-    @apply absolute w-4 h-4 rounded-full -left-2 top-0;
-  }
-  
-  /* Product detail page specific styles */
-  .product-hero {
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(18,18,18,1));
-  }
+.modern-tag {
+  @apply bg-modern-tag px-3 py-1 rounded-full text-sm font-medium;
+}
 
-  /* Bright product detail styles */
-  .product-hero-bright {
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,1));
-  }
+.section-slide-in {
+  animation: section-slide-in 0.5s ease-out forwards;
+}
 
-  /* Card styles for bright theme */
-  .spotify-bright-card {
-    @apply bg-spotify-bright-card border border-spotify-bright-border rounded-lg transition-all duration-300 shadow-sm;
-  }
-  
-  .spotify-bright-card:hover {
-    @apply shadow-md bg-spotify-bright-hover;
-  }
-  
-  /* New animation classes */
-  .shimmer-bg {
-    @apply bg-gradient-to-r from-transparent via-white/10 to-transparent bg-[length:500px_100%] animate-shimmer;
-  }
-  
-  .gradient-border {
-    @apply relative rounded-lg p-[1px] overflow-hidden;
-    background: linear-gradient(60deg, #9b87f5, #1DB954, #9b87f5);
-    background-size: 300% 300%;
-    animation: gradient-shift 4s ease infinite;
-  }
-  
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-spotify-accent via-spotify-green to-spotify-accent bg-[length:200%_auto] animate-gradient-shift;
-  }
-  
-  .glassmorphism {
-    @apply backdrop-blur-md bg-black/40 border border-white/10;
-  }
-  
-  .neo-glow {
-    box-shadow: 0 0 10px rgba(155, 135, 245, 0.5),
-                0 0 20px rgba(155, 135, 245, 0.2);
-  }
-  
-  .hover-glow:hover {
-    box-shadow: 0 0 15px rgba(29, 185, 84, 0.6),
-                0 0 30px rgba(29, 185, 84, 0.3);
-  }
+.pop-in {
+  animation: pop 0.3s cubic-bezier(0.17, 0.67, 0.48, 1.32) forwards;
+}
 
-  .tab-indicator {
-    @apply absolute bottom-0 left-0 h-0.5 bg-spotify-green transition-all duration-300;
-  }
-  
-  .text-shadow {
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  /* Modern UI classes inspired by the image */
-  .modern-card {
-    @apply bg-modern-card rounded-2xl border border-modern-border transition-all duration-300 overflow-hidden;
-  }
-  
-  .modern-card:hover {
-    @apply shadow-neon;
-  }
-  
-  .modern-tag {
-    @apply px-3 py-1 rounded-full bg-modern-tag text-modern-text text-sm font-medium transition-all duration-300;
-  }
-  
-  .modern-tag:hover {
-    @apply bg-modern-accent text-white scale-105;
-  }
-  
-  .modern-tab {
-    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-300;
-  }
-  
-  .modern-tab-active {
-    @apply bg-modern-accent text-white shadow-neon;
-  }
-  
-  .modern-tab-inactive {
-    @apply bg-modern-tag text-modern-subtext hover:bg-modern-accent/30;
-  }
-  
-  .modern-glassmorphism {
-    @apply backdrop-blur-md bg-modern-dark/60 border border-modern-accent/20;
-  }
-  
-  .modern-gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-modern-accent via-modern-highlight to-modern-secondary bg-[length:200%_auto] animate-gradient-shift;
-  }
-  
-  .section-fade-in > * {
-    @apply opacity-0;
-    animation: fade-in-up 0.6s ease-out forwards;
-  }
-  
-  .section-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
-  .section-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
-  .section-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
-  .section-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
-  .section-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
-  .section-fade-in > *:nth-child(6) { animation-delay: 0.6s; }
-  
-  /* New slide-in animation for sections */
-  .section-slide-in > * {
-    @apply opacity-0;
-    animation: slide-in 0.5s ease-out forwards;
-  }
-  
-  .section-slide-in > *:nth-child(1) { animation-delay: 0.05s; }
-  .section-slide-in > *:nth-child(2) { animation-delay: 0.1s; }
-  .section-slide-in > *:nth-child(3) { animation-delay: 0.15s; }
-  .section-slide-in > *:nth-child(4) { animation-delay: 0.2s; }
-  .section-slide-in > *:nth-child(5) { animation-delay: 0.25s; }
-  .section-slide-in > *:nth-child(6) { animation-delay: 0.3s; }
-  
-  /* Pop animation for elements */
-  .pop-in {
-    @apply opacity-0;
-    animation: pop 0.4s cubic-bezier(0.17, 0.67, 0.48, 1.32) forwards;
-  }
+.text-shadow {
+  text-shadow: 0 0 10px rgba(155, 107, 250, 0.7);
+}
+
+/* Used for background patterns */
+.bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }

@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -170,6 +171,10 @@ export default {
 				'glow-pulse': {
 					'0%, 100%': { boxShadow: '0 0 8px 2px rgba(155, 107, 250, 0.4)' },
 					'50%': { boxShadow: '0 0 16px 4px rgba(155, 107, 250, 0.6)' },
+				},
+				'section-slide-in': {
+					'0%': { transform: 'translateY(20px)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
 				}
 			},
 			animation: {
@@ -186,6 +191,7 @@ export default {
 				'slide-in': 'slide-in 0.4s ease-out forwards',
 				'pop': 'pop 0.3s cubic-bezier(0.17, 0.67, 0.48, 1.32) forwards',
 				'glow-pulse': 'glow-pulse 2s infinite',
+				'section-slide-in': 'section-slide-in 0.5s ease-out forwards'
 			},
 			boxShadow: {
 				'neon': '0 0 10px rgba(155, 107, 250, 0.7), 0 0 20px rgba(155, 107, 250, 0.4)',
