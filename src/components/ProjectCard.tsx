@@ -70,7 +70,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
   };
 
   return (
-    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative group">
+    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative group" onClick={handleCardClick}>
       {showVideo && project.videoUrl ? (
         <div className="w-full h-full absolute top-0 left-0 z-20">
           {project.videoUrl.endsWith('.gif') ? (
@@ -117,37 +117,33 @@ const ProjectCard = ({ project }: ProjectProps) => {
       {/* Gradient overlay always visible */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 transition-opacity duration-300"></div>
       
-      {/* Always visible title and description, not just on hover */}
+      {/* Always visible title and subtitle - now with better wrapping for subtitle */}
       <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
         <h3 className="text-base font-bold mb-1">{project.title}</h3>
         {project.description && (
-          <p className="text-xs text-white/70 line-clamp-1">{project.description}</p>
+          <p className="text-xs text-white/70 line-clamp-2 break-words">{project.description}</p>
         )}
       </div>
       
-      {/* Enhanced hover content - Netflix style */}
+      {/* Modified hover content - only shows tags and buttons */}
       <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
         <div className="pt-16">
-          {/* Display categories if available */}
+          {/* Display tags on hover */}
+          <div className="flex flex-wrap gap-1 mt-1">
+            {project.tags.map((tag, index) => (
+              <span key={index} className="text-xs bg-white/20 px-1.5 py-0.5 rounded-sm">{tag}</span>
+            ))}
+          </div>
+          
+          {/* Categories shown on hover */}
           {project.categories && project.categories.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-1">
+            <div className="flex flex-wrap gap-1 mt-1">
               {project.categories.map((category) => (
-                <span key={category.id} className="text-xs bg-white/20 px-1.5 py-0.5 rounded-sm">
+                <span key={category.id} className="text-xs bg-white/30 px-1.5 py-0.5 rounded-sm">
                   {category.name}
                 </span>
               ))}
             </div>
-          )}
-          
-          <div className="flex flex-wrap gap-1 mt-1">
-            {project.tags.map((tag, index) => (
-              <span key={index} className="text-xs text-white/80">{tag}{index !== project.tags.length - 1 && ' • '}</span>
-            ))}
-          </div>
-          
-          {/* Description expanded on hover */}
-          {project.description && (
-            <p className="text-xs text-white/70 mt-2 line-clamp-2">{project.description}</p>
           )}
         </div>
         
@@ -181,7 +177,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
               className="w-8 h-8 rounded-full bg-netflix-dark border border-netflix-gray/50 flex items-center justify-center hover:border-white"
               onClick={(e) => {
                 e.stopPropagation();
-                handleCardClick();
+                window.open(project.productLink, '_blank');
               }}
               title="Visit Project"
             >
