@@ -35,14 +35,14 @@ const ProductDetail = () => {
   const { data: fetchedProduct, isLoading, error } = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
-      if (isNaN(Number(id))) {
+      if (id === 'detail' || isNaN(Number(id))) {
         throw new Error('Invalid product ID');
       }
       
       const { data, error } = await supabase
         .from('Products')
         .select('*')
-        .eq('id', id)
+        .eq('id', Number(id))
         .single();
       
       if (error) {
@@ -228,11 +228,11 @@ const ProductDetail = () => {
                     </Button>
                   )}
                   
-                  {project.githubLink && (
+                  {project.github_link && (
                     <Button
                       variant="outline"
                       className="border-white/30 hover:border-white" 
-                      onClick={() => window.open(project.githubLink, '_blank')}
+                      onClick={() => window.open(project.github_link, '_blank')}
                     >
                       <Github className="mr-2" size={18} />
                       View Code
@@ -402,11 +402,11 @@ const ProductDetail = () => {
                     </Button>
                   )}
                   
-                  {project.githubLink && (
+                  {project.github_link && (
                     <Button 
                       variant="outline" 
                       className="w-full border-white/30 hover:border-white" 
-                      onClick={() => window.open(project.githubLink, '_blank')}
+                      onClick={() => window.open(project.github_link, '_blank')}
                     >
                       <Github className="mr-2" size={18} />
                       View Source Code

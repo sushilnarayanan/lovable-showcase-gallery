@@ -1,3 +1,4 @@
+
 export interface Project {
   id: number;
   title: string;
@@ -6,6 +7,7 @@ export interface Project {
   tags: string[];
   videoUrl?: string; // Optional video or gif link
   productLink?: string; // Optional link to the actual product
+  github_link?: string; // Changed from githubLink to match the ProductItem structure
 }
 
 export const featuredProjects: Project[] = [
