@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Play, Info, VolumeX } from 'lucide-react';
+import { Play, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Hero = () => {
@@ -29,31 +29,28 @@ const Hero = () => {
             className="w-[50%] mb-6"
           />
           
+          {/* Description */}
+          <p className="text-white text-lg mb-4 line-clamp-3">
+            When a young noblewoman crosses paths with a mysterious man living in disguise, she finds herself caught up in palace intrigue and unexpected romance.
+          </p>
+          
           {/* Buttons */}
-          <div className="flex space-x-3 mb-4">
-            <Button 
-              className="bg-white text-black hover:bg-white/90 rounded-md px-6 py-1 h-[38px] flex items-center"
-            >
-              <Play className="mr-1" size={24} /> Play
+          <div className="flex space-x-4">
+            <Button variant="play" size="lg" className="flex items-center gap-2 px-8">
+              <Play size={24} /> Play
             </Button>
-            <Button 
-              variant="secondary" 
-              className="bg-zinc-500/70 text-white hover:bg-zinc-500/90 rounded-md px-6 py-1 h-[38px] flex items-center"
-            >
-              <Info className="mr-2" size={24} /> More Info
+            <Button variant="moreInfo" size="lg" className="flex items-center gap-2 px-8">
+              <Info size={24} /> More Info
             </Button>
           </div>
         </div>
       </div>
       
-      {/* Age rating and mute button */}
-      <div className="absolute bottom-[25%] right-[60px] flex items-center space-x-5">
-        <div className="border-l-4 border-white pl-2">
+      {/* Age rating badge */}
+      <div className="absolute bottom-[25%] right-[60px] flex items-center">
+        <div className="border-l-4 border-white pl-3 py-1">
           <span className="text-white text-lg font-medium">U/A 16+</span>
         </div>
-        <button className="w-10 h-10 border-2 border-white/70 rounded-full flex items-center justify-center bg-black/30">
-          <VolumeX size={16} className="text-white" />
-        </button>
       </div>
     </div>
   );

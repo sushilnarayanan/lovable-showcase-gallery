@@ -1,11 +1,9 @@
+
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import { Project } from '@/data/projects';
 import { ProductItem } from '@/integrations/supabase/types/portfolio';
-import { assignProductsToCategory } from '@/utils/categoryAssigner';
-import { toast } from '@/hooks/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface ContentRowProps {
   title: string;
@@ -16,7 +14,6 @@ interface ContentRowProps {
 
 const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowProps) => {
   const rowRef = useRef<HTMLDivElement>(null);
-  const queryClient = useQueryClient();
 
   const scroll = (direction: 'left' | 'right') => {
     if (rowRef.current) {
@@ -28,55 +25,6 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
       current.scrollTo({
         left: scrollAmount,
         behavior: 'smooth'
-      });
-    }
-  };
-
-  // Function to handle assigning specific products to categories from the UI
-  const assignToCategory = async () => {
-    if (!categorySlug) return;
-    
-    let productIds: number[] = [];
-    
-    if (categorySlug === 'microsaas') {
-      productIds = [1, 9, 13, 14, 16];
-    } else if (categorySlug === 'nocode') {
-      productIds = [2, 3, 7, 11];
-    }
-    
-    if (productIds.length === 0) return;
-    
-    try {
-      toast({
-        title: 'Assigning products',
-        description: `Assigning products to ${title} category...`,
-      });
-      
-      const success = await assignProductsToCategory(productIds, categorySlug);
-      
-      if (success) {
-        toast({
-          title: 'Success',
-          description: `Products assigned to ${title} category successfully!`,
-        });
-        
-        // Invalidate queries to trigger refetch
-        queryClient.invalidateQueries({
-          queryKey: ['products', 'category', categorySlug],
-        });
-      } else {
-        toast({
-          title: 'Error',
-          description: `Failed to assign products to ${title} category`,
-          variant: 'destructive',
-        });
-      }
-    } catch (error) {
-      console.error('Error assigning products:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to assign products to category',
-        variant: 'destructive',
       });
     }
   };
@@ -118,14 +66,6 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
           ) : (
             <div className="flex items-center justify-center w-full h-[130px] text-gray-400 bg-[#181818] rounded p-4">
               No items in this category yet
-              {categorySlug && (
-                <button 
-                  onClick={assignToCategory}
-                  className="ml-2 text-sm bg-netflix-red hover:bg-netflix-red/80 text-white px-3 py-1 rounded-none flex items-center"
-                >
-                  Assign
-                </button>
-              )}
             </div>
           )}
         </div>
