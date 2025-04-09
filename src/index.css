@@ -86,7 +86,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Add Netflix-style hover effects to the cards */
+  /* Netflix-style hover effects for the cards */
   .netflix-card {
     @apply overflow-hidden transition-transform duration-300 cursor-pointer;
   }
@@ -99,16 +99,39 @@
     @apply absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 z-20;
   }
   
-  /* Product detail page styles */
-  .hero-gradient {
-    background-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+  /* Spotify-styled card hover effects */
+  .spotify-card {
+    @apply bg-spotify-card border border-spotify-border rounded-lg transition-all duration-300;
   }
   
-  .feature-card {
-    @apply transition-transform duration-300;
+  .spotify-card:hover {
+    @apply shadow-lg bg-spotify-light;
   }
   
-  .feature-card:hover {
-    @apply transform scale-105;
+  /* Spotify-styled tabs */
+  .spotify-tab {
+    @apply rounded-md px-4 py-2 text-sm font-medium transition-colors;
+  }
+  
+  .spotify-tab-active {
+    @apply bg-spotify-green text-white;
+  }
+  
+  .spotify-tab-inactive {
+    @apply bg-spotify-light text-white/70 hover:text-white hover:bg-spotify-light/80;
+  }
+  
+  /* Timeline styling */
+  .timeline-item {
+    @apply relative pl-6 border-l-2 border-spotify-accent pb-6;
+  }
+  
+  .timeline-dot {
+    @apply absolute w-4 h-4 rounded-full -left-2 top-0;
+  }
+  
+  /* Product detail page specific styles */
+  .product-hero {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(18,18,18,1));
   }
 }

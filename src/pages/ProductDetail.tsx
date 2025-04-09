@@ -14,11 +14,16 @@ import {
   Calendar, 
   Tag, 
   Check, 
-  Watch 
+  Watch,
+  Info,
+  Code,
+  Tool,
+  History
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from '@/components/Navbar';
 
 const ProductDetail = () => {
@@ -63,7 +68,7 @@ const ProductDetail = () => {
         image: fetchedProduct.thumbnail_url || '',
         videoUrl: fetchedProduct.product_video || '',
         productLink: fetchedProduct.product_link || '',
-        githubLink: fetchedProduct.github_link || '',
+        github_link: fetchedProduct.github_link || '',
         tags: fetchedProduct.tags || [],
       });
     }
@@ -88,7 +93,7 @@ const ProductDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-netflix-background text-white flex items-center justify-center">
+      <div className="min-h-screen bg-spotify-dark text-white flex items-center justify-center">
         <div className="animate-pulse text-2xl">Loading...</div>
       </div>
     );
@@ -96,7 +101,7 @@ const ProductDetail = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-netflix-background text-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-spotify-dark text-white flex flex-col items-center justify-center">
         <div className="text-2xl mb-4">Product not found</div>
         <Button onClick={() => navigate('/')}>Return Home</Button>
       </div>
@@ -119,6 +124,7 @@ const ProductDetail = () => {
   };
 
   const formatDate = (dateString: string) => {
+    if (!dateString) return "N/A";
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
       year: 'numeric', 
@@ -128,7 +134,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-netflix-background text-white">
+    <div className="min-h-screen bg-spotify-dark text-white">
       <Navbar />
       
       {/* Hero Section with Back Button */}
@@ -143,7 +149,7 @@ const ProductDetail = () => {
         </Button>
         
         {/* Hero Image / Video Player */}
-        <div className="relative w-full h-[70vh]">
+        <div className="relative w-full h-[50vh] lg:h-[60vh]">
           {isVideoPlaying && project.videoUrl ? (
             <div className="absolute inset-0 bg-black z-40">
               <div className="relative w-full h-full">
@@ -171,45 +177,45 @@ const ProductDetail = () => {
                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-netflix-background via-netflix-background/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-spotify-dark via-spotify-dark/70 to-transparent" />
             </>
           )}
           
           {/* Hero Content Overlay */}
           <div className="absolute bottom-0 left-0 w-full p-8 z-10">
             <div className="container mx-auto">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div className="max-w-3xl">
                   <h1 className="text-4xl md:text-5xl font-bold mb-2">{project.title}</h1>
                   
+                  {/* Tagline */}
+                  <p className="text-xl text-white/80 mb-4 max-w-2xl">{project.description}</p>
+                  
                   {/* Quick Stats */}
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-white/70 mb-4">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
                     {project.created_at && (
-                      <div className="flex items-center">
-                        <Calendar size={16} className="mr-1" />
+                      <div className="flex items-center bg-spotify-accent/30 px-3 py-1 rounded-full">
+                        <Calendar size={14} className="mr-1" />
                         {formatDate(project.created_at)}
                       </div>
                     )}
                     {project.tags && project.tags.length > 0 && (
-                      <div className="flex items-center">
-                        <Tag size={16} className="mr-1" />
+                      <div className="flex items-center bg-spotify-accent/30 px-3 py-1 rounded-full">
+                        <Tag size={14} className="mr-1" />
                         {project.tags.length} Tags
                       </div>
                     )}
-                    <div className="flex items-center">
-                      <Check size={16} className="mr-1" />
-                      🟢 Live
+                    <div className="flex items-center bg-spotify-green/30 px-3 py-1 rounded-full">
+                      <Check size={14} className="mr-1" />
+                      Live
                     </div>
                   </div>
-                  
-                  {/* Tagline */}
-                  <p className="text-xl text-white/80 mb-6 max-w-2xl">{project.description}</p>
                 </div>
                 
                 <div className="flex space-x-3">
                   {project.videoUrl && (
                     <Button 
-                      className="bg-netflix-red hover:bg-red-700 text-white font-medium px-6 py-2 flex items-center" 
+                      className="bg-spotify-green hover:bg-spotify-green/80 text-white font-medium px-6 py-2 flex items-center" 
                       onClick={handlePlayVideo}
                     >
                       <Play className="mr-2" size={18} />
@@ -245,13 +251,32 @@ const ProductDetail = () => {
         </div>
       </div>
       
-      {/* Main Content */}
-      <div className="container mx-auto py-12 px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* The Story */}
-          <div className="lg:col-span-2">
-            <Card className="bg-netflix-dark border-netflix-gray/20 overflow-hidden">
-              <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 p-6">
+      {/* Main Content with Tabs */}
+      <div className="container mx-auto py-6 px-4">
+        <Tabs defaultValue="about" className="w-full">
+          <TabsList className="w-full max-w-2xl mx-auto mb-8 grid grid-cols-4 bg-spotify-light">
+            <TabsTrigger value="about" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <Info className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">About</span>
+            </TabsTrigger>
+            <TabsTrigger value="features" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <Check className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Features</span>
+            </TabsTrigger>
+            <TabsTrigger value="tech" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <Code className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Tech</span>
+            </TabsTrigger>
+            <TabsTrigger value="timeline" className="data-[state=active]:bg-spotify-green data-[state=active]:text-white">
+              <History className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Timeline</span>
+            </TabsTrigger>
+          </TabsList>
+          
+          {/* About Tab */}
+          <TabsContent value="about" className="space-y-6">
+            <Card className="bg-spotify-card border-spotify-border overflow-hidden">
+              <div className="bg-gradient-to-r from-spotify-accent/20 to-spotify-accent/10 p-6">
                 <h2 className="text-2xl font-bold mb-2">The Story</h2>
                 <p className="text-white/70">Why I built it</p>
               </div>
@@ -279,102 +304,14 @@ const ProductDetail = () => {
               </CardContent>
             </Card>
             
-            {/* Key Features */}
-            <Card className="bg-netflix-dark border-netflix-gray/20 mt-8">
-              <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 p-6">
-                <h2 className="text-2xl font-bold mb-2">Key Features</h2>
-                <p className="text-white/70">What makes it special</p>
-              </div>
-              <CardContent className="pt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-netflix-background/30 p-5 rounded-lg">
-                    <div className="h-12 w-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4">
-                      <Check className="text-white" size={24} />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Feature 1</h3>
-                    <p className="text-white/80">Detailed description of the first main feature.</p>
-                  </div>
-                  
-                  <div className="bg-netflix-background/30 p-5 rounded-lg">
-                    <div className="h-12 w-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-4">
-                      <Watch className="text-white" size={24} />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Feature 2</h3>
-                    <p className="text-white/80">Detailed description of the second main feature.</p>
-                  </div>
-                  
-                  <div className="bg-netflix-background/30 p-5 rounded-lg">
-                    <div className="h-12 w-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4">
-                      <Tag className="text-white" size={24} />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Feature 3</h3>
-                    <p className="text-white/80">Detailed description of the third main feature.</p>
-                  </div>
-                  
-                  <div className="bg-netflix-background/30 p-5 rounded-lg">
-                    <div className="h-12 w-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-4">
-                      <Calendar className="text-white" size={24} />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Feature 4</h3>
-                    <p className="text-white/80">Detailed description of the fourth main feature.</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Sidebar */}
-          <div className="space-y-8">
-            {/* Behind the Scenes */}
-            <Card className="bg-netflix-dark border-netflix-gray/20">
-              <div className="bg-gradient-to-r from-amber-900/20 to-red-900/20 p-6">
-                <h2 className="text-xl font-bold mb-2">Behind the Scenes</h2>
-                <p className="text-white/70">How it works</p>
-              </div>
-              <CardContent className="pt-6">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3">🛠️ Tools Used</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {["React", "Tailwind CSS", "Supabase", "TypeScript"].map((tool, index) => (
-                        <span key={index} className="px-3 py-1 bg-white/10 rounded-full text-sm">
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <Separator className="bg-white/10" />
-                  
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3">🚀 Milestones</h3>
-                    <ul className="space-y-3">
-                      <li className="flex items-start">
-                        <div className="h-2 w-2 rounded-full bg-netflix-red mt-2 mr-2"></div>
-                        <span className="text-white/80">Initial Release</span>
-                      </li>
-                      <li className="flex items-start">
-                        <div className="h-2 w-2 rounded-full bg-netflix-red mt-2 mr-2"></div>
-                        <span className="text-white/80">First 100 Users</span>
-                      </li>
-                      <li className="flex items-start">
-                        <div className="h-2 w-2 rounded-full bg-netflix-red mt-2 mr-2"></div>
-                        <span className="text-white/80">Major Feature Update</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Tags */}
-            <Card className="bg-netflix-dark border-netflix-gray/20">
+            {/* Tags Card */}
+            <Card className="bg-spotify-card border-spotify-border">
               <div className="p-6">
                 <h2 className="text-xl font-bold mb-4">Tags</h2>
                 <div className="flex flex-wrap gap-2">
                   {project.tags && project.tags.length > 0 ? (
                     project.tags.map((tag, index) => (
-                      <span key={index} className="px-3 py-1 bg-white/10 hover:bg-white/20 cursor-pointer rounded-full text-sm transition-colors">
+                      <span key={index} className="px-3 py-1 bg-spotify-accent/20 hover:bg-spotify-accent/30 cursor-pointer rounded-full text-sm transition-colors">
                         {tag}
                       </span>
                     ))
@@ -384,17 +321,107 @@ const ProductDetail = () => {
                 </div>
               </div>
             </Card>
+          </TabsContent>
+          
+          {/* Features Tab */}
+          <TabsContent value="features" className="space-y-6">
+            <Card className="bg-spotify-card border-spotify-border">
+              <div className="bg-gradient-to-r from-spotify-green/30 to-spotify-green/10 p-6">
+                <h2 className="text-2xl font-bold mb-2">Key Features</h2>
+                <p className="text-white/70">What makes it special</p>
+              </div>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
+                    <div className="h-12 w-12 bg-gradient-to-br from-spotify-green to-spotify-accent rounded-xl flex items-center justify-center mb-4">
+                      <Check className="text-white" size={24} />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Feature 1</h3>
+                    <p className="text-white/80">Detailed description of the first main feature.</p>
+                  </div>
+                  
+                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
+                    <div className="h-12 w-12 bg-gradient-to-br from-spotify-accent to-purple-500 rounded-xl flex items-center justify-center mb-4">
+                      <Watch className="text-white" size={24} />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Feature 2</h3>
+                    <p className="text-white/80">Detailed description of the second main feature.</p>
+                  </div>
+                  
+                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
+                    <div className="h-12 w-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
+                      <Tag className="text-white" size={24} />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Feature 3</h3>
+                    <p className="text-white/80">Detailed description of the third main feature.</p>
+                  </div>
+                  
+                  <div className="bg-spotify-light p-5 rounded-lg hover:bg-spotify-light/70 transition-colors">
+                    <div className="h-12 w-12 bg-gradient-to-br from-blue-500 to-spotify-green rounded-xl flex items-center justify-center mb-4">
+                      <Calendar className="text-white" size={24} />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Feature 4</h3>
+                    <p className="text-white/80">Detailed description of the fourth main feature.</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          {/* Tech Tab */}
+          <TabsContent value="tech" className="space-y-6">
+            <Card className="bg-spotify-card border-spotify-border">
+              <div className="bg-gradient-to-r from-purple-900/20 to-spotify-accent/20 p-6">
+                <h2 className="text-xl font-bold mb-2">Behind the Scenes</h2>
+                <p className="text-white/70">How it works</p>
+              </div>
+              <CardContent className="pt-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3">🛠️ Tools Used</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {["React", "Tailwind CSS", "Supabase", "TypeScript"].map((tool, index) => (
+                        <span key={index} className="px-3 py-1 bg-spotify-light rounded-full text-sm">
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <Separator className="bg-spotify-border" />
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3">💻 Development</h3>
+                    <p className="text-white/80">
+                      This project was developed using modern web technologies with a focus on performance and user experience.
+                      The codebase follows best practices and maintains high code quality standards.
+                    </p>
+                    
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-spotify-light p-4 rounded-lg">
+                        <h4 className="font-medium mb-2">Frontend</h4>
+                        <p className="text-white/70 text-sm">React, TypeScript, Tailwind CSS</p>
+                      </div>
+                      <div className="bg-spotify-light p-4 rounded-lg">
+                        <h4 className="font-medium mb-2">Backend</h4>
+                        <p className="text-white/70 text-sm">Node.js, Supabase, PostgreSQL</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
             {/* Call-to-Action */}
-            <Card className="bg-netflix-dark border-netflix-gray/20 overflow-hidden">
-              <div className="bg-gradient-to-r from-netflix-red/30 to-purple-900/30 p-6">
+            <Card className="bg-spotify-card border-spotify-border overflow-hidden">
+              <div className="bg-gradient-to-r from-spotify-green/30 to-purple-900/30 p-6">
                 <h2 className="text-xl font-bold mb-2">Try It Now</h2>
               </div>
               <CardContent className="pt-6">
                 <div className="space-y-4">
                   {project.productLink && (
                     <Button 
-                      className="w-full bg-netflix-red hover:bg-red-700 text-white" 
+                      className="w-full bg-spotify-green hover:bg-spotify-green/80 text-white" 
                       onClick={() => window.open(project.productLink, '_blank')}
                     >
                       <ExternalLink className="mr-2" size={18} />
@@ -415,8 +442,49 @@ const ProductDetail = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
+          </TabsContent>
+          
+          {/* Timeline Tab */}
+          <TabsContent value="timeline" className="space-y-6">
+            <Card className="bg-spotify-card border-spotify-border">
+              <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 p-6">
+                <h2 className="text-xl font-bold mb-2">Project Timeline</h2>
+                <p className="text-white/70">Development journey</p>
+              </div>
+              <CardContent className="pt-6">
+                <div className="space-y-8">
+                  <div className="relative pl-8 border-l-2 border-spotify-green pb-8">
+                    <div className="absolute w-4 h-4 bg-spotify-green rounded-full -left-[9px] top-0"></div>
+                    <h3 className="text-lg font-semibold mb-1">Project Inception</h3>
+                    <p className="text-sm text-white/60 mb-2">January 2023</p>
+                    <p className="text-white/80">Initial concept and planning phase.</p>
+                  </div>
+                  
+                  <div className="relative pl-8 border-l-2 border-spotify-accent pb-8">
+                    <div className="absolute w-4 h-4 bg-spotify-accent rounded-full -left-[9px] top-0"></div>
+                    <h3 className="text-lg font-semibold mb-1">Design & Prototyping</h3>
+                    <p className="text-sm text-white/60 mb-2">March 2023</p>
+                    <p className="text-white/80">Creating wireframes and interactive prototypes.</p>
+                  </div>
+                  
+                  <div className="relative pl-8 border-l-2 border-purple-500 pb-8">
+                    <div className="absolute w-4 h-4 bg-purple-500 rounded-full -left-[9px] top-0"></div>
+                    <h3 className="text-lg font-semibold mb-1">Development</h3>
+                    <p className="text-sm text-white/60 mb-2">May 2023</p>
+                    <p className="text-white/80">Building the core functionality and features.</p>
+                  </div>
+                  
+                  <div className="relative pl-8">
+                    <div className="absolute w-4 h-4 bg-spotify-green rounded-full -left-[9px] top-0"></div>
+                    <h3 className="text-lg font-semibold mb-1">Launch</h3>
+                    <p className="text-sm text-white/60 mb-2">September 2023</p>
+                    <p className="text-white/80">Official release and public launch.</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

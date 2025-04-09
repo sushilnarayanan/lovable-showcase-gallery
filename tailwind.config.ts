@@ -34,6 +34,16 @@ export default {
 					white: '#E5E5E5',
 					hover: '#333333'
 				},
+				spotify: {
+					dark: '#121212',     // Main background
+					card: '#181818',     // Card background
+					light: '#282828',    // Lighter elements
+					green: '#1DB954',    // Primary green
+					accent: '#9b87f5',   // Purple accent
+					border: '#333333',   // Border colors
+					text: '#FFFFFF',     // Main text
+					subtext: '#B3B3B3'   // Secondary text
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
