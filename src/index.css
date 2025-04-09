@@ -161,4 +161,54 @@
   .spotify-bright-card:hover {
     @apply shadow-md bg-spotify-bright-hover;
   }
+  
+  /* New animation classes */
+  .shimmer-bg {
+    @apply bg-gradient-to-r from-transparent via-white/10 to-transparent bg-[length:500px_100%] animate-shimmer;
+  }
+  
+  .gradient-border {
+    @apply relative rounded-lg p-[1px] overflow-hidden;
+    background: linear-gradient(60deg, #9b87f5, #1DB954, #9b87f5);
+    background-size: 300% 300%;
+    animation: gradient-shift 4s ease infinite;
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-spotify-accent via-spotify-green to-spotify-accent bg-[length:200%_auto] animate-gradient-shift;
+  }
+  
+  .glassmorphism {
+    @apply backdrop-blur-md bg-black/40 border border-white/10;
+  }
+  
+  .neo-glow {
+    box-shadow: 0 0 10px rgba(155, 135, 245, 0.5),
+                0 0 20px rgba(155, 135, 245, 0.2);
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 15px rgba(29, 185, 84, 0.6),
+                0 0 30px rgba(29, 185, 84, 0.3);
+  }
+
+  .tab-indicator {
+    @apply absolute bottom-0 left-0 h-0.5 bg-spotify-green transition-all duration-300;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .section-fade-in > * {
+    @apply opacity-0;
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+  
+  .section-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+  .section-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+  .section-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
+  .section-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
+  .section-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
+  .section-fade-in > *:nth-child(6) { animation-delay: 0.6s; }
 }
