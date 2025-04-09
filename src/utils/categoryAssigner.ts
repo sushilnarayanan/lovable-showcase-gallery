@@ -4,30 +4,49 @@ import { toast } from '@/hooks/use-toast';
 
 /**
  * Assigns products to a specific category
+ * @returns Promise<boolean> - true if successful, false if failed
  */
-export async function assignProductsToCategory(productIds: number[], categorySlug: string) {
+export async function assignProductsToCategory(productIds: number[], categorySlug: string): Promise<boolean> {
   try {
-    // First get the category ID
-    const { data: categoryData, error: categoryError } = await supabase
-      .from('Categories')
-      .select('id')
-      .eq('slug', categorySlug)
-      .maybeSingle();
-      
-    if (categoryError) {
-      console.error('Error fetching category:', categoryError);
-      toast({
-        title: 'Error',
-        description: `Failed to get category ID for ${categorySlug}`,
-        variant: 'destructive',
-      });
-      return false;
-    }
+    // Maximum retry attempts
+    const maxRetries = 3;
+    let retryCount = 0;
+    let categoryData = null;
+    let categoryError = null;
     
+    // Retry fetching category with exponential backoff
+    while (retryCount < maxRetries && !categoryData) {
+      try {
+        // First get the category ID
+        const response = await supabase
+          .from('Categories')
+          .select('id')
+          .eq('slug', categorySlug)
+          .maybeSingle();
+          
+        categoryData = response.data;
+        categoryError = response.error;
+        
+        if (categoryData) break;
+        
+        if (categoryError) {
+          console.error(`Retry ${retryCount + 1}: Error fetching category:`, categoryError);
+        }
+      } catch (error) {
+        console.error(`Retry ${retryCount + 1}: Network error:`, error);
+      }
+      
+      // Exponential backoff
+      const delay = Math.pow(2, retryCount) * 300;
+      await new Promise(resolve => setTimeout(resolve, delay));
+      retryCount++;
+    }
+      
     if (!categoryData) {
+      console.error('Failed to get category after multiple attempts');
       toast({
         title: 'Error',
-        description: `Category ${categorySlug} does not exist`,
+        description: `Failed to get category ID for ${categorySlug} after ${maxRetries} attempts`,
         variant: 'destructive',
       });
       return false;
@@ -44,6 +63,7 @@ export async function assignProductsToCategory(productIds: number[], categorySlu
       
     if (checkError) {
       console.error('Error checking existing relations:', checkError);
+      // Continue anyway to try adding products
     }
     
     // Filter out products that are already in the category
@@ -59,31 +79,55 @@ export async function assignProductsToCategory(productIds: number[], categorySlu
       return true;
     }
     
-    // Add new relations one by one
+    // Add new relations one by one with retry mechanism
     let successCount = 0;
     
     for (const productId of productsToAdd) {
-      const { error: insertError } = await supabase
-        .from('product_categories')
-        .insert({
-          product_id: productId,
-          category_id: categoryId
-        });
+      let productAdded = false;
+      retryCount = 0;
+      
+      while (!productAdded && retryCount < maxRetries) {
+        try {
+          const { error: insertError } = await supabase
+            .from('product_categories')
+            .insert({
+              product_id: productId,
+              category_id: categoryId
+            });
+            
+          if (insertError) {
+            console.error(`Retry ${retryCount + 1}: Error adding product ID ${productId} to category:`, insertError);
+          } else {
+            productAdded = true;
+            successCount++;
+            break;
+          }
+        } catch (error) {
+          console.error(`Retry ${retryCount + 1}: Network error for product ID ${productId}:`, error);
+        }
         
-      if (insertError) {
-        console.error(`Error adding product ID ${productId} to category:`, insertError);
-      } else {
-        successCount++;
+        // Exponential backoff
+        const delay = Math.pow(2, retryCount) * 300;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        retryCount++;
       }
     }
     
     // Show success message
-    toast({
-      title: 'Success',
-      description: `Added ${successCount} products to ${categorySlug} category`
-    });
-    
-    return true;
+    if (successCount > 0) {
+      toast({
+        title: 'Success',
+        description: `Added ${successCount} products to ${categorySlug} category`
+      });
+      return true;
+    } else {
+      toast({
+        title: 'Warning',
+        description: `Failed to add any products to ${categorySlug} category`,
+        variant: 'destructive',
+      });
+      return false;
+    }
   } catch (error) {
     console.error('Error in assignProductsToCategory:', error);
     toast({

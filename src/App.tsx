@@ -9,7 +9,16 @@ import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 import AssignCategories from "./pages/AssignCategories";
 
-const queryClient = new QueryClient();
+// Create a custom QueryClient with retry configuration
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3,
+      retryDelay: attempt => Math.min(1000 * 2 ** attempt, 30000),
+      staleTime: 30000
+    }
+  }
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
