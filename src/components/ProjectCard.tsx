@@ -41,20 +41,16 @@ const ProjectCard = ({ project }: ProjectProps) => {
       let fileId = '';
       
       if (url.includes('id=')) {
-        // Format: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-        // or: https://drive.google.com/open?id=FILE_ID
         const idMatch = url.match(/[?&]id=([^&]+)/);
         if (idMatch && idMatch[1]) {
           fileId = idMatch[1];
         }
       } else if (url.includes('/d/')) {
-        // Format: https://drive.google.com/file/d/FILE_ID/view
         const parts = url.split('/d/');
         if (parts.length > 1) {
           fileId = parts[1].split('/')[0];
         }
       } else if (url.includes('drive.google.com/uc?export=view&id=')) {
-        // Format: https://drive.google.com/uc?export=view&id=FILE_ID
         const idMatch = url.match(/id=([^&]+)/);
         if (idMatch && idMatch[1]) {
           fileId = idMatch[1];
@@ -125,19 +121,19 @@ const ProjectCard = ({ project }: ProjectProps) => {
         )}
       </div>
       
-      {/* Modified hover content - only shows tags and buttons */}
+      {/* Modified hover content - tags at top right and buttons at bottom */}
       <div className="netflix-card-content group-hover:opacity-100 flex flex-col justify-between h-full">
-        <div className="pt-16">
-          {/* Display tags on hover */}
-          <div className="flex flex-wrap gap-1 mt-1">
+        {/* Tags at top right corner */}
+        <div className="absolute top-2 right-2 z-20">
+          <div className="flex flex-wrap gap-1 justify-end">
             {project.tags.map((tag, index) => (
-              <span key={index} className="text-xs bg-white/20 px-1.5 py-0.5 rounded-sm">{tag}</span>
+              <span key={index} className="text-xs bg-black/70 text-white px-1.5 py-0.5 rounded-sm">{tag}</span>
             ))}
           </div>
           
           {/* Categories shown on hover */}
           {project.categories && project.categories.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-1">
+            <div className="flex flex-wrap gap-1 mt-1 justify-end">
               {project.categories.map((category) => (
                 <span key={category.id} className="text-xs bg-white/30 px-1.5 py-0.5 rounded-sm">
                   {category.name}
@@ -147,7 +143,8 @@ const ProjectCard = ({ project }: ProjectProps) => {
           )}
         </div>
         
-        <div className="flex items-center justify-between mt-2">
+        {/* Action buttons at bottom */}
+        <div className="flex items-center justify-between mt-2 px-3 pb-3">
           <div className="flex space-x-2">
             {project.videoUrl && (
               <button 
