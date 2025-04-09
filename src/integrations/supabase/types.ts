@@ -45,6 +45,7 @@ export type Database = {
           id: number
           product_link: string | null
           product_video: string | null
+          sub_title: string | null
           tags: string[] | null
           thumbnail_url: string | null
           title: string
@@ -58,6 +59,7 @@ export type Database = {
           id?: number
           product_link?: string | null
           product_video?: string | null
+          sub_title?: string | null
           tags?: string[] | null
           thumbnail_url?: string | null
           title: string
@@ -71,6 +73,7 @@ export type Database = {
           id?: number
           product_link?: string | null
           product_video?: string | null
+          sub_title?: string | null
           tags?: string[] | null
           thumbnail_url?: string | null
           title?: string
