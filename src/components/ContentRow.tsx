@@ -33,7 +33,7 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
     ? productItems.map(item => ({
         id: String(item.id),
         title: item.title,
-        subtitle: item.sub_title || '',
+        subtitle: item.description || '', // Use description instead of sub_title
         image: item.thumbnail_url || '/placeholder.svg',
         videoUrl: item.product_video || undefined,
         tags: item.tags || [],

@@ -6,6 +6,42 @@ import { ProductItem, ProductCreateInput, ProductUpdateInput, CategoryItem } fro
 import { toast } from '@/hooks/use-toast';
 import { Database } from '@/integrations/supabase/types';
 
+// Helper function to ensure category exists
+const ensureCategoryExists = async (slug: string, name: string) => {
+  // First check if the category exists
+  const { data: existingCategory, error: categoryError } = await supabase
+    .from('Categories')
+    .select('id')
+    .eq('slug', slug)
+    .maybeSingle();
+    
+  if (categoryError) {
+    console.error('Error checking category:', categoryError);
+    return null;
+  }
+  
+  // If category doesn't exist, create it
+  if (!existingCategory) {
+    console.log(`Creating missing category: ${name} (${slug})`);
+    const { data: newCategory, error: createError } = await supabase
+      .from('Categories')
+      .insert([
+        { name: name, slug: slug, description: `${name} products` }
+      ])
+      .select()
+      .single();
+      
+    if (createError) {
+      console.error('Error creating category:', createError);
+      return null;
+    }
+    
+    return newCategory.id;
+  }
+  
+  return existingCategory.id;
+};
+
 export const useProductData = () => {
   return useQuery({
     queryKey: ['products'],
@@ -34,6 +70,10 @@ export const useCategoryData = () => {
   return useQuery({
     queryKey: ['categories'],
     queryFn: async (): Promise<CategoryItem[]> => {
+      // Check for required categories
+      await ensureCategoryExists('microsaas', 'MicroSaaS');
+      await ensureCategoryExists('nocode', 'NoCode');
+      
       const { data, error } = await supabase
         .from('Categories')
         .select('*')
@@ -58,26 +98,36 @@ export const useProductsByCategory = (categorySlug: string) => {
   return useQuery({
     queryKey: ['products', 'category', categorySlug],
     queryFn: async (): Promise<ProductItem[]> => {
-      // First check if the category exists
-      const { data: categoryData, error: categoryError } = await supabase
-        .from('Categories')
-        .select('id')
-        .eq('slug', categorySlug)
-        .maybeSingle(); // Use maybeSingle instead of single to prevent errors
+      // Create category if it doesn't exist based on slug
+      let categoryId;
       
-      if (categoryError && categoryError.code !== 'PGRST116') {
-        // Only throw for errors other than "no rows returned"
-        console.error('Error fetching category:', categoryError);
-        toast({
-          title: 'Error',
-          description: 'Failed to load category',
-          variant: 'destructive',
-        });
-        throw new Error(categoryError.message);
+      if (categorySlug === 'microsaas') {
+        categoryId = await ensureCategoryExists('microsaas', 'MicroSaaS');
+      } else if (categorySlug === 'nocode') {
+        categoryId = await ensureCategoryExists('nocode', 'NoCode');
+      } else {
+        // For other categories, check if they exist
+        const { data: categoryData, error: categoryError } = await supabase
+          .from('Categories')
+          .select('id')
+          .eq('slug', categorySlug)
+          .maybeSingle();
+        
+        if (categoryError && categoryError.code !== 'PGRST116') {
+          console.error('Error fetching category:', categoryError);
+          toast({
+            title: 'Error',
+            description: 'Failed to load category',
+            variant: 'destructive',
+          });
+          throw new Error(categoryError.message);
+        }
+        
+        categoryId = categoryData?.id;
       }
       
       // If no category found, return empty array
-      if (!categoryData) {
+      if (!categoryId) {
         console.log(`Category with slug "${categorySlug}" not found`);
         return [];
       }
@@ -85,7 +135,7 @@ export const useProductsByCategory = (categorySlug: string) => {
       const { data, error } = await supabase
         .from('Products')
         .select('*')
-        .eq('category_id', categoryData.id)
+        .eq('category_id', categoryId)
         .order('created_at', { ascending: false });
       
       if (error) {
