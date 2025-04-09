@@ -106,3 +106,22 @@
 .content-transition {
   @apply transition-all duration-300 ease-in-out;
 }
+
+/* Add Netflix red color */
+@layer utilities {
+  .bg-netflix-red {
+    @apply bg-[#E50914];
+  }
+  
+  .hover\:bg-netflix-red\/80:hover {
+    @apply bg-[#E50914]/80;
+  }
+  
+  .hover\:bg-netflix-red\/90:hover {
+    @apply bg-[#E50914]/90;
+  }
+  
+  .text-netflix-red {
+    @apply text-[#E50914];
+  }
+}

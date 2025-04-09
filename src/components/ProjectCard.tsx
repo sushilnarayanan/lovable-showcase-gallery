@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Play, Plus, ThumbsUp, Info, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
@@ -134,7 +135,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
             </div>
             
             <div className="flex flex-wrap gap-1">
-              {project.tags.slice(0, 3).map((tag, index) => (
+              {project.tags && project.tags.slice(0, 3).map((tag, index) => (
                 <span key={index} className="text-xs text-gray-300">
                   {index > 0 && <span className="mx-1 text-gray-500">•</span>}
                   {tag}
