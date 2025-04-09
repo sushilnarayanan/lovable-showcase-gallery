@@ -53,6 +53,7 @@ export async function assignProductsToCategory(productIds: number[], categorySlu
     }
     
     const categoryId = categoryData.id;
+    console.log(`Found category ID ${categoryId} for slug ${categorySlug}`);
     
     // Check which products are already in the category
     const { data: existingRelations, error: checkError } = await supabase
@@ -69,6 +70,9 @@ export async function assignProductsToCategory(productIds: number[], categorySlu
     // Filter out products that are already in the category
     const existingProductIds = existingRelations?.map(rel => rel.product_id) || [];
     const productsToAdd = productIds.filter(id => !existingProductIds.includes(id));
+    
+    console.log('Products already in category:', existingProductIds);
+    console.log('Products to add:', productsToAdd);
     
     // If all products are already assigned, notify and return
     if (productsToAdd.length === 0) {
@@ -100,6 +104,7 @@ export async function assignProductsToCategory(productIds: number[], categorySlu
           } else {
             productAdded = true;
             successCount++;
+            console.log(`Successfully added product ID ${productId} to category ${categorySlug}`);
             break;
           }
         } catch (error) {

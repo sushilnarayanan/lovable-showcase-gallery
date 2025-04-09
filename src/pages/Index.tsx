@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import ContentRow from '@/components/ContentRow';
@@ -8,21 +7,31 @@ import { featuredProjects, webApps, designProjects, experiments } from '@/data/p
 import { 
   useProductData, 
   useCategoryData, 
-  useProductsByCategory, 
-  useProductsByCategoryId 
+  useProductsByCategory
 } from '@/hooks/usePortfolio';
+import { toast } from '@/hooks/use-toast';
 
 const Index = () => {
   const { data: productItems, isLoading: productsLoading, error: productsError } = useProductData();
   const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategoryData();
   
-  // Get featured products using the category slug
+  // Use category slug instead of ID for better reliability
   const { data: featuredProductItems } = useProductsByCategory('featured-products');
   const { data: vibedCodedItems } = useProductsByCategory('vibe-coded');
+  const { data: microSaasItems, isLoading: microSaasLoading, error: microSaasError, refetch: refetchMicroSaas } = useProductsByCategory('microsaas');
+  const { data: noCodeItems } = useProductsByCategory('nocode');
   
-  // Use category ID 3 for MicroSaaS (changed from 2) and 6 for NoCode
-  const { data: microSaasItems } = useProductsByCategoryId(3);
-  const { data: noCodeItems } = useProductsByCategoryId(6);
+  // Show any errors that might be preventing data from loading
+  useEffect(() => {
+    if (microSaasError) {
+      console.error('MicroSaaS loading error:', microSaasError);
+      toast({
+        title: 'Error loading MicroSaaS products',
+        description: 'Please try refreshing the page',
+        variant: 'destructive'
+      });
+    }
+  }, [microSaasError]);
 
   return (
     <div className="min-h-screen bg-netflix-background">
@@ -46,14 +55,18 @@ const Index = () => {
               <ContentRow title="Vibe-coded" productItems={vibedCodedItems} />
             )}
             
-            {/* Display MicroSaaS items (category ID 3) */}
-            <ContentRow 
-              title="MicroSaaS" 
-              productItems={microSaasItems || []} 
-              projects={microSaasItems && microSaasItems.length === 0 ? webApps : undefined} 
-            />
+            {/* Display MicroSaaS items */}
+            {microSaasLoading ? (
+              <div className="py-6 text-center">Loading MicroSaaS products...</div>
+            ) : (
+              <ContentRow 
+                title="MicroSaaS" 
+                productItems={microSaasItems || []} 
+                projects={microSaasItems && microSaasItems.length === 0 ? webApps : undefined} 
+              />
+            )}
             
-            {/* Display NoCode items (category ID 6) */}
+            {/* Display NoCode items */}
             <ContentRow 
               title="NoCode" 
               productItems={noCodeItems || []} 
