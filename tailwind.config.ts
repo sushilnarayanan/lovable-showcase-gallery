@@ -56,11 +56,11 @@ export default {
 				modern: {
 					dark: '#18191A',
 					card: '#242526',
-					accent: '#9B6BFA',
-					secondary: '#4BFFBE',
+					accent: '#1DB954',       // Changed from pink to Spotify green
+					secondary: '#4BF4B0',    // Changed to a lighter green
 					border: '#3A3B3C',
 					tag: '#303031',
-					highlight: '#FF53B4',
+					highlight: '#1ED760',    // Changed from pink to bright Spotify green
 					text: '#E4E6EB',
 					subtext: '#B0B3B8',
 					overlay: 'rgba(24, 25, 26, 0.7)',
@@ -194,10 +194,10 @@ export default {
 				'section-slide-in': 'section-slide-in 0.5s ease-out forwards'
 			},
 			boxShadow: {
-				'neon': '0 0 10px rgba(155, 107, 250, 0.7), 0 0 20px rgba(155, 107, 250, 0.4)',
-				'neon-hover': '0 0 15px rgba(155, 107, 250, 0.8), 0 0 30px rgba(155, 107, 250, 0.5)',
-				'neon-pink': '0 0 10px rgba(255, 83, 180, 0.7), 0 0 20px rgba(255, 83, 180, 0.4)',
-				'neon-green': '0 0 10px rgba(75, 255, 190, 0.7), 0 0 20px rgba(75, 255, 190, 0.4)',
+				'neon': '0 0 10px rgba(29, 185, 84, 0.7), 0 0 20px rgba(29, 185, 84, 0.4)',
+				'neon-hover': '0 0 15px rgba(29, 185, 84, 0.8), 0 0 30px rgba(29, 185, 84, 0.5)',
+				'neon-pink': '0 0 10px rgba(29, 185, 84, 0.7), 0 0 20px rgba(29, 185, 84, 0.4)', // Renamed but kept for compatibility
+				'neon-green': '0 0 10px rgba(46, 213, 115, 0.7), 0 0 20px rgba(46, 213, 115, 0.4)',
 			}
 		}
 	},
