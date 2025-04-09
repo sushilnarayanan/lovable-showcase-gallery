@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Play, Plus, ThumbsUp, ExternalLink, Image as ImageIcon } from 'lucide-react';
 import { Project } from '@/data/projects';
 import { CategoryItem } from '@/integrations/supabase/types/portfolio';
+import { useNavigate } from 'react-router-dom';
 import { 
   HoverCard,
   HoverCardTrigger,
@@ -17,6 +18,7 @@ interface ProjectProps {
 const ProjectCard = ({ project }: ProjectProps) => {
   const [showVideo, setShowVideo] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const navigate = useNavigate();
 
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -26,9 +28,8 @@ const ProjectCard = ({ project }: ProjectProps) => {
   };
 
   const handleCardClick = () => {
-    if (project.productLink) {
-      window.open(project.productLink, '_blank');
-    }
+    // Navigate to the product detail page instead of opening external link directly
+    navigate(`/product/${project.id || 'detail'}`, { state: { project } });
   };
 
   // Convert Google Drive URL to a direct download URL if it's a Google Drive link
@@ -87,7 +88,10 @@ const ProjectCard = ({ project }: ProjectProps) => {
           )}
           <button 
             className="absolute top-2 right-2 bg-netflix-dark/80 text-white p-1 rounded-full"
-            onClick={() => setShowVideo(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowVideo(false);
+            }}
           >
             Close
           </button>
