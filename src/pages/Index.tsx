@@ -39,13 +39,18 @@ const Index = () => {
               <ContentRow title="Vibe-coded" productItems={vibedCodedItems} />
             )}
             
-            {microSaasItems && microSaasItems.length > 0 && (
-              <ContentRow title="MicroSaaS" productItems={microSaasItems} />
-            )}
+            {/* Always show MicroSaaS and NoCode categories, even if empty */}
+            <ContentRow 
+              title="MicroSaaS" 
+              productItems={microSaasItems || []} 
+              projects={microSaasItems && microSaasItems.length === 0 ? webApps : undefined} 
+            />
             
-            {noCodeItems && noCodeItems.length > 0 && (
-              <ContentRow title="NoCode" productItems={noCodeItems} />
-            )}
+            <ContentRow 
+              title="NoCode" 
+              productItems={noCodeItems || []} 
+              projects={noCodeItems && noCodeItems.length === 0 ? designProjects : undefined} 
+            />
           </>
         )}
         

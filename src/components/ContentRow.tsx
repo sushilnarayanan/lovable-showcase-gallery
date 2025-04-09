@@ -33,10 +33,12 @@ const ContentRow = ({ title, projects, productItems }: ContentRowProps) => {
     ? productItems.map(item => ({
         id: String(item.id),
         title: item.title,
+        subtitle: item.sub_title || '',
         image: item.thumbnail_url || '/placeholder.svg',
         videoUrl: item.product_video || undefined,
         tags: item.tags || [],
-        productLink: item.product_link || undefined
+        productLink: item.product_link || undefined,
+        showTitleByDefault: true // Add this flag to show title by default
       }))
     : projects || [];
 
