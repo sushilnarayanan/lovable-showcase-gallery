@@ -173,14 +173,14 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen animated-gradient-bg text-modern-text overflow-x-hidden">
+    <div className="min-h-screen bg-[#0F0F0F] text-modern-text overflow-x-hidden">
       <Navbar />
       
       {/* Hero Section with Back Button */}
       <div className="relative w-full">
         <Button 
           variant="ghost" 
-          className="absolute top-4 left-4 z-50 bg-modern-card/20 backdrop-blur-md hover:bg-modern-highlight/30 hover:scale-105 transition-all duration-300 border border-modern-highlight/50 text-white" 
+          className="absolute top-4 left-4 z-50 bg-[#121212]/70 backdrop-blur-md hover:bg-modern-highlight/30 hover:scale-105 transition-all duration-300 border border-modern-highlight/30 text-white" 
           onClick={handleBackClick}
         >
           <ArrowLeft className="mr-2 text-modern-highlight" />
@@ -193,7 +193,7 @@ const ProductDetail = () => {
             <div className="absolute inset-0 bg-black z-40">
               <div className="relative w-full h-full">
                 <Button 
-                  className="absolute top-4 right-4 z-50 bg-modern-card/40 hover:bg-modern-card/80 backdrop-blur-md border border-modern-highlight/30 text-white" 
+                  className="absolute top-4 right-4 z-50 bg-[#121212]/70 hover:bg-[#121212]/90 backdrop-blur-md border border-modern-highlight/30 text-white" 
                   onClick={() => setIsVideoPlaying(false)}
                 >
                   Close
@@ -208,22 +208,22 @@ const ProductDetail = () => {
             </div>
           ) : (
             <>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#120E43]/80 to-black/30 opacity-70 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/90 to-black/70 opacity-90 z-10"></div>
               <img 
                 src={project.image || '/placeholder.svg'} 
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover brightness-75"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#120E43] z-20" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0A0A0A] z-20" />
               
               {/* Overlay pattern */}
-              <div className="absolute inset-0 z-5 opacity-20 bg-pattern"></div>
+              <div className="absolute inset-0 z-5 opacity-10 bg-pattern"></div>
               
               {/* Cyberpunk grid overlay */}
-              <div className="absolute inset-0 z-15 cyberpunk-grid opacity-20"></div>
+              <div className="absolute inset-0 z-15 cyberpunk-grid opacity-10"></div>
             </>
           )}
           
@@ -233,7 +233,7 @@ const ProductDetail = () => {
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div className="max-w-3xl section-slide-in">
                   <div className="flex items-center gap-2 mb-1">
-                    <div className="h-2 w-2 rounded-full bg-modern-highlight shadow-neon-pink animate-ping-slow"></div>
+                    <div className="h-2 w-2 rounded-full bg-modern-highlight shadow-neon animate-ping-slow"></div>
                     <span className="text-modern-highlight text-sm font-medium tracking-wider neon-text">FEATURED PROJECT</span>
                   </div>
                   
@@ -245,18 +245,18 @@ const ProductDetail = () => {
                   {/* Quick Stats */}
                   <div className="flex flex-wrap items-center gap-4 text-sm">
                     {project.created_at && (
-                      <div className="flex items-center modern-glassmorphism px-3 py-1 rounded-full pop-in text-white" style={{animationDelay: '0.1s'}}>
+                      <div className="flex items-center bg-[#121212]/60 backdrop-blur-md px-3 py-1 rounded-full pop-in border border-modern-highlight/20 text-white" style={{animationDelay: '0.1s'}}>
                         <Calendar size={14} className="mr-1 text-modern-highlight" />
                         {formatDate(project.created_at)}
                       </div>
                     )}
                     {project.tags && project.tags.length > 0 && (
-                      <div className="flex items-center modern-glassmorphism px-3 py-1 rounded-full pop-in text-white" style={{animationDelay: '0.2s'}}>
+                      <div className="flex items-center bg-[#121212]/60 backdrop-blur-md px-3 py-1 rounded-full pop-in border border-modern-highlight/20 text-white" style={{animationDelay: '0.2s'}}>
                         <Tag size={14} className="mr-1 text-modern-highlight" />
                         {project.tags.length} Tags
                       </div>
                     )}
-                    <div className="flex items-center modern-glassmorphism px-3 py-1 rounded-full pop-in text-white" style={{animationDelay: '0.3s'}}>
+                    <div className="flex items-center bg-[#121212]/60 backdrop-blur-md px-3 py-1 rounded-full pop-in border border-modern-highlight/20 text-white" style={{animationDelay: '0.3s'}}>
                       <Check size={14} className="mr-1 text-modern-secondary" />
                       Live
                     </div>
@@ -266,7 +266,7 @@ const ProductDetail = () => {
                 <div className="flex space-x-3 section-slide-in">
                   {project.videoUrl && (
                     <Button 
-                      className="bg-modern-highlight hover:bg-modern-highlight/90 text-white font-medium px-6 py-2 flex items-center hover:scale-105 transition-all duration-300 shadow-neon-pink hover:shadow-neon-hover border border-modern-highlight/50 rounded-xl" 
+                      className="bg-modern-highlight hover:bg-modern-highlight/80 text-black font-medium px-6 py-2 flex items-center hover:scale-105 transition-all duration-300 shadow-neon hover:shadow-neon-hover border-none rounded-xl" 
                       onClick={handlePlayVideo}
                     >
                       <div className="absolute -inset-0.5 rounded-xl opacity-20 blur-sm bg-modern-highlight group-hover:opacity-100 transition duration-500"></div>
@@ -278,7 +278,7 @@ const ProductDetail = () => {
                   {project.productLink && (
                     <Button
                       variant="outline"
-                      className="border-modern-highlight/30 hover:border-modern-highlight text-white hover:scale-105 transition-all duration-300 backdrop-blur-sm rounded-xl bg-modern-card/30" 
+                      className="border-modern-highlight/30 hover:border-modern-highlight text-white hover:scale-105 transition-all duration-300 backdrop-blur-sm rounded-xl bg-[#121212]/60" 
                       onClick={() => window.open(project.productLink, '_blank')}
                     >
                       <ExternalLink className="mr-2 text-modern-secondary" size={18} />
@@ -289,7 +289,7 @@ const ProductDetail = () => {
                   {project.github_link && (
                     <Button
                       variant="outline"
-                      className="border-modern-highlight/30 hover:border-modern-highlight text-white hover:scale-105 transition-all duration-300 backdrop-blur-sm rounded-xl bg-modern-card/30" 
+                      className="border-modern-highlight/30 hover:border-modern-highlight text-white hover:scale-105 transition-all duration-300 backdrop-blur-sm rounded-xl bg-[#121212]/60" 
                       onClick={() => window.open(project.github_link, '_blank')}
                     >
                       <Github className="mr-2 text-modern-secondary" size={18} />
@@ -303,37 +303,37 @@ const ProductDetail = () => {
         </div>
       </div>
       
-      {/* Main Content with Tabs - Vibrant style */}
+      {/* Main Content with Tabs - Improved dark theme */}
       <div className="container mx-auto py-6 px-4">
         {/* Author info section with improved styling */}
-        <div className="mb-8 bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 neon-border">
+        <div className="mb-8 bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg">
           <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16 border-2 border-modern-highlight shadow-neon-pink">
+            <Avatar className="h-16 w-16 border-2 border-modern-highlight shadow-neon">
               <AvatarImage src="/lovable-uploads/d9597c68-f658-4b3a-9acf-cc0ec8a567c7.png" />
-              <AvatarFallback className="bg-modern-highlight text-white">PJ</AvatarFallback>
+              <AvatarFallback className="bg-modern-highlight text-black">PJ</AvatarFallback>
             </Avatar>
             <div>
               <h3 className="text-lg font-bold flex items-center gap-1 text-white">Project Creator <span className="text-modern-secondary">★</span></h3>
-              <p className="text-[#E6A4FF]">Created this project with passion and expertise</p>
+              <p className="text-modern-secondary">Created this project with passion and expertise</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            <div className="bg-modern-tag/40 border border-modern-highlight/20 px-3 py-1 rounded-full text-sm font-medium text-white flex items-center">
+            <div className="bg-[#1A1A1A]/80 border border-modern-highlight/20 px-3 py-1 rounded-full text-sm font-medium text-white flex items-center">
               <Globe size={14} className="mr-1 text-modern-secondary" />
               Web App
             </div>
-            <div className="bg-modern-tag/40 border border-modern-highlight/20 px-3 py-1 rounded-full text-sm font-medium text-white flex items-center">
+            <div className="bg-[#1A1A1A]/80 border border-modern-highlight/20 px-3 py-1 rounded-full text-sm font-medium text-white flex items-center">
               <Users size={14} className="mr-1 text-modern-highlight" />
               Team Project
             </div>
-            <div className="bg-modern-tag/40 border border-modern-highlight/20 px-3 py-1 rounded-full text-sm font-medium text-white flex items-center">
+            <div className="bg-[#1A1A1A]/80 border border-modern-highlight/20 px-3 py-1 rounded-full text-sm font-medium text-white flex items-center">
               <Award size={14} className="mr-1 text-modern-secondary" />
               Featured
             </div>
           </div>
         </div>
         
-        {/* Vibrant Tabs */}
+        {/* Tabs with improved dark styling */}
         <Tabs 
           defaultValue="problem" 
           value={activeTab}
@@ -341,31 +341,31 @@ const ProductDetail = () => {
           className="w-full"
         >
           <div className="relative">
-            <TabsList className="w-full max-w-2xl mx-auto mb-8 grid grid-cols-4 bg-modern-card/30 backdrop-blur-md border border-modern-highlight/30 p-1 rounded-2xl">
+            <TabsList className="w-full max-w-2xl mx-auto mb-8 grid grid-cols-4 bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 p-1 rounded-2xl">
               <TabsTrigger 
                 value="problem" 
-                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-white rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon-pink text-white"
+                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-black rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon text-white"
               >
                 <AlertCircle className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Problem</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="solution" 
-                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-white rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon-pink text-white"
+                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-black rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon text-white"
               >
                 <Lightbulb className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Solution</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="features" 
-                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-white rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon-pink text-white"
+                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-black rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon text-white"
               >
                 <PanelTopOpen className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Features</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="tools" 
-                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-white rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon-pink text-white"
+                className="data-[state=active]:bg-modern-highlight data-[state=active]:text-black rounded-xl relative z-10 transition-all duration-300 data-[state=active]:shadow-neon text-white"
               >
                 <Wrench className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Tools</span>
@@ -375,52 +375,52 @@ const ProductDetail = () => {
           
           {/* Problem Tab */}
           <TabsContent value="problem" className="space-y-6">
-            <Card className="bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 overflow-hidden rounded-xl">
+            <Card className="bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 overflow-hidden rounded-xl shadow-lg">
               <div className="bg-gradient-to-r from-modern-highlight/20 to-transparent p-6">
                 <div className="flex items-center">
-                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon-pink">
+                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon">
                     <AlertCircle className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold mb-1 text-white">The Problem</h2>
-                    <p className="text-[#E6A4FF]">What needed to be solved</p>
+                    <p className="text-modern-secondary">What needed to be solved</p>
                   </div>
                 </div>
               </div>
               <CardContent className="pt-6">
                 <div className="space-y-6 section-slide-in">
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20 text-white">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-modern-highlight">
                       <span className="h-8 w-8 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                         <Target className="h-4 w-4 text-modern-highlight" />
                       </span>
                       Problem Statement
                     </h3>
-                    <p className="text-[#B7F5FF]">
+                    <p className="text-gray-300">
                       {project.description || "This project addresses a specific problem in the market."}
                     </p>
                   </div>
                   
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20 text-white">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-modern-highlight">
                       <span className="h-8 w-8 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                         <Users className="h-4 w-4 text-modern-highlight" />
                       </span>
                       Target Users
                     </h3>
-                    <p className="text-[#B7F5FF]">
+                    <p className="text-gray-300">
                       People who needed a solution to efficiently manage their tasks and improve productivity.
                     </p>
                   </div>
                   
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20 text-white">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-modern-highlight">
                       <span className="h-8 w-8 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                         <Shield className="h-4 w-4 text-modern-highlight" />
                       </span>
                       Challenges
                     </h3>
-                    <p className="text-[#B7F5FF]">
+                    <p className="text-gray-300">
                       The main challenges included creating an intuitive interface while maintaining powerful features.
                     </p>
                   </div>
@@ -431,33 +431,33 @@ const ProductDetail = () => {
           
           {/* Solution Tab */}
           <TabsContent value="solution" className="space-y-6">
-            <Card className="bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 overflow-hidden rounded-xl">
+            <Card className="bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 overflow-hidden rounded-xl shadow-lg">
               <div className="bg-gradient-to-r from-modern-highlight/20 to-transparent p-6">
                 <div className="flex items-center">
-                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon-pink">
+                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon">
                     <Lightbulb className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold mb-1 text-white">The Solution</h2>
-                    <p className="text-[#E6A4FF]">How we approached it</p>
+                    <p className="text-modern-secondary">How we approached it</p>
                   </div>
                 </div>
               </div>
               <CardContent className="pt-6">
                 <div className="space-y-6 section-slide-in">
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20 text-white">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-modern-highlight">
                       <span className="h-8 w-8 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                         <Sparkles className="h-4 w-4 text-modern-secondary" />
                       </span>
                       Our Approach
                     </h3>
-                    <p className="text-[#B7F5FF]">
+                    <p className="text-gray-300">
                       {project.title} provides a comprehensive solution with a user-friendly interface and powerful features.
                     </p>
                   </div>
                   
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20 text-white">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-modern-highlight">
                       <span className="h-8 w-8 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                         <Layers className="h-4 w-4 text-modern-secondary" />
@@ -471,22 +471,22 @@ const ProductDetail = () => {
                         "Cross-platform compatibility", 
                         "Data security and privacy"
                       ].map((item, index) => (
-                        <li key={index} className="flex items-start bg-[#1E0B32]/50 p-3 rounded-lg border border-modern-highlight/10">
-                          <ChevronRight className="h-5 w-5 text-modern-secondary mt-0.5 mr-2 flex-shrink-0" />
-                          <span className="text-[#B7F5FF]">{item}</span>
+                        <li key={index} className="flex items-start bg-[#0A0A0A]/70 p-3 rounded-lg border border-modern-highlight/10">
+                          <ChevronRight className="h-5 w-5 text-modern-highlight mt-0.5 mr-2 flex-shrink-0" />
+                          <span className="text-gray-300">{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                   
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20 text-white">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-modern-highlight">
                       <span className="h-8 w-8 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                         <Check className="h-4 w-4 text-modern-secondary" />
                       </span>
                       Outcome
                     </h3>
-                    <p className="text-[#B7F5FF]">
+                    <p className="text-gray-300">
                       The solution successfully addresses the identified problems and provides users with an efficient tool.
                     </p>
                   </div>
@@ -495,7 +495,7 @@ const ProductDetail = () => {
             </Card>
             
             {/* Tags Card */}
-            <Card className="bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 overflow-hidden relative rounded-xl">
+            <Card className="bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 overflow-hidden relative rounded-xl shadow-lg">
               <div className="absolute inset-0 bg-gradient-to-br from-modern-highlight/5 to-transparent"></div>
               <div className="p-6 relative z-10">
                 <h2 className="text-xl font-bold mb-4 flex items-center text-white">
@@ -507,14 +507,14 @@ const ProductDetail = () => {
                     project.tags.map((tag, index) => (
                       <span 
                         key={index} 
-                        className="px-3 py-1 bg-[#1E0B32]/60 border border-modern-highlight/20 hover:bg-modern-highlight/30 cursor-pointer rounded-full text-sm transition-all hover:scale-105 animate-pop text-white" 
+                        className="px-3 py-1 bg-[#0A0A0A]/80 border border-modern-highlight/20 hover:bg-modern-highlight/20 cursor-pointer rounded-full text-sm transition-all hover:scale-105 animate-pop text-white" 
                         style={{ animationDelay: `${index * 100}ms` }}
                       >
                         {tag}
                       </span>
                     ))
                   ) : (
-                    <span className="text-[#E6A4FF]">No tags available</span>
+                    <span className="text-modern-secondary">No tags available</span>
                   )}
                 </div>
               </div>
@@ -523,50 +523,50 @@ const ProductDetail = () => {
           
           {/* Features Tab */}
           <TabsContent value="features" className="space-y-6">
-            <Card className="bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 overflow-hidden rounded-xl">
+            <Card className="bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 overflow-hidden rounded-xl shadow-lg">
               <div className="bg-gradient-to-r from-modern-highlight/20 to-transparent p-6">
                 <div className="flex items-center">
-                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon-pink">
+                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon">
                     <PanelTopOpen className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold mb-1 text-white">Key Features</h2>
-                    <p className="text-[#E6A4FF]">What makes it special</p>
+                    <p className="text-modern-secondary">What makes it special</p>
                   </div>
                 </div>
               </div>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 section-slide-in">
-                  <div className="bg-modern-card/30 backdrop-blur-md border border-modern-highlight/20 p-5 rounded-xl hover:bg-[#1E0B32]/70 transition-all duration-300 hover:scale-105 hover:shadow-neon-pink group">
+                  <div className="bg-[#1A1A1A]/50 backdrop-blur-md border border-modern-highlight/10 p-5 rounded-xl hover:bg-[#0F0F0F]/90 transition-all duration-300 hover:scale-105 hover:shadow-neon group">
                     <div className="h-12 w-12 bg-gradient-to-br from-modern-highlight to-modern-secondary/70 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:rotate-12 duration-300">
-                      <Zap className="text-white" size={24} />
+                      <Zap className="text-black" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2 text-modern-highlight">Feature 1</h3>
-                    <p className="text-[#B7F5FF]">Detailed description of the first main feature.</p>
+                    <p className="text-gray-300">Detailed description of the first main feature.</p>
                   </div>
                   
-                  <div className="bg-modern-card/30 backdrop-blur-md border border-modern-highlight/20 p-5 rounded-xl hover:bg-[#1E0B32]/70 transition-all duration-300 hover:scale-105 hover:shadow-neon-pink group">
+                  <div className="bg-[#1A1A1A]/50 backdrop-blur-md border border-modern-highlight/10 p-5 rounded-xl hover:bg-[#0F0F0F]/90 transition-all duration-300 hover:scale-105 hover:shadow-neon group">
                     <div className="h-12 w-12 bg-gradient-to-br from-modern-secondary to-modern-highlight/80 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:rotate-12 duration-300">
-                      <Shield className="text-white" size={24} />
+                      <Shield className="text-black" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2 text-modern-secondary">Feature 2</h3>
-                    <p className="text-[#B7F5FF]">Detailed description of the second main feature.</p>
+                    <p className="text-gray-300">Detailed description of the second main feature.</p>
                   </div>
                   
-                  <div className="bg-modern-card/30 backdrop-blur-md border border-modern-highlight/20 p-5 rounded-xl hover:bg-[#1E0B32]/70 transition-all duration-300 hover:scale-105 hover:shadow-neon-pink group">
+                  <div className="bg-[#1A1A1A]/50 backdrop-blur-md border border-modern-highlight/10 p-5 rounded-xl hover:bg-[#0F0F0F]/90 transition-all duration-300 hover:scale-105 hover:shadow-neon group">
                     <div className="h-12 w-12 bg-gradient-to-br from-modern-highlight to-modern-secondary/60 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:rotate-12 duration-300">
-                      <Tag className="text-white" size={24} />
+                      <Tag className="text-black" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2 text-modern-highlight">Feature 3</h3>
-                    <p className="text-[#B7F5FF]">Detailed description of the third main feature.</p>
+                    <p className="text-gray-300">Detailed description of the third main feature.</p>
                   </div>
                   
-                  <div className="bg-modern-card/30 backdrop-blur-md border border-modern-highlight/20 p-5 rounded-xl hover:bg-[#1E0B32]/70 transition-all duration-300 hover:scale-105 hover:shadow-neon-pink group">
+                  <div className="bg-[#1A1A1A]/50 backdrop-blur-md border border-modern-highlight/10 p-5 rounded-xl hover:bg-[#0F0F0F]/90 transition-all duration-300 hover:scale-105 hover:shadow-neon group">
                     <div className="h-12 w-12 bg-gradient-to-br from-modern-highlight/80 to-modern-secondary rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:rotate-12 duration-300">
-                      <Calendar className="text-white" size={24} />
+                      <Calendar className="text-black" size={24} />
                     </div>
                     <h3 className="text-lg font-semibold mb-2 text-modern-highlight">Feature 4</h3>
-                    <p className="text-[#B7F5FF]">Detailed description of the fourth main feature.</p>
+                    <p className="text-gray-300">Detailed description of the fourth main feature.</p>
                   </div>
                 </div>
               </CardContent>
@@ -575,27 +575,27 @@ const ProductDetail = () => {
           
           {/* Tools Tab */}
           <TabsContent value="tools" className="space-y-6">
-            <Card className="bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 overflow-hidden rounded-xl">
+            <Card className="bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 overflow-hidden rounded-xl shadow-lg">
               <div className="bg-gradient-to-r from-modern-highlight/20 to-transparent p-6">
                 <div className="flex items-center">
-                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon-pink">
+                  <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-modern-highlight/30 shadow-neon">
                     <Wrench className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold mb-1 text-white">Tools & Technologies</h2>
-                    <p className="text-[#E6A4FF]">What powers this project</p>
+                    <p className="text-modern-secondary">What powers this project</p>
                   </div>
                 </div>
               </div>
               <CardContent className="pt-6">
                 <div className="space-y-6 section-slide-in">
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10">
                     <h3 className="text-lg font-semibold mb-3 text-white">Technologies Used</h3>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {["React", "Tailwind CSS", "Supabase", "TypeScript"].map((tool, index) => (
                         <span 
                           key={index} 
-                          className="px-3 py-1 bg-[#1E0B32]/60 border border-modern-highlight/20 hover:bg-modern-highlight/30 hover:scale-105 transition-all duration-200 rounded-full text-sm text-white" 
+                          className="px-3 py-1 bg-[#0A0A0A]/80 border border-modern-highlight/20 hover:bg-modern-highlight/20 hover:scale-105 transition-all duration-200 rounded-full text-sm text-white" 
                           style={{ animationDelay: `${index * 100}ms` }}
                         >
                           {tool}
@@ -606,50 +606,50 @@ const ProductDetail = () => {
                   
                   <Separator className="bg-modern-highlight/20" />
                   
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10">
                     <h3 className="text-lg font-semibold mb-3 text-white">Development Stack</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-[#1E0B32]/60 border border-modern-highlight/20 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon-pink">
+                      <div className="bg-[#0A0A0A]/80 border border-modern-highlight/10 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon">
                         <h4 className="font-medium mb-2 flex items-center text-white">
                           <span className="h-6 w-6 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                             <span className="text-xs text-white">FE</span>
                           </span>
                           Frontend
                         </h4>
-                        <p className="text-[#B7F5FF] text-sm">React, TypeScript, Tailwind CSS</p>
+                        <p className="text-gray-300 text-sm">React, TypeScript, Tailwind CSS</p>
                       </div>
-                      <div className="bg-[#1E0B32]/60 border border-modern-highlight/20 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon-green">
+                      <div className="bg-[#0A0A0A]/80 border border-modern-highlight/10 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon-green">
                         <h4 className="font-medium mb-2 flex items-center text-white">
                           <span className="h-6 w-6 rounded-full bg-modern-secondary/20 flex items-center justify-center mr-2">
                             <span className="text-xs text-white">BE</span>
                           </span>
                           Backend
                         </h4>
-                        <p className="text-[#B7F5FF] text-sm">Node.js, Supabase, PostgreSQL</p>
+                        <p className="text-gray-300 text-sm">Node.js, Supabase, PostgreSQL</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-modern-card/50 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/20">
+                  <div className="bg-[#1A1A1A]/60 p-6 rounded-xl backdrop-blur-sm border border-modern-highlight/10">
                     <h3 className="text-lg font-semibold mb-3 text-white">Development Tools</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-[#1E0B32]/60 border border-modern-highlight/20 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon-pink">
+                      <div className="bg-[#0A0A0A]/80 border border-modern-highlight/10 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon">
                         <h4 className="font-medium mb-2 flex items-center text-white">
                           <span className="h-6 w-6 rounded-full bg-modern-highlight/20 flex items-center justify-center mr-2">
                             <span className="text-xs text-white">🎨</span>
                           </span>
                           Design
                         </h4>
-                        <p className="text-[#B7F5FF] text-sm">Figma, Adobe XD</p>
+                        <p className="text-gray-300 text-sm">Figma, Adobe XD</p>
                       </div>
-                      <div className="bg-[#1E0B32]/60 border border-modern-highlight/20 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon-green">
+                      <div className="bg-[#0A0A0A]/80 border border-modern-highlight/10 p-4 rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-neon-green">
                         <h4 className="font-medium mb-2 flex items-center text-white">
                           <span className="h-6 w-6 rounded-full bg-modern-secondary/20 flex items-center justify-center mr-2">
                             <span className="text-xs text-white">🚀</span>
                           </span>
                           Deployment
                         </h4>
-                        <p className="text-[#B7F5FF] text-sm">Vercel, GitHub Actions</p>
+                        <p className="text-gray-300 text-sm">Vercel, GitHub Actions</p>
                       </div>
                     </div>
                   </div>
@@ -658,9 +658,9 @@ const ProductDetail = () => {
             </Card>
             
             {/* Call-to-Action */}
-            <Card className="bg-modern-card/40 backdrop-blur-md border border-modern-highlight/30 overflow-hidden relative rounded-xl">
+            <Card className="bg-[#121212]/70 backdrop-blur-md border border-modern-highlight/20 overflow-hidden relative rounded-xl shadow-lg">
               <div className="absolute inset-0 bg-gradient-to-br from-modern-highlight/10 via-modern-secondary/5 to-transparent"></div>
-              <div className="bg-gradient-to-r from-modern-highlight/20 to-modern-secondary/10 p-6 relative z-10">
+              <div className="bg-gradient-to-r from-modern-highlight/20 to-modern-secondary/5 p-6 relative z-10">
                 <h2 className="text-xl font-bold mb-2 flex items-center text-white">
                   <Sparkles className="mr-2 h-5 w-5 text-modern-highlight animate-pulse" />
                   Try It Now
@@ -670,7 +670,7 @@ const ProductDetail = () => {
                 <div className="space-y-4 section-slide-in">
                   {project.productLink && (
                     <Button 
-                      className="w-full bg-gradient-to-r from-modern-highlight to-[#7928CA] hover:from-modern-highlight/90 hover:to-[#7928CA]/90 text-white hover:scale-[1.02] transition-all duration-300 shadow-neon-pink hover:shadow-neon-hover rounded-xl border border-modern-highlight/50" 
+                      className="w-full bg-modern-highlight hover:bg-modern-highlight/90 text-black hover:scale-[1.02] transition-all duration-300 shadow-neon hover:shadow-neon-hover rounded-xl border border-modern-highlight/50" 
                       onClick={() => window.open(project.productLink, '_blank')}
                     >
                       <ExternalLink className="mr-2" size={18} />
@@ -681,7 +681,7 @@ const ProductDetail = () => {
                   {project.github_link && (
                     <Button 
                       variant="outline" 
-                      className="w-full border-modern-highlight/30 hover:border-modern-highlight text-white hover:scale-[1.02] transition-all duration-300 backdrop-blur-md bg-[#1E0B32]/40 rounded-xl" 
+                      className="w-full border-modern-highlight/30 hover:border-modern-highlight text-white hover:scale-[1.02] transition-all duration-300 backdrop-blur-md bg-[#0A0A0A]/70 rounded-xl" 
                       onClick={() => window.open(project.github_link, '_blank')}
                     >
                       <Github className="mr-2 text-modern-secondary" size={18} />

@@ -91,15 +91,15 @@
 }
 
 .modern-card {
-  @apply bg-modern-card border border-modern-border rounded-xl backdrop-blur-sm;
+  @apply bg-[#121212] border border-modern-border rounded-xl backdrop-blur-sm;
 }
 
 .modern-glassmorphism {
-  @apply bg-modern-card/30 backdrop-blur-md border border-modern-border/40 text-modern-text;
+  @apply bg-[#121212]/30 backdrop-blur-md border border-modern-border/40 text-modern-text;
 }
 
 .modern-tag {
-  @apply bg-modern-tag px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-[#121212] px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .section-slide-in {
@@ -135,13 +135,13 @@
 }
 
 .animated-gradient-bg {
-  background: linear-gradient(-45deg, #120E43, #1DB954, #1ED760, #0F3460);
+  background: linear-gradient(-45deg, #050505, #121212, #0A0A0A, #0F0F0F);
   background-size: 400% 400%;
   animation: gradient-shift 15s ease infinite;
 }
 
 .cyber-button {
-  @apply relative overflow-hidden border border-spotify-green/50 bg-modern-dark px-5 py-2 text-spotify-green transition-all duration-300;
+  @apply relative overflow-hidden border border-spotify-green/50 bg-[#121212] px-5 py-2 text-spotify-green transition-all duration-300;
 }
 
 .cyber-button:before {
