@@ -78,10 +78,16 @@
 
 /* Modern UI specific styles */
 .modern-gradient-text {
-  background: linear-gradient(to right, #9B6BFA, #4BFFBE);
+  background: linear-gradient(to right, #FF53B4, #4BFFBE);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(155, 107, 250, 0.5);
+  text-shadow: 0 0 20px rgba(255, 83, 180, 0.5);
+}
+
+.modern-subtitle-gradient {
+  background: linear-gradient(to right, #E6A4FF, #B7F5FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .modern-card {
@@ -105,10 +111,70 @@
 }
 
 .text-shadow {
-  text-shadow: 0 0 10px rgba(155, 107, 250, 0.7);
+  text-shadow: 0 0 10px rgba(255, 83, 180, 0.7);
+}
+
+.neon-border {
+  box-shadow: 0 0 8px rgba(255, 83, 180, 0.7), inset 0 0 8px rgba(255, 83, 180, 0.5);
+}
+
+.neon-text {
+  text-shadow: 0 0 5px rgba(255, 83, 180, 0.8), 0 0 10px rgba(255, 83, 180, 0.5);
+}
+
+.cyberpunk-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 83, 180, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(75, 255, 190, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 
 /* Used for background patterns */
 .bg-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF53B4' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(-45deg, #120E43, #3B185F, #1565C0, #0F3460);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.cyber-button {
+  @apply relative overflow-hidden border border-modern-highlight/50 bg-modern-dark px-5 py-2 text-modern-highlight transition-all duration-300;
+}
+
+.cyber-button:before {
+  content: '';
+  @apply absolute inset-0 bg-modern-highlight/20 scale-x-0 transition-transform duration-500 origin-left;
+}
+
+.cyber-button:hover:before {
+  @apply scale-x-100;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Glowing text animation */
+.text-glow {
+  animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes text-glow {
+  from {
+    text-shadow: 0 0 5px rgba(255, 83, 180, 0.7), 0 0 10px rgba(255, 83, 180, 0.5);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(255, 83, 180, 1), 0 0 20px rgba(255, 83, 180, 0.8), 0 0 30px rgba(255, 83, 180, 0.6);
+  }
 }
