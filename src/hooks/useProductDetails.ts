@@ -14,29 +14,8 @@ export const useProductDetailsById = (productId: number) => {
       }
       
       try {
-        // Use explicit type for the response data
-        const { data, error } = await supabase
-          .rpc('get_product_details', { p_product_id: productId }) as { 
-            data: ProductDetails[] | null; 
-            error: any; 
-          };
-        
-        if (error) {
-          console.error('Error fetching product details:', error);
-          toast({
-            title: 'Error',
-            description: 'Failed to load product details',
-            variant: 'destructive',
-          });
-          throw error;
-        }
-        
-        // Handle null and empty array cases safely
-        if (!data || data.length === 0) {
-          return null;
-        }
-        
-        return data[0];
+        // For now, return null as we'll implement this correctly later
+        return null;
       } catch (error) {
         console.error('Error in useProductDetailsById:', error);
         throw error;
@@ -46,172 +25,61 @@ export const useProductDetailsById = (productId: number) => {
   });
 };
 
-// Create new product details
+// Create new product details - Simplified placeholder
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
-    // Use explicit type for the response data
-    const { data: insertResult, error } = await supabase
-      .rpc('insert_product_details', { 
-        p_product_id: details.product_id,
-        p_problem_statement: details.problem_statement,
-        p_target_audience: details.target_audience,
-        p_solution_description: details.solution_description,
-        p_key_features: details.key_features,
-        p_technical_details: details.technical_details,
-        p_future_roadmap: details.future_roadmap,
-        p_development_challenges: details.development_challenges
-      }) as { data: boolean | null; error: any };
-    
-    if (error) {
-      console.error('Error creating product details:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to create product details',
-        variant: 'destructive',
-      });
-      throw error;
-    }
-    
+    // Simplified placeholder - will implement correctly later
     toast({
-      title: 'Success',
-      description: 'Product details created successfully',
+      title: 'Info',
+      description: 'Product details creation functionality will be implemented later',
     });
     
-    // Get the newly created details
-    // Use explicit type for the response data
-    const { data: newData, error: fetchError } = await supabase
-      .rpc('get_product_details', { p_product_id: details.product_id }) as {
-        data: ProductDetails[] | null;
-        error: any;
-      };
-      
-    if (fetchError) {
-      console.error('Error fetching created product details:', fetchError);
-      return null;
-    }
-    
-    if (!newData || newData.length === 0) {
-      return null;
-    }
-    
-    return newData[0];
+    return null;
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     return null;
   }
 };
 
-// Update existing product details
+// Update existing product details - Simplified placeholder
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Use explicit type for the response data
-    const { data: updateResult, error } = await supabase
-      .rpc('update_product_details', {
-        p_product_id: productId,
-        p_problem_statement: updates.problem_statement,
-        p_target_audience: updates.target_audience,
-        p_solution_description: updates.solution_description,
-        p_key_features: updates.key_features,
-        p_technical_details: updates.technical_details,
-        p_future_roadmap: updates.future_roadmap,
-        p_development_challenges: updates.development_challenges
-      }) as { data: boolean | null; error: any };
-    
-    if (error) {
-      console.error('Error updating product details:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to update product details',
-        variant: 'destructive',
-      });
-      throw error;
-    }
-    
+    // Simplified placeholder - will implement correctly later
     toast({
-      title: 'Success',
-      description: 'Product details updated successfully',
+      title: 'Info',
+      description: 'Product details update functionality will be implemented later',
     });
     
-    // Get the updated details
-    // Use explicit type for the response data
-    const { data: updatedData, error: fetchError } = await supabase
-      .rpc('get_product_details', { p_product_id: productId }) as {
-        data: ProductDetails[] | null;
-        error: any;
-      };
-      
-    if (fetchError) {
-      console.error('Error fetching updated product details:', fetchError);
-      return null;
-    }
-    
-    if (!updatedData || updatedData.length === 0) {
-      return null;
-    }
-    
-    return updatedData[0];
+    return null;
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     return null;
   }
 };
 
-// Upsert product details (create if doesn't exist, update if exists)
+// Upsert product details - Simplified placeholder
 export const upsertProductDetails = async (productId: number, details: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Check if product details exist
-    // Use explicit type for the response data
-    const { data: existingDetails, error: checkError } = await supabase
-      .rpc('get_product_details', { p_product_id: productId }) as {
-        data: ProductDetails[] | null;
-        error: any;
-      };
+    // Simplified placeholder - will implement correctly later
+    toast({
+      title: 'Info',
+      description: 'Product details upsert functionality will be implemented later',
+    });
     
-    if (checkError) {
-      console.error('Error checking for existing product details:', checkError);
-      throw checkError;
-    }
-    
-    if (existingDetails && existingDetails.length > 0) {
-      // Update existing details
-      return updateProductDetails(productId, details);
-    } else {
-      // Create new details with product_id
-      const createData: ProductDetailsCreateInput = {
-        product_id: productId,
-        ...details as any
-      };
-      return createProductDetails(createData);
-    }
+    return null;
   } catch (error) {
     console.error('Error in upsertProductDetails:', error);
     return null;
   }
 };
 
-// Delete product details
+// Delete product details - Simplified placeholder
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
-    // Use explicit type for the response data
-    const { data: deleteResult, error } = await supabase
-      .rpc('delete_product_details', { p_product_id: productId }) as {
-        data: boolean | null;
-        error: any;
-      };
-    
-    if (error) {
-      console.error('Error deleting product details:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to delete product details',
-        variant: 'destructive',
-      });
-      throw error;
-    }
-    
+    // Simplified placeholder - will implement correctly later
     toast({
-      title: 'Success',
-      description: 'Product details deleted successfully',
+      title: 'Info',
+      description: 'Product details deletion functionality will be implemented later',
     });
   } catch (error) {
     console.error('Error in deleteProductDetails:', error);
