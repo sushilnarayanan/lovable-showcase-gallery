@@ -1,11 +1,11 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/data/projects';
-import { ProductItem, CategoryItem } from '@/integrations/supabase/types/portfolio';
+import { ProductItem, CategoryItem, ProductDetails } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
+import { useProductDetailsById } from '@/hooks/useProductDetails';
 import { 
   ArrowLeft, 
   ExternalLink, 
@@ -91,6 +91,10 @@ const ProductDetail = () => {
     },
     enabled: !projectFromState && !!id && id !== 'detail',
   });
+
+  // Fetch additional product details if we have an ID
+  const productId = project?.id || (id && !isNaN(Number(id)) ? Number(id) : undefined);
+  const { data: productDetails } = useProductDetailsById(productId as number);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -450,7 +454,7 @@ const ProductDetail = () => {
                       Problem Statement
                     </h3>
                     <p className="text-gray-300">
-                      {project.description || "This project addresses a specific problem in the market."}
+                      {productDetails?.problem_statement || project.description || "This project addresses a specific problem in the market."}
                     </p>
                   </div>
                   
@@ -462,7 +466,7 @@ const ProductDetail = () => {
                       Target Users
                     </h3>
                     <p className="text-gray-300">
-                      People who needed a solution to efficiently manage their tasks and improve productivity.
+                      {productDetails?.target_audience || "People who needed a solution to efficiently manage their tasks and improve productivity."}
                     </p>
                   </div>
                   
@@ -474,7 +478,7 @@ const ProductDetail = () => {
                       Why Built This?
                     </h3>
                     <p className="text-gray-300">
-                      The main reason for building this project was to create an intuitive interface while maintaining powerful features.
+                      {productDetails?.development_challenges || "The main reason for building this project was to create an intuitive interface while maintaining powerful features."}
                     </p>
                   </div>
                 </div>
@@ -482,7 +486,7 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Solution Tab - Simplified Content */}
+          {/* Solution Tab - Enhanced with productDetails */}
           <TabsContent value="solution" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -503,16 +507,16 @@ const ProductDetail = () => {
                       Idea
                     </h3>
                     <p className="text-gray-300">
-                      {project.title} provides a comprehensive solution with a user-friendly interface and powerful features.
+                      {productDetails?.solution_description || `${project.title} provides a comprehensive solution with a user-friendly interface and powerful features.`}
                     </p>
                   </div>
                   
                   <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-netflix-red">
-                      Solution
+                      Future Plans
                     </h3>
                     <p className="text-gray-300">
-                      The solution successfully addresses the identified problems and provides users with an efficient tool.
+                      {productDetails?.future_roadmap || "The solution is continuously evolving with new features planned for future releases."}
                     </p>
                   </div>
                 </div>
@@ -520,7 +524,7 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Features Tab */}
+          {/* Features Tab - Enhanced with productDetails */}
           <TabsContent value="features" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -535,44 +539,58 @@ const ProductDetail = () => {
                 </div>
               </div>
               <CardContent className="pt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                    <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                      <Check className="text-black" size={24} />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 1</h3>
-                    <p className="text-gray-300">Detailed description of the first main feature.</p>
+                {productDetails?.key_features && productDetails.key_features.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {productDetails.key_features.map((feature, index) => (
+                      <div key={index} className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
+                        <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
+                          <Check className="text-black" size={24} />
+                        </div>
+                        <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature {index + 1}</h3>
+                        <p className="text-gray-300">{feature}</p>
+                      </div>
+                    ))}
                   </div>
-                  
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                    <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                      <Check className="text-black" size={24} />
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
+                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
+                        <Check className="text-black" size={24} />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 1</h3>
+                      <p className="text-gray-300">Detailed description of the first main feature.</p>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 2</h3>
-                    <p className="text-gray-300">Detailed description of the second main feature.</p>
-                  </div>
-                  
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                    <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                      <Check className="text-black" size={24} />
+                    
+                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
+                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
+                        <Check className="text-black" size={24} />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 2</h3>
+                      <p className="text-gray-300">Detailed description of the second main feature.</p>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 3</h3>
-                    <p className="text-gray-300">Detailed description of the third main feature.</p>
-                  </div>
-                  
-                  <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                    <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                      <Check className="text-black" size={24} />
+                    
+                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
+                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
+                        <Check className="text-black" size={24} />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 3</h3>
+                      <p className="text-gray-300">Detailed description of the third main feature.</p>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 4</h3>
-                    <p className="text-gray-300">Detailed description of the fourth main feature.</p>
+                    
+                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
+                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
+                        <Check className="text-black" size={24} />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 4</h3>
+                      <p className="text-gray-300">Detailed description of the fourth main feature.</p>
+                    </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
           
-          {/* Tools Tab - Show tags information from the database */}
+          {/* Tools Tab - Enhanced with technical details */}
           <TabsContent value="tools" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -587,6 +605,13 @@ const ProductDetail = () => {
                 </div>
               </div>
               <CardContent className="pt-6">
+                {productDetails?.technical_details && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold mb-2 text-netflix-red">Technical Overview</h3>
+                    <p className="text-gray-300 mb-4">{productDetails.technical_details}</p>
+                  </div>
+                )}
+                
                 {project.tags && project.tags.length > 0 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {project.tags.map((tag, index) => (
