@@ -100,7 +100,8 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
 
   return (
     <div className="netflix-row mb-8">
-      <h2 className="text-xl font-medium mb-3 pl-4 md:pl-6 lg:pl-0 text-white">{title}</h2>
+      {/* Left-aligned title to match Netflix style */}
+      <h2 className="text-xl font-medium mb-3 text-white">{title}</h2>
       <div className="group relative">
         <button 
           className="absolute left-0 top-0 bottom-0 z-40 bg-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
@@ -111,7 +112,7 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
         
         <div 
           ref={rowRef}
-          className="flex space-x-4 overflow-x-scroll py-4 pl-4 md:pl-6 lg:pl-0 netflix-scrollbar"
+          className="flex space-x-4 overflow-x-scroll py-4 netflix-scrollbar"
         >
           {displayItems.length > 0 ? (
             displayItems.map(project => (
@@ -123,7 +124,7 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
               {categorySlug && (
                 <button 
                   onClick={assignToCategory}
-                  className="ml-2 text-sm bg-netflix-red hover:bg-netflix-red/80 text-white px-3 py-1 rounded-md flex items-center"
+                  className="ml-2 text-sm bg-netflix-red hover:bg-netflix-red/90 text-white px-3 py-1 rounded-md flex items-center"
                 >
                   <RefreshCcw size={16} className="mr-1" /> Assign
                 </button>

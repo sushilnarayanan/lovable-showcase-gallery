@@ -13,12 +13,12 @@ const Hero = () => {
           backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')", 
         }}
       >
-        {/* Gradient Overlay - decreased opacity to make image more visible */}
+        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
       
-      {/* Hero Content - improved alignment and spacing */}
+      {/* Hero Content - left-aligned to match Netflix style */}
       <div className="relative h-full flex flex-col justify-center px-6 md:px-12 lg:px-24 pb-20">
         <div className="max-w-2xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-5 text-netflix-red">My Lovable Portfolio</h1>

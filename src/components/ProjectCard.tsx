@@ -120,7 +120,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
       {/* Gradient overlay always visible */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 transition-opacity duration-300"></div>
       
-      {/* Always visible title and subtitle - now with better wrapping for subtitle */}
+      {/* Always visible title and subtitle - left-aligned text */}
       <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
         <h3 className="text-base font-bold mb-1 text-white">{project.title}</h3>
         {(project.subtitle || project.description) && (
@@ -193,7 +193,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
         </div>
       </div>
       
-      {/* Enhanced hover effect - Makes card bigger on hover */}
+      {/* Enhanced hover effect */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-transparent shadow-xl z-0">
         {/* This creates the expanded card effect that Netflix has */}
       </div>

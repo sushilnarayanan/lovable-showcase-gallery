@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -123,12 +122,12 @@ const Index = () => {
       <Hero />
       
       <div className="pt-10 pb-20 px-6 md:px-12 lg:px-24">
-        {/* Display products from Supabase if available */}
+        {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />
         )}
         
-        {/* Display category-specific products */}
+        {/* Display category-specific products - ensure left alignment */}
         {!productsLoading && !productsError && (
           <>
             {featuredProductItems && featuredProductItems.length > 0 && (
@@ -142,7 +141,7 @@ const Index = () => {
             {/* Display MicroSaaS items with refresh button */}
             <div className="relative">
               {microSaasLoading ? (
-                <div className="py-6 text-center">Loading MicroSaaS products...</div>
+                <div className="py-6 text-left">Loading MicroSaaS products...</div>
               ) : (
                 <ContentRow 
                   title="MicroSaaS" 
@@ -164,7 +163,7 @@ const Index = () => {
             {/* Display NoCode items with refresh button */}
             <div className="relative">
               {noCodeLoading ? (
-                <div className="py-6 text-center">Loading NoCode products...</div>
+                <div className="py-6 text-left">Loading NoCode products...</div>
               ) : (
                 <ContentRow 
                   title="NoCode" 
@@ -185,7 +184,7 @@ const Index = () => {
           </>
         )}
         
-        {/* Keep existing content rows as fallback */}
+        {/* Keep existing content rows as fallback - ensure left alignment */}
         {(productsLoading || categoriesLoading || productItems?.length === 0) && (
           <>
             <ContentRow title="Featured Projects" projects={featuredProjects} />
