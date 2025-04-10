@@ -92,3 +92,8 @@ body, html {
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
+
+/* Add a Netflix-style shadow for better text readability over images */
+.netflix-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
