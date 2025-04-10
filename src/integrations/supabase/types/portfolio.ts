@@ -1,5 +1,4 @@
 
-
 import { Database } from '../types';
 
 export type Category = Database['public']['Tables']['Categories']['Row'];
@@ -37,7 +36,7 @@ export interface ProductItem {
   updated_at: string | null;
 }
 
-// New type for ProductDetails
+// Define ProductDetails as a separate interface since it's not in the DB schema yet
 export interface ProductDetails {
   id: number;
   product_id: number;
@@ -60,12 +59,20 @@ export type ProductUpdateInput = Partial<Omit<ProductCreateInput, 'categoryIds'>
   categoryIds?: number[];  // For updating multiple categories
 };
 
-// New type for creating ProductDetails
-export type ProductDetailsCreateInput = Omit<ProductDetails, 'id' | 'created_at' | 'updated_at'>;
+// Make all fields optional for ProductDetailsCreateInput except product_id
+export type ProductDetailsCreateInput = {
+  product_id: number;
+  problem_statement?: string | null;
+  target_audience?: string | null;
+  solution_description?: string | null;
+  key_features?: string[] | null;
+  technical_details?: string | null;
+  future_roadmap?: string | null;
+  development_challenges?: string | null;
+};
 
-// New type for updating ProductDetails
+// All fields optional for updates
 export type ProductDetailsUpdateInput = Partial<Omit<ProductDetails, 'id' | 'created_at' | 'updated_at' | 'product_id'>>;
 
 export type CategoryCreateInput = Omit<CategoryItem, 'id' | 'created_at' | 'updated_at'>;
 export type CategoryUpdateInput = Partial<CategoryCreateInput>;
-

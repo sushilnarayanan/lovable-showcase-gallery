@@ -13,8 +13,9 @@ export const useProductDetailsById = (productId: number) => {
         return null;
       }
       
+      // Use 'product_details' as the table name (lowercase with underscore)
       const { data, error } = await supabase
-        .from('ProductDetails')
+        .from('product_details')
         .select('*')
         .eq('product_id', productId)
         .maybeSingle();
@@ -29,7 +30,7 @@ export const useProductDetailsById = (productId: number) => {
         throw error;
       }
       
-      return data;
+      return data as ProductDetails | null;
     },
     enabled: !!productId
   });
@@ -38,8 +39,9 @@ export const useProductDetailsById = (productId: number) => {
 // Create new product details
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
+    // Use 'product_details' as the table name (lowercase with underscore)
     const { data, error } = await supabase
-      .from('ProductDetails')
+      .from('product_details')
       .insert(details)
       .select()
       .single();
@@ -59,7 +61,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       description: 'Product details created successfully',
     });
     
-    return data;
+    return data as ProductDetails;
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     return null;
@@ -69,8 +71,9 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
 // Update existing product details
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
+    // Use 'product_details' as the table name (lowercase with underscore)
     const { data, error } = await supabase
-      .from('ProductDetails')
+      .from('product_details')
       .update(updates)
       .eq('product_id', productId)
       .select()
@@ -91,7 +94,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       description: 'Product details updated successfully',
     });
     
-    return data;
+    return data as ProductDetails;
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     return null;
@@ -103,7 +106,7 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
   try {
     // First check if product details exist
     const { data: existingDetails } = await supabase
-      .from('ProductDetails')
+      .from('product_details')
       .select('id')
       .eq('product_id', productId)
       .maybeSingle();
@@ -112,8 +115,12 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
       // Update existing details
       return updateProductDetails(productId, details);
     } else {
-      // Create new details
-      return createProductDetails({ product_id: productId, ...details });
+      // Create new details with product_id
+      const createData: ProductDetailsCreateInput = {
+        product_id: productId,
+        ...details as ProductDetailsUpdateInput
+      };
+      return createProductDetails(createData);
     }
   } catch (error) {
     console.error('Error in upsertProductDetails:', error);
@@ -124,8 +131,9 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
 // Delete product details
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
+    // Use 'product_details' as the table name (lowercase with underscore)
     const { error } = await supabase
-      .from('ProductDetails')
+      .from('product_details')
       .delete()
       .eq('product_id', productId);
     
