@@ -14,6 +14,13 @@ body, html {
   max-width: 100vw;
 }
 
+/* Ensure background images display correctly */
+.bg-cover {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -63,4 +70,25 @@ body, html {
   min-width: 320px;
   height: 180px;
   object-fit: cover;
+}
+
+/* Make sure hero section has proper spacing under the navbar */
+.netflix-hero {
+  margin-top: 0;
+  position: relative;
+}
+
+/* Ensure section headers are properly aligned */
+.section-header {
+  padding-left: 4%;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Fix for background images */
+[style*="background-image"] {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
 }

@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[80vh] w-full"> {/* Adjusted height */}
-      {/* Hero Background Image */}
+    <div className="relative h-[80vh] w-full"> 
+      {/* Hero Background Image - Fixed image display issue */}
       <div 
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')", 
+          backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center'
         }}
       >
         {/* Enhanced Gradient Overlay for better text readability */}
@@ -20,7 +22,7 @@ const Hero = () => {
       
       {/* Hero Content - positioned like Netflix with better alignment */}
       <div className="relative h-full flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 w-full">
-        <div className="max-w-xl mt-16"> {/* Increased top margin to account for navbar */}
+        <div className="max-w-xl mt-16"> 
           {/* Logo/Title area */}
           <h2 className="text-3xl font-bold mb-2 text-netflix-red">MY PORTFOLIO</h2>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-5 text-white">Creative Developer</h1>
