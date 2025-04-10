@@ -1,8 +1,14 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { ProductDetails, ProductDetailsCreateInput, ProductDetailsUpdateInput } from '@/integrations/supabase/types/portfolio';
+import { ProductDetails, ProductDetailsCreateInput, ProductDetailsUpdateInput, RpcProductDetails } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
+
+// Type definition for RPC function responses
+type RpcResponse<T> = {
+  data: T | null;
+  error: Error | null;
+}
 
 // Query function to get product details by product ID
 export const useProductDetailsById = (productId: number) => {
@@ -16,7 +22,7 @@ export const useProductDetailsById = (productId: number) => {
       try {
         // Use RPC for get_product_details function
         const { data, error } = await supabase
-          .rpc('get_product_details', { p_product_id: productId });
+          .rpc<RpcProductDetails[]>('get_product_details', { p_product_id: productId });
         
         if (error) {
           console.error('Error fetching product details:', error);
@@ -76,7 +82,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
     
     // Get the newly created details
     const { data: newData, error: fetchError } = await supabase
-      .rpc('get_product_details', { p_product_id: details.product_id });
+      .rpc<RpcProductDetails[]>('get_product_details', { p_product_id: details.product_id });
       
     if (fetchError || !newData || newData.length === 0) {
       console.error('Error fetching created product details:', fetchError);
@@ -123,7 +129,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
     
     // Get the updated details
     const { data: updatedData, error: fetchError } = await supabase
-      .rpc('get_product_details', { p_product_id: productId });
+      .rpc<RpcProductDetails[]>('get_product_details', { p_product_id: productId });
       
     if (fetchError || !updatedData || updatedData.length === 0) {
       console.error('Error fetching updated product details:', fetchError);
@@ -142,7 +148,7 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
   try {
     // Check if product details exist using RPC
     const { data: existingDetails, error: checkError } = await supabase
-      .rpc('get_product_details', { p_product_id: productId });
+      .rpc<RpcProductDetails[]>('get_product_details', { p_product_id: productId });
     
     if (checkError) {
       console.error('Error checking for existing product details:', checkError);

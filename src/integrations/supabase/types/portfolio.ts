@@ -51,6 +51,21 @@ export interface ProductDetails {
   updated_at: string | null;
 }
 
+// Define type for RPC function return types
+export interface RpcProductDetails {
+  id: number;
+  product_id: number;
+  problem_statement: string | null;
+  target_audience: string | null;
+  solution_description: string | null;
+  key_features: string[] | null;
+  technical_details: string | null;
+  future_roadmap: string | null;
+  development_challenges: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
 export type ProductCreateInput = Omit<ProductItem, 'id' | 'created_at' | 'updated_at' | 'categories'> & {
   categoryIds?: number[];  // For assigning multiple categories
 };
