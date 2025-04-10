@@ -4,6 +4,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { ProductDetails, ProductDetailsCreateInput, ProductDetailsUpdateInput, RpcProductDetails } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
 
+// Define the return type explicitly for RPC calls
+type RpcResponse<T> = T[];
+
 // Query function to get product details by product ID
 export const useProductDetailsById = (productId: number) => {
   return useQuery({
@@ -14,8 +17,8 @@ export const useProductDetailsById = (productId: number) => {
       }
       
       try {
-        // Use proper type assertions for the RPC call
-        const { data, error } = await supabase.rpc(
+        // Explicitly type the RPC function call
+        const { data, error } = await supabase.rpc<RpcResponse<ProductDetails>>(
           'get_product_details', 
           { p_product_id: productId }
         );
@@ -35,7 +38,7 @@ export const useProductDetailsById = (productId: number) => {
           return null;
         }
         
-        return data[0] as ProductDetails;
+        return data[0];
       } catch (error) {
         console.error('Error in useProductDetailsById:', error);
         throw error;
@@ -48,8 +51,8 @@ export const useProductDetailsById = (productId: number) => {
 // Create new product details
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
-    // Use proper type assertions for the RPC call
-    const { data: insertResult, error } = await supabase.rpc(
+    // Explicitly type the RPC function call
+    const { data: insertResult, error } = await supabase.rpc<boolean>(
       'insert_product_details', 
       { 
         p_product_id: details.product_id,
@@ -79,7 +82,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
     });
     
     // Get the newly created details
-    const { data: newData, error: fetchError } = await supabase.rpc(
+    const { data: newData, error: fetchError } = await supabase.rpc<RpcResponse<ProductDetails>>(
       'get_product_details', 
       { p_product_id: details.product_id }
     );
@@ -93,7 +96,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       return null;
     }
     
-    return newData[0] as ProductDetails;
+    return newData[0];
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     return null;
@@ -103,8 +106,8 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
 // Update existing product details
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Use proper type assertions for the RPC call
-    const { data: updateResult, error } = await supabase.rpc(
+    // Explicitly type the RPC function call
+    const { data: updateResult, error } = await supabase.rpc<boolean>(
       'update_product_details',
       {
         p_product_id: productId,
@@ -134,7 +137,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
     });
     
     // Get the updated details
-    const { data: updatedData, error: fetchError } = await supabase.rpc(
+    const { data: updatedData, error: fetchError } = await supabase.rpc<RpcResponse<ProductDetails>>(
       'get_product_details', 
       { p_product_id: productId }
     );
@@ -148,7 +151,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       return null;
     }
     
-    return updatedData[0] as ProductDetails;
+    return updatedData[0];
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     return null;
@@ -159,7 +162,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
 export const upsertProductDetails = async (productId: number, details: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
     // Check if product details exist
-    const { data: existingDetails, error: checkError } = await supabase.rpc(
+    const { data: existingDetails, error: checkError } = await supabase.rpc<RpcResponse<ProductDetails>>(
       'get_product_details', 
       { p_product_id: productId }
     );
@@ -189,8 +192,8 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
 // Delete product details
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
-    // Use proper type assertions for the RPC call
-    const { data: deleteResult, error } = await supabase.rpc(
+    // Explicitly type the RPC function call
+    const { data: deleteResult, error } = await supabase.rpc<boolean>(
       'delete_product_details', 
       { p_product_id: productId }
     );
