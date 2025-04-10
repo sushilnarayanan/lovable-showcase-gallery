@@ -1,6 +1,6 @@
 
--- Create the ProductDetails table
-CREATE TABLE IF NOT EXISTS "public"."ProductDetails" (
+-- Create the product_details table (lowercase for consistency)
+CREATE TABLE IF NOT EXISTS "public"."product_details" (
   "id" SERIAL PRIMARY KEY,
   "product_id" INTEGER NOT NULL REFERENCES "public"."Products"("id") ON DELETE CASCADE,
   "problem_statement" TEXT,
@@ -16,14 +16,14 @@ CREATE TABLE IF NOT EXISTS "public"."ProductDetails" (
 );
 
 -- Add comments for better organization in the Supabase UI
-COMMENT ON TABLE "public"."ProductDetails" IS 'Detailed information about products';
-COMMENT ON COLUMN "public"."ProductDetails"."problem_statement" IS 'Description of the problem the product aims to solve';
-COMMENT ON COLUMN "public"."ProductDetails"."target_audience" IS 'Description of the target users/audience for the product';
-COMMENT ON COLUMN "public"."ProductDetails"."solution_description" IS 'How the product provides a solution to the problem';
-COMMENT ON COLUMN "public"."ProductDetails"."key_features" IS 'Array of key features of the product';
-COMMENT ON COLUMN "public"."ProductDetails"."technical_details" IS 'Technical stack and implementation details';
-COMMENT ON COLUMN "public"."ProductDetails"."future_roadmap" IS 'Planned future developments and improvements';
-COMMENT ON COLUMN "public"."ProductDetails"."development_challenges" IS 'Challenges encountered during development';
+COMMENT ON TABLE "public"."product_details" IS 'Detailed information about products';
+COMMENT ON COLUMN "public"."product_details"."problem_statement" IS 'Description of the problem the product aims to solve';
+COMMENT ON COLUMN "public"."product_details"."target_audience" IS 'Description of the target users/audience for the product';
+COMMENT ON COLUMN "public"."product_details"."solution_description" IS 'How the product provides a solution to the problem';
+COMMENT ON COLUMN "public"."product_details"."key_features" IS 'Array of key features of the product';
+COMMENT ON COLUMN "public"."product_details"."technical_details" IS 'Technical stack and implementation details';
+COMMENT ON COLUMN "public"."product_details"."future_roadmap" IS 'Planned future developments and improvements';
+COMMENT ON COLUMN "public"."product_details"."development_challenges" IS 'Challenges encountered during development';
 
 -- Create a trigger to update updated_at
 CREATE OR REPLACE FUNCTION update_modified_column()
@@ -35,33 +35,33 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_product_details_updated_at
-BEFORE UPDATE ON "public"."ProductDetails"
+BEFORE UPDATE ON "public"."product_details"
 FOR EACH ROW
 EXECUTE FUNCTION update_modified_column();
 
 -- Create RLS policies to protect the data
-ALTER TABLE "public"."ProductDetails" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."product_details" ENABLE ROW LEVEL SECURITY;
 
 -- Create policies
-CREATE POLICY "Allow public read access to ProductDetails" 
-ON "public"."ProductDetails" 
+CREATE POLICY "Allow public read access to product_details" 
+ON "public"."product_details" 
 FOR SELECT USING (true);
 
-CREATE POLICY "Allow authenticated users to create ProductDetails" 
-ON "public"."ProductDetails" 
+CREATE POLICY "Allow authenticated users to create product_details" 
+ON "public"."product_details" 
 FOR INSERT 
 TO authenticated 
 WITH CHECK (true);
 
-CREATE POLICY "Allow authenticated users to update ProductDetails" 
-ON "public"."ProductDetails" 
+CREATE POLICY "Allow authenticated users to update product_details" 
+ON "public"."product_details" 
 FOR UPDATE 
 TO authenticated 
 USING (true) 
 WITH CHECK (true);
 
-CREATE POLICY "Allow authenticated users to delete ProductDetails" 
-ON "public"."ProductDetails" 
+CREATE POLICY "Allow authenticated users to delete product_details" 
+ON "public"."product_details" 
 FOR DELETE 
 TO authenticated 
 USING (true);

@@ -36,7 +36,7 @@ export interface ProductItem {
   updated_at: string | null;
 }
 
-// Define ProductDetails as a separate interface since it's not in the DB schema yet
+// Define ProductDetails interface matching the table schema in the migration
 export interface ProductDetails {
   id: number;
   product_id: number;
