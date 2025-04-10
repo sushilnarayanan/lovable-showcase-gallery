@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -35,6 +34,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [activeTab, setActiveTab] = useState('problem');
+  const topRef = useRef<HTMLDivElement>(null);
   
   // Try to get project from location state first
   const projectFromState = location.state?.project as Project & ProductItem;
@@ -62,6 +62,11 @@ const ProductDetail = () => {
     },
     enabled: !projectFromState && !!id && id !== 'detail',
   });
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   useEffect(() => {
     if (fetchedProduct && !project) {
@@ -168,14 +173,14 @@ const ProductDetail = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white" ref={topRef}>
       <Navbar />
       
       {/* Hero Section with Back Button */}
-      <div className="relative w-full">
+      <div className="relative w-full pt-16">
         <Button 
           variant="netflixOutline" 
-          className="absolute top-4 left-4 z-50" 
+          className="absolute top-20 left-4 z-50" 
           onClick={handleBackClick}
         >
           <ArrowLeft className="text-netflix-red" />
@@ -203,8 +208,7 @@ const ProductDetail = () => {
             </div>
           ) : (
             <>
-              {/* Reduced opacity of overlays to make image more visible */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent z-10"></div>
               <img 
                 src={project.image || '/placeholder.svg'} 
                 alt={project.title}
