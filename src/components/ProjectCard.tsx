@@ -10,9 +10,12 @@ import {
   HoverCardContent
 } from "@/components/ui/hover-card";
 
-// Extend Project type to include categories
+// Extend Project type to include categories and subtitle
 interface ProjectProps {
-  project: Project & { categories?: CategoryItem[] };
+  project: Project & { 
+    categories?: CategoryItem[];
+    subtitle?: string; 
+  };
 }
 
 const ProjectCard = ({ project }: ProjectProps) => {
@@ -67,7 +70,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
   };
 
   return (
-    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative group" onClick={handleCardClick}>
+    <div className="netflix-card min-w-[250px] sm:min-w-[280px] md:min-w-[300px] h-[170px] relative group cursor-pointer" onClick={handleCardClick}>
       {showVideo && project.videoUrl ? (
         <div className="w-full h-full absolute top-0 left-0 z-20">
           {project.videoUrl.endsWith('.gif') ? (
@@ -119,9 +122,11 @@ const ProjectCard = ({ project }: ProjectProps) => {
       
       {/* Always visible title and subtitle - now with better wrapping for subtitle */}
       <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-        <h3 className="text-base font-bold mb-1">{project.title}</h3>
-        {project.description && (
-          <p className="text-xs text-white/70 line-clamp-2 break-words">{project.description}</p>
+        <h3 className="text-base font-bold mb-1 text-white">{project.title}</h3>
+        {(project.subtitle || project.description) && (
+          <p className="text-xs text-white/70 line-clamp-2 break-words">
+            {project.subtitle || project.description}
+          </p>
         )}
       </div>
       
@@ -130,7 +135,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
         {/* Tags at top right corner */}
         <div className="absolute top-2 right-2 z-20">
           <div className="flex flex-wrap gap-1 justify-end">
-            {project.tags.map((tag, index) => (
+            {project.tags && project.tags.map((tag, index) => (
               <span key={index} className="text-xs bg-black/70 text-white px-1.5 py-0.5 rounded-sm">{tag}</span>
             ))}
           </div>
@@ -189,7 +194,7 @@ const ProjectCard = ({ project }: ProjectProps) => {
       </div>
       
       {/* Enhanced hover effect - Makes card bigger on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-transparent shadow-xl z-10">
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 -bottom-[80px] -left-[10px] -right-[10px] top-[-10px] pointer-events-none bg-transparent shadow-xl z-0">
         {/* This creates the expanded card effect that Netflix has */}
       </div>
     </div>

@@ -72,21 +72,21 @@
     @apply border-border;
   }
   body {
-    @apply bg-black text-foreground;
+    @apply bg-black text-white;
   }
 }
 
-/* Netflix theme with simplified styling */
+/* Netflix theme with improved styling */
 .netflix-gradient {
   background: linear-gradient(to right, #E50914, #E50914);
 }
 
 .netflix-card {
-  @apply bg-black border border-gray-800 rounded-md overflow-hidden transition-all duration-300;
+  @apply bg-black border border-gray-800 rounded-md overflow-hidden transition-all duration-300 shadow-md;
 }
 
 .netflix-card:hover {
-  @apply border-gray-600 transform scale-105 z-10;
+  @apply border-gray-600 transform scale-105 z-10 shadow-xl;
 }
 
 .netflix-glassmorphism {
@@ -98,7 +98,7 @@
 }
 
 .netflix-shadow {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
 }
 
 .netflix-text {
@@ -110,7 +110,7 @@
 }
 
 .netflix-row {
-  @apply my-10;
+  @apply my-8;
 }
 
 .netflix-scrollbar {
@@ -137,4 +137,9 @@
 
 .fade-in {
   animation: fade-in 0.5s ease-out forwards;
+}
+
+/* Added styles for better spacing and alignment */
+.bg-netflix-background {
+  background-color: #141414;
 }

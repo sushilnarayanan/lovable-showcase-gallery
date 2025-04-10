@@ -32,18 +32,18 @@ const Navbar = () => {
           </Link>
           <nav className="hidden md:flex">
             <ul className="flex space-x-6">
-              <li><Link to="/" className="text-sm text-white hover:text-gray-300">Home</Link></li>
-              <li><Link to="/portfolio" className="text-sm text-white hover:text-gray-300">Projects</Link></li>
-              <li><Link to="#about" className="text-sm text-white hover:text-gray-300">About</Link></li>
-              <li><Link to="#contact" className="text-sm text-white hover:text-gray-300">Contact</Link></li>
+              <li><Link to="/" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">Home</Link></li>
+              <li><Link to="/portfolio" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">Projects</Link></li>
+              <li><Link to="#about" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">About</Link></li>
+              <li><Link to="#contact" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">Contact</Link></li>
             </ul>
           </nav>
         </div>
-        <div className="flex items-center space-x-4">
-          <button className="text-white">
+        <div className="flex items-center space-x-5">
+          <button className="text-white hover:text-gray-300 transition-colors">
             <Search size={20} />
           </button>
-          <button className="text-white">
+          <button className="text-white hover:text-gray-300 transition-colors">
             <Bell size={20} />
           </button>
           <div className="w-8 h-8 rounded-sm bg-netflix-red flex items-center justify-center">

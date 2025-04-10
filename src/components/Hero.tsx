@@ -18,20 +18,20 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
       
-      {/* Hero Content */}
+      {/* Hero Content - improved alignment and spacing */}
       <div className="relative h-full flex flex-col justify-center px-6 md:px-12 lg:px-24 pb-20">
         <div className="max-w-2xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-netflix-red">My Lovable Portfolio</h1>
-          <p className="text-lg mb-6 text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-5 text-netflix-red">My Lovable Portfolio</h1>
+          <p className="text-lg md:text-xl mb-8 text-white max-w-lg">
             Check out my latest projects built with Lovable. 
             This portfolio showcases web applications created with React, Tailwind CSS, and more.
           </p>
           <div className="flex space-x-4">
-            <Button className="bg-netflix-red hover:bg-netflix-red/80 text-white rounded-md px-6 py-2 flex items-center">
+            <Button className="bg-netflix-red hover:bg-netflix-red/80 text-white rounded-md px-8 py-2.5 flex items-center text-base">
               <Play size={20} className="mr-2" />
               Play
             </Button>
-            <Button variant="outline" className="bg-gray-800/60 text-white hover:bg-gray-800/80 border-none rounded-md px-6 py-2 flex items-center">
+            <Button variant="outline" className="bg-gray-800/60 text-white hover:bg-gray-800/80 border-none rounded-md px-8 py-2.5 flex items-center text-base">
               <Info size={20} className="mr-2" />
               More Info
             </Button>

@@ -122,7 +122,7 @@ const Index = () => {
       <Navbar />
       <Hero />
       
-      <div className="pt-8 pb-16">
+      <div className="pt-10 pb-20 px-6 md:px-12 lg:px-24">
         {/* Display products from Supabase if available */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />
