@@ -15,8 +15,7 @@ export const useProductDetailsById = (productId: number) => {
       
       // Use raw SQL query instead of typed API
       const { data, error } = await supabase
-        .rpc('get_product_details', { p_product_id: productId })
-        .single();
+        .rpc('get_product_details', { p_product_id: productId });
       
       if (error) {
         console.error('Error fetching product details:', error);
@@ -28,7 +27,7 @@ export const useProductDetailsById = (productId: number) => {
         throw error;
       }
       
-      return data as ProductDetails | null;
+      return data?.[0] as ProductDetails | null;
     },
     enabled: !!productId
   });
@@ -67,10 +66,9 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
     
     // Get the newly created details
     const { data: newData } = await supabase
-      .rpc('get_product_details', { p_product_id: details.product_id })
-      .single();
+      .rpc('get_product_details', { p_product_id: details.product_id });
       
-    return newData as ProductDetails;
+    return newData?.[0] as ProductDetails;
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     return null;
@@ -110,10 +108,9 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
     
     // Get the updated details
     const { data: updatedData } = await supabase
-      .rpc('get_product_details', { p_product_id: productId })
-      .single();
+      .rpc('get_product_details', { p_product_id: productId });
       
-    return updatedData as ProductDetails;
+    return updatedData?.[0] as ProductDetails;
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     return null;
@@ -125,10 +122,9 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
   try {
     // Check if product details exist using RPC
     const { data: existingDetails } = await supabase
-      .rpc('get_product_details', { p_product_id: productId })
-      .single();
+      .rpc('get_product_details', { p_product_id: productId });
     
-    if (existingDetails) {
+    if (existingDetails && existingDetails.length > 0) {
       // Update existing details
       return updateProductDetails(productId, details);
     } else {

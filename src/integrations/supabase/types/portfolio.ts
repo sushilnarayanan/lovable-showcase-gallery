@@ -59,7 +59,7 @@ export type ProductUpdateInput = Partial<Omit<ProductCreateInput, 'categoryIds'>
   categoryIds?: number[];  // For updating multiple categories
 };
 
-// Make all fields optional for ProductDetailsCreateInput except product_id
+// Definition for ProductDetailsCreateInput
 export type ProductDetailsCreateInput = {
   product_id: number;
   problem_statement?: string | null;
