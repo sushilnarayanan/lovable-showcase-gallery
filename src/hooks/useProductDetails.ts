@@ -14,9 +14,12 @@ export const useProductDetailsById = (productId: number) => {
       }
       
       try {
-        // Use RPC for get_product_details function
+        // Use RPC for get_product_details function with proper typing
         const { data, error } = await supabase
-          .rpc('get_product_details', { p_product_id: productId });
+          .rpc('get_product_details', { p_product_id: productId }) as {
+            data: RpcProductDetails[] | null;
+            error: Error | null;
+          };
         
         if (error) {
           console.error('Error fetching product details:', error);
@@ -29,7 +32,7 @@ export const useProductDetailsById = (productId: number) => {
         }
         
         // Safely handle potentially null data
-        if (!data || !Array.isArray(data) || data.length === 0) {
+        if (!data || data.length === 0) {
           return null;
         }
         
@@ -46,7 +49,7 @@ export const useProductDetailsById = (productId: number) => {
 // Create new product details
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
-    // Use RPC for insert_product_details function
+    // Use RPC for insert_product_details function with proper typing
     const { error } = await supabase
       .rpc('insert_product_details', { 
         p_product_id: details.product_id,
@@ -57,7 +60,10 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
         p_technical_details: details.technical_details,
         p_future_roadmap: details.future_roadmap,
         p_development_challenges: details.development_challenges
-      });
+      }) as {
+        data: boolean | null;
+        error: Error | null;
+      };
     
     if (error) {
       console.error('Error creating product details:', error);
@@ -74,16 +80,19 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       description: 'Product details created successfully',
     });
     
-    // Get the newly created details
+    // Get the newly created details with proper typing
     const { data: newData, error: fetchError } = await supabase
-      .rpc('get_product_details', { p_product_id: details.product_id });
+      .rpc('get_product_details', { p_product_id: details.product_id }) as {
+        data: RpcProductDetails[] | null;
+        error: Error | null;
+      };
       
     if (fetchError) {
       console.error('Error fetching created product details:', fetchError);
       return null;
     }
     
-    if (!newData || !Array.isArray(newData) || newData.length === 0) {
+    if (!newData || newData.length === 0) {
       return null;
     }
     
@@ -97,7 +106,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
 // Update existing product details
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Use RPC for update_product_details function
+    // Use RPC for update_product_details function with proper typing
     const { error } = await supabase
       .rpc('update_product_details', {
         p_product_id: productId,
@@ -108,7 +117,10 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
         p_technical_details: updates.technical_details,
         p_future_roadmap: updates.future_roadmap,
         p_development_challenges: updates.development_challenges
-      });
+      }) as {
+        data: boolean | null;
+        error: Error | null;
+      };
     
     if (error) {
       console.error('Error updating product details:', error);
@@ -125,16 +137,19 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       description: 'Product details updated successfully',
     });
     
-    // Get the updated details
+    // Get the updated details with proper typing
     const { data: updatedData, error: fetchError } = await supabase
-      .rpc('get_product_details', { p_product_id: productId });
+      .rpc('get_product_details', { p_product_id: productId }) as {
+        data: RpcProductDetails[] | null;
+        error: Error | null;
+      };
       
     if (fetchError) {
       console.error('Error fetching updated product details:', fetchError);
       return null;
     }
     
-    if (!updatedData || !Array.isArray(updatedData) || updatedData.length === 0) {
+    if (!updatedData || updatedData.length === 0) {
       return null;
     }
     
@@ -148,16 +163,19 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
 // Upsert product details (create if doesn't exist, update if exists)
 export const upsertProductDetails = async (productId: number, details: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Check if product details exist using RPC
+    // Check if product details exist using RPC with proper typing
     const { data: existingDetails, error: checkError } = await supabase
-      .rpc('get_product_details', { p_product_id: productId });
+      .rpc('get_product_details', { p_product_id: productId }) as {
+        data: RpcProductDetails[] | null;
+        error: Error | null;
+      };
     
     if (checkError) {
       console.error('Error checking for existing product details:', checkError);
       throw checkError;
     }
     
-    if (existingDetails && Array.isArray(existingDetails) && existingDetails.length > 0) {
+    if (existingDetails && existingDetails.length > 0) {
       // Update existing details
       return updateProductDetails(productId, details);
     } else {
@@ -177,9 +195,12 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
 // Delete product details
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
-    // Use RPC for delete_product_details function
+    // Use RPC for delete_product_details function with proper typing
     const { error } = await supabase
-      .rpc('delete_product_details', { p_product_id: productId });
+      .rpc('delete_product_details', { p_product_id: productId }) as {
+        data: boolean | null;
+        error: Error | null;
+      };
     
     if (error) {
       console.error('Error deleting product details:', error);
