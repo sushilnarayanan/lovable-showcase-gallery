@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -121,7 +122,7 @@ const Index = () => {
       <Navbar />
       <Hero />
       
-      <div className="pt-10 pb-20 px-6 md:px-12 lg:px-24">
+      <div className="pt-10 pb-20 px-4 sm:px-6 md:px-12 lg:px-16 w-full">
         {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />

@@ -19,7 +19,7 @@ const Hero = () => {
       </div>
       
       {/* Hero Content - left-aligned to match Netflix style */}
-      <div className="relative h-full flex flex-col justify-center px-6 md:px-12 lg:px-24 pb-20">
+      <div className="relative h-full flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-16 pb-20 max-w-full">
         <div className="max-w-2xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-5 text-netflix-red">My Lovable Portfolio</h1>
           <p className="text-lg md:text-xl mb-8 text-white max-w-lg">

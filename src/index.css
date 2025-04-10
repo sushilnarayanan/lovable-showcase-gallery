@@ -105,8 +105,9 @@
   text-shadow: 0 0 5px rgba(229, 9, 20, 0.6);
 }
 
+/* Updated container class to match Netflix's layout */
 .netflix-container {
-  @apply px-6 md:px-12 lg:px-24 mx-auto;
+  @apply px-4 sm:px-6 md:px-12 lg:px-16 w-full;
 }
 
 .netflix-row {
@@ -139,7 +140,7 @@
   animation: fade-in 0.5s ease-out forwards;
 }
 
-/* Added styles for better spacing and alignment */
+/* Updated Netflix background color */
 .bg-netflix-background {
   background-color: #141414;
 }
