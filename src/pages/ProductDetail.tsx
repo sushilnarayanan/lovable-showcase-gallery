@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -48,6 +49,7 @@ const ProductDetail = () => {
         throw new Error('Invalid product ID');
       }
       
+      // Enhanced query to also fetch the categories
       const { data, error } = await supabase
         .from('Products')
         .select('*')
@@ -56,6 +58,25 @@ const ProductDetail = () => {
       
       if (error) {
         throw error;
+      }
+      
+      // Fetch categories for this product
+      const { data: categoryRelations, error: relError } = await supabase
+        .from('product_categories')
+        .select('category_id')
+        .eq('product_id', data.id);
+        
+      if (!relError && categoryRelations && categoryRelations.length > 0) {
+        const categoryIds = categoryRelations.map(rel => rel.category_id);
+        
+        const { data: categories, error: catError } = await supabase
+          .from('Categories')
+          .select('*')
+          .in('id', categoryIds);
+          
+        if (!catError && categories) {
+          data.categories = categories;
+        }
       }
       
       return data as ProductItem;
@@ -165,12 +186,15 @@ const ProductDetail = () => {
     setActiveTab(value);
   };
 
-  // Sample images for Product Images section
+  // Sample images for Product Images section - use thumbnail and potentially future gallery images
   const productImages = [
     project.image || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80',
     'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80',
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
   ];
+
+  // Display categories if available
+  const categoryTags = project.categories ? project.categories.map(cat => cat.name).join(', ') : '';
 
   return (
     <div className="min-h-screen bg-black text-white" ref={topRef}>
@@ -241,10 +265,16 @@ const ProductDetail = () => {
                         {formatDate(project.created_at)}
                       </div>
                     )}
+                    {project.categories && project.categories.length > 0 && (
+                      <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
+                        <Tag size={14} className="mr-1 text-netflix-red" />
+                        {project.categories.length} {project.categories.length === 1 ? 'Category' : 'Categories'}
+                      </div>
+                    )}
                     {project.tags && project.tags.length > 0 && (
                       <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
                         <Tag size={14} className="mr-1 text-netflix-red" />
-                        {project.tags.length} Tags
+                        {project.tags.length} {project.tags.length === 1 ? 'Tag' : 'Tags'}
                       </div>
                     )}
                     <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
@@ -323,6 +353,29 @@ const ProductDetail = () => {
             ))}
           </div>
         </div>
+        
+        {/* Categories section - Show if categories exist */}
+        {project.categories && project.categories.length > 0 && (
+          <div className="mb-8">
+            <div className="flex items-center mb-4">
+              <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
+                <Tag className="h-5 w-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-white">Categories</h2>
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+              {project.categories.map((category) => (
+                <span 
+                  key={category.id} 
+                  className="px-3 py-1 bg-netflix-red/10 text-white border border-netflix-red/30 rounded-full"
+                >
+                  {category.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
         
         {/* Tabs */}
         <Tabs 
@@ -510,7 +563,7 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Tools Tab - Empty for manual input */}
+          {/* Tools Tab - Show tags information from the database */}
           <TabsContent value="tools" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -525,7 +578,23 @@ const ProductDetail = () => {
                 </div>
               </div>
               <CardContent className="pt-6">
-                <p className="text-gray-400 italic">Content to be manually added later.</p>
+                {project.tags && project.tags.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {project.tags.map((tag, index) => (
+                      <div 
+                        key={index}
+                        className="bg-black/70 border border-netflix-red/10 p-4 rounded-md flex items-center gap-3"
+                      >
+                        <div className="h-8 w-8 rounded-full bg-netflix-red/20 flex items-center justify-center">
+                          <Wrench className="h-4 w-4 text-netflix-red" />
+                        </div>
+                        <span className="text-gray-200">{tag}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-400 italic">No technology tags available for this project.</p>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
