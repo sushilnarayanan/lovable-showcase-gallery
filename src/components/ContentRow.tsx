@@ -23,8 +23,8 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
     if (rowRef.current) {
       const { current } = rowRef;
       const scrollAmount = direction === 'left' 
-        ? current.scrollLeft - current.clientWidth
-        : current.scrollLeft + current.clientWidth;
+        ? current.scrollLeft - current.clientWidth * 0.75
+        : current.scrollLeft + current.clientWidth * 0.75;
       
       current.scrollTo({
         left: scrollAmount,
@@ -99,20 +99,22 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
     : projects || [];
 
   return (
-    <div className="netflix-row mb-4">
-      {/* Left-aligned title to match Netflix style */}
-      <h2 className="text-2xl font-medium mb-3 text-white pl-12 lg:pl-16">{title}</h2>
+    <div className="netflix-row mb-8"> {/* Increased bottom margin */}
+      {/* Title */}
+      <h2 className="text-2xl font-medium mb-3 text-white px-4 sm:px-8 md:px-12">{title}</h2>
       <div className="group relative">
+        {/* Improved Navigation Button - Left */}
         <button 
-          className="absolute left-0 top-0 bottom-0 z-40 bg-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute left-0 top-0 bottom-0 z-40 bg-black/50 hover:bg-black/70 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           onClick={() => scroll('left')}
+          aria-label="Scroll left"
         >
-          <ChevronLeft className="text-white" size={24} />
+          <ChevronLeft className="text-white w-8 h-8" />
         </button>
         
         <div 
           ref={rowRef}
-          className="flex space-x-2 overflow-x-scroll py-4 pl-12 lg:pl-16 netflix-scrollbar"
+          className="flex space-x-3 overflow-x-scroll py-4 px-4 sm:px-8 md:px-12 netflix-scrollbar"
         >
           {displayItems.length > 0 ? (
             displayItems.map(project => (
@@ -133,11 +135,13 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
           )}
         </div>
         
+        {/* Improved Navigation Button - Right */}
         <button 
-          className="absolute right-0 top-0 bottom-0 z-40 bg-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute right-0 top-0 bottom-0 z-40 bg-black/50 hover:bg-black/70 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           onClick={() => scroll('right')}
+          aria-label="Scroll right"
         >
-          <ChevronRight className="text-white" size={24} />
+          <ChevronRight className="text-white w-8 h-8" />
         </button>
       </div>
     </div>

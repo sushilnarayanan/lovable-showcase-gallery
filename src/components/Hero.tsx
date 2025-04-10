@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[85vh] w-full">
+    <div className="relative h-[85vh] w-full pt-16"> {/* Added pt-16 to create space for header */}
       {/* Hero Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
@@ -18,8 +18,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
       
-      {/* Hero Content - properly positioned for Netflix style */}
-      <div className="relative h-full flex flex-col justify-center px-12 lg:px-16 pb-32 max-w-full">
+      {/* Hero Content - positioned for Netflix style */}
+      <div className="relative h-full flex flex-col justify-center px-4 sm:px-8 md:px-12 pb-24 w-full">
         <div className="max-w-2xl">
           <h1 className="text-5xl md:text-7xl font-bold mb-5 text-netflix-red">My Lovable Portfolio</h1>
           <p className="text-lg md:text-xl mb-8 text-white max-w-lg">
