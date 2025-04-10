@@ -99,9 +99,9 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
     : projects || [];
 
   return (
-    <div className="netflix-row mb-8">
+    <div className="netflix-row mb-4">
       {/* Left-aligned title to match Netflix style */}
-      <h2 className="text-xl font-medium mb-3 text-white">{title}</h2>
+      <h2 className="text-2xl font-medium mb-3 text-white pl-12 lg:pl-16">{title}</h2>
       <div className="group relative">
         <button 
           className="absolute left-0 top-0 bottom-0 z-40 bg-black/50 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
@@ -112,14 +112,14 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
         
         <div 
           ref={rowRef}
-          className="flex space-x-4 overflow-x-scroll py-4 netflix-scrollbar"
+          className="flex space-x-2 overflow-x-scroll py-4 pl-12 lg:pl-16 netflix-scrollbar"
         >
           {displayItems.length > 0 ? (
             displayItems.map(project => (
               <ProjectCard key={project.id} project={project} />
             ))
           ) : (
-            <div className="flex items-center justify-center w-full h-[170px] text-gray-400 bg-gray-800/30 rounded p-4">
+            <div className="flex items-center justify-center w-full h-[200px] text-gray-400 bg-gray-800/30 rounded p-4">
               No items in this category yet
               {categorySlug && (
                 <button 

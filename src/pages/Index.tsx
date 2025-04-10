@@ -118,17 +118,17 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-netflix-background">
+    <div className="min-h-screen bg-netflix-background overflow-x-hidden w-full">
       <Navbar />
       <Hero />
       
-      <div className="pt-10 pb-20 px-4 sm:px-6 md:px-12 lg:px-16 w-full">
+      <div className="pb-4 w-full">
         {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />
         )}
         
-        {/* Display category-specific products - ensure left alignment */}
+        {/* Display category-specific products - ensure proper alignment */}
         {!productsLoading && !productsError && (
           <>
             {featuredProductItems && featuredProductItems.length > 0 && (
@@ -142,7 +142,7 @@ const Index = () => {
             {/* Display MicroSaaS items with refresh button */}
             <div className="relative">
               {microSaasLoading ? (
-                <div className="py-6 text-left">Loading MicroSaaS products...</div>
+                <div className="py-4 pl-12 lg:pl-16 text-left">Loading MicroSaaS products...</div>
               ) : (
                 <ContentRow 
                   title="MicroSaaS" 
@@ -154,7 +154,7 @@ const Index = () => {
               {microSaasItems?.length === 0 && (
                 <button 
                   onClick={refreshCategories}
-                  className="absolute right-4 top-0 text-sm text-blue-400 hover:text-blue-300"
+                  className="absolute right-16 top-0 text-sm text-blue-400 hover:text-blue-300"
                 >
                   Refresh
                 </button>
@@ -164,7 +164,7 @@ const Index = () => {
             {/* Display NoCode items with refresh button */}
             <div className="relative">
               {noCodeLoading ? (
-                <div className="py-6 text-left">Loading NoCode products...</div>
+                <div className="py-4 pl-12 lg:pl-16 text-left">Loading NoCode products...</div>
               ) : (
                 <ContentRow 
                   title="NoCode" 
@@ -176,7 +176,7 @@ const Index = () => {
               {noCodeItems?.length === 0 && (
                 <button 
                   onClick={refreshCategories}
-                  className="absolute right-4 top-0 text-sm text-blue-400 hover:text-blue-300"
+                  className="absolute right-16 top-0 text-sm text-blue-400 hover:text-blue-300"
                 >
                   Refresh
                 </button>

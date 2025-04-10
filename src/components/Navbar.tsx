@@ -25,7 +25,7 @@ const Navbar = () => {
         isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 to-transparent'
       }`}
     >
-      <div className="flex items-center justify-between py-4 px-4 sm:px-6 md:px-12 lg:px-16">
+      <div className="flex items-center justify-between py-4 px-12 lg:px-16">
         <div className="flex items-center space-x-8">
           <Link to="/" className="h-8">
             <span className="text-netflix-red text-3xl font-bold tracking-tighter">PORTFOLIO</span>

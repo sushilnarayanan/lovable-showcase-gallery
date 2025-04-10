@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[80vh] w-full">
+    <div className="relative h-[85vh] w-full">
       {/* Hero Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
@@ -18,21 +18,21 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </div>
       
-      {/* Hero Content - left-aligned to match Netflix style */}
-      <div className="relative h-full flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-16 pb-20 max-w-full">
+      {/* Hero Content - properly positioned for Netflix style */}
+      <div className="relative h-full flex flex-col justify-center px-12 lg:px-16 pb-32 max-w-full">
         <div className="max-w-2xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-5 text-netflix-red">My Lovable Portfolio</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-5 text-netflix-red">My Lovable Portfolio</h1>
           <p className="text-lg md:text-xl mb-8 text-white max-w-lg">
             Check out my latest projects built with Lovable. 
             This portfolio showcases web applications created with React, Tailwind CSS, and more.
           </p>
           <div className="flex space-x-4">
-            <Button className="bg-netflix-red hover:bg-netflix-red/80 text-white rounded-md px-8 py-2.5 flex items-center text-base">
-              <Play size={20} className="mr-2" />
+            <Button className="bg-netflix-red hover:bg-netflix-red/80 text-white rounded-md px-8 py-3 flex items-center text-lg">
+              <Play size={24} className="mr-2" />
               Play
             </Button>
-            <Button variant="outline" className="bg-gray-800/60 text-white hover:bg-gray-800/80 border-none rounded-md px-8 py-2.5 flex items-center text-base">
-              <Info size={20} className="mr-2" />
+            <Button variant="outline" className="bg-gray-800/60 text-white hover:bg-gray-800/80 border-none rounded-md px-8 py-3 flex items-center text-lg">
+              <Info size={24} className="mr-2" />
               More Info
             </Button>
           </div>
