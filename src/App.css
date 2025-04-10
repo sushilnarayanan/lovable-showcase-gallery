@@ -5,13 +5,13 @@
   margin: 0;
   padding: 0;
   text-align: left;
-  overflow-x: hidden;
 }
 
 body, html {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+  max-width: 100vw;
 }
 
 .logo {
@@ -48,4 +48,19 @@ body, html {
 
 .read-the-docs {
   color: #888;
+}
+
+/* Netflix-specific styles to ensure proper spacing and alignment */
+.netflix-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 0;
+}
+
+/* Add a class to control the size of thumbnails */
+.netflix-thumbnail {
+  min-width: 320px;
+  height: 180px;
+  object-fit: cover;
 }

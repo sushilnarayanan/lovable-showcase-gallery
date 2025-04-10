@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCcw } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import { Project } from '@/data/projects';
@@ -18,6 +18,34 @@ interface ContentRowProps {
 const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowProps) => {
   const rowRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  // Check scroll position to determine if we can scroll left or right
+  const checkScrollPosition = () => {
+    if (rowRef.current) {
+      const { current } = rowRef;
+      setCanScrollLeft(current.scrollLeft > 0);
+      setCanScrollRight(current.scrollLeft < current.scrollWidth - current.clientWidth - 5); // 5px buffer
+    }
+  };
+
+  useEffect(() => {
+    const scrollContainer = rowRef.current;
+    if (scrollContainer) {
+      // Initial check
+      checkScrollPosition();
+      // Add scroll event listener
+      scrollContainer.addEventListener('scroll', checkScrollPosition);
+      // Clean up
+      return () => scrollContainer.removeEventListener('scroll', checkScrollPosition);
+    }
+  }, []);
+
+  // Also update when content changes (when items load)
+  useEffect(() => {
+    checkScrollPosition();
+  }, [productItems, projects]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (rowRef.current) {
@@ -99,22 +127,24 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
     : projects || [];
 
   return (
-    <div className="netflix-row mb-8"> {/* Increased bottom margin */}
-      {/* Title */}
-      <h2 className="text-2xl font-medium mb-3 text-white px-4 sm:px-8 md:px-12">{title}</h2>
+    <div className="netflix-row mb-8"> {/* Consistent bottom margin */}
+      {/* Title - properly aligned with consistent left padding */}
+      <h2 className="text-2xl font-bold mb-3 text-white px-4 sm:px-8 md:px-12 lg:px-16">{title}</h2>
       <div className="group relative">
-        {/* Improved Navigation Button - Left */}
-        <button 
-          className="absolute left-0 top-0 bottom-0 z-40 bg-black/50 hover:bg-black/70 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          onClick={() => scroll('left')}
-          aria-label="Scroll left"
-        >
-          <ChevronLeft className="text-white w-8 h-8" />
-        </button>
+        {/* Left Navigation Button - only shown when we can scroll left */}
+        {canScrollLeft && (
+          <button 
+            className="absolute left-0 top-0 bottom-0 z-40 bg-black/80 w-12 h-full flex items-center justify-center transition-opacity"
+            onClick={() => scroll('left')}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="text-white w-8 h-8" />
+          </button>
+        )}
         
         <div 
           ref={rowRef}
-          className="flex space-x-3 overflow-x-scroll py-4 px-4 sm:px-8 md:px-12 netflix-scrollbar"
+          className="flex space-x-4 overflow-x-scroll py-4 px-4 sm:px-8 md:px-12 lg:px-16 netflix-scrollbar"
         >
           {displayItems.length > 0 ? (
             displayItems.map(project => (
@@ -135,14 +165,16 @@ const ContentRow = ({ title, projects, productItems, categorySlug }: ContentRowP
           )}
         </div>
         
-        {/* Improved Navigation Button - Right */}
-        <button 
-          className="absolute right-0 top-0 bottom-0 z-40 bg-black/50 hover:bg-black/70 w-12 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          onClick={() => scroll('right')}
-          aria-label="Scroll right"
-        >
-          <ChevronRight className="text-white w-8 h-8" />
-        </button>
+        {/* Right Navigation Button - only shown when we can scroll right */}
+        {canScrollRight && (
+          <button 
+            className="absolute right-0 top-0 bottom-0 z-40 bg-black/80 w-12 h-full flex items-center justify-center transition-opacity"
+            onClick={() => scroll('right')}
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="text-white w-8 h-8" />
+          </button>
+        )}
       </div>
     </div>
   );

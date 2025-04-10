@@ -22,10 +22,10 @@ const Navbar = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 to-transparent'
+        isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'
       }`}
     >
-      <div className="flex items-center justify-between py-4 px-4 sm:px-8 md:px-12">
+      <div className="flex items-center justify-between py-4 px-4 sm:px-8 md:px-12 lg:px-16">
         <div className="flex items-center space-x-8">
           <Link to="/" className="h-8">
             <span className="text-netflix-red text-3xl font-bold tracking-tighter">PORTFOLIO</span>
