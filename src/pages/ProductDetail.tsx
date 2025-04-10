@@ -4,7 +4,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/data/projects';
-import { ProductItem } from '@/integrations/supabase/types/portfolio';
+import { ProductItem, CategoryItem } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
 import { 
   ArrowLeft, 
@@ -29,6 +29,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Navbar from '@/components/Navbar';
 
+// Define an extended type that includes categories
+type ProductWithCategories = ProductItem & {
+  categories?: CategoryItem[];
+};
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
@@ -38,8 +43,8 @@ const ProductDetail = () => {
   const topRef = useRef<HTMLDivElement>(null);
   
   // Try to get project from location state first
-  const projectFromState = location.state?.project as Project & ProductItem;
-  const [project, setProject] = useState<(Project & ProductItem) | null>(projectFromState || null);
+  const projectFromState = location.state?.project as Project & ProductWithCategories;
+  const [project, setProject] = useState<(Project & ProductWithCategories) | null>(projectFromState || null);
   
   // Fetch product data if not available in location state
   const { data: fetchedProduct, isLoading, error } = useQuery({
@@ -60,6 +65,9 @@ const ProductDetail = () => {
         throw error;
       }
       
+      // Explicitly define the return type to include categories
+      const productWithCategories = data as ProductWithCategories;
+      
       // Fetch categories for this product
       const { data: categoryRelations, error: relError } = await supabase
         .from('product_categories')
@@ -75,11 +83,11 @@ const ProductDetail = () => {
           .in('id', categoryIds);
           
         if (!catError && categories) {
-          data.categories = categories;
+          productWithCategories.categories = categories;
         }
       }
       
-      return data as ProductItem;
+      return productWithCategories;
     },
     enabled: !projectFromState && !!id && id !== 'detail',
   });
@@ -100,6 +108,7 @@ const ProductDetail = () => {
         productLink: fetchedProduct.product_link || '',
         github_link: fetchedProduct.github_link || '',
         tags: fetchedProduct.tags || [],
+        categories: fetchedProduct.categories || [],
       });
     }
   }, [fetchedProduct, project]);
