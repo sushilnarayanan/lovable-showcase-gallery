@@ -13,22 +13,18 @@ export const useProductDetailsById = (productId: number) => {
       }
       
       try {
-        // Use the get_product_details RPC function
-        const { data, error } = await supabase.rpc('get_product_details', {
-          p_product_id: productId
-        });
+        // Directly query the product_details table instead of using RPC
+        const { data, error } = await supabase
+          .from('product_details')
+          .select('*')
+          .eq('product_id', productId)
+          .maybeSingle();
         
         if (error) {
           throw error;
         }
         
-        // If no data returned, return null
-        if (!data || data.length === 0) {
-          return null;
-        }
-        
-        // Return the first item from the results
-        return data[0] as ProductDetails;
+        return data as ProductDetails | null;
       } catch (error) {
         console.error('Error in useProductDetailsById:', error);
         throw error;
@@ -41,17 +37,21 @@ export const useProductDetailsById = (productId: number) => {
 // Create new product details
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
-    // Use the insert_product_details RPC function
-    const { data, error } = await supabase.rpc('insert_product_details', {
-      p_product_id: details.product_id,
-      p_problem_statement: details.problem_statement || null,
-      p_target_audience: details.target_audience || null,
-      p_solution_description: details.solution_description || null,
-      p_key_features: details.key_features || null,
-      p_technical_details: details.technical_details || null,
-      p_future_roadmap: details.future_roadmap || null,
-      p_development_challenges: details.development_challenges || null
-    });
+    // Insert directly into product_details table
+    const { data, error } = await supabase
+      .from('product_details')
+      .insert({
+        product_id: details.product_id,
+        problem_statement: details.problem_statement || null,
+        target_audience: details.target_audience || null,
+        solution_description: details.solution_description || null,
+        key_features: details.key_features || null,
+        technical_details: details.technical_details || null,
+        future_roadmap: details.future_roadmap || null,
+        development_challenges: details.development_challenges || null
+      })
+      .select()
+      .single();
     
     if (error) {
       console.error('Error creating product details:', error);
@@ -63,8 +63,8 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       return null;
     }
     
-    // Fetch the newly created details
-    const queryClient = new useQueryClient();
+    // Invalidate the query to refetch
+    const queryClient = useQueryClient();
     queryClient.invalidateQueries({ queryKey: ['productDetails', details.product_id] });
     
     toast({
@@ -72,20 +72,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       description: 'Product details created successfully',
     });
     
-    // Return placeholder until the query is refreshed
-    return {
-      id: 0, // Temporary ID
-      product_id: details.product_id,
-      problem_statement: details.problem_statement || null,
-      target_audience: details.target_audience || null,
-      solution_description: details.solution_description || null,
-      key_features: details.key_features || null,
-      technical_details: details.technical_details || null,
-      future_roadmap: details.future_roadmap || null,
-      development_challenges: details.development_challenges || null,
-      created_at: new Date().toISOString(),
-      updated_at: null
-    };
+    return data as ProductDetails;
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     toast({
@@ -100,17 +87,22 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
 // Update existing product details
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Use the update_product_details RPC function
-    const { data, error } = await supabase.rpc('update_product_details', {
-      p_product_id: productId,
-      p_problem_statement: updates.problem_statement || null,
-      p_target_audience: updates.target_audience || null,
-      p_solution_description: updates.solution_description || null,
-      p_key_features: updates.key_features || null,
-      p_technical_details: updates.technical_details || null,
-      p_future_roadmap: updates.future_roadmap || null,
-      p_development_challenges: updates.development_challenges || null
-    });
+    // Update product_details table directly
+    const { data, error } = await supabase
+      .from('product_details')
+      .update({
+        problem_statement: updates.problem_statement,
+        target_audience: updates.target_audience,
+        solution_description: updates.solution_description,
+        key_features: updates.key_features,
+        technical_details: updates.technical_details,
+        future_roadmap: updates.future_roadmap,
+        development_challenges: updates.development_challenges,
+        updated_at: new Date().toISOString()
+      })
+      .eq('product_id', productId)
+      .select()
+      .single();
     
     if (error) {
       console.error('Error updating product details:', error);
@@ -123,7 +115,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
     }
     
     // Invalidate the query to refetch updated data
-    const queryClient = new useQueryClient();
+    const queryClient = useQueryClient();
     queryClient.invalidateQueries({ queryKey: ['productDetails', productId] });
     
     toast({
@@ -131,16 +123,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       description: 'Product details updated successfully',
     });
     
-    // Fetch the updated details from the database
-    const { data: updatedData, error: fetchError } = await supabase.rpc('get_product_details', {
-      p_product_id: productId
-    });
-    
-    if (fetchError || !updatedData || updatedData.length === 0) {
-      return null;
-    }
-    
-    return updatedData[0] as ProductDetails;
+    return data as ProductDetails;
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     toast({
@@ -155,13 +138,15 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
 // Upsert product details (create or update)
 export const upsertProductDetails = async (productId: number, details: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // First check if product details exist
-    const { data, error } = await supabase.rpc('get_product_details', {
-      p_product_id: productId
-    });
+    // Check if product details exist
+    const { data, error } = await supabase
+      .from('product_details')
+      .select('*')
+      .eq('product_id', productId)
+      .maybeSingle();
     
     // If product details exist, update them
-    if (!error && data && data.length > 0) {
+    if (!error && data) {
       return updateProductDetails(productId, details);
     } 
     // Otherwise, create new product details
@@ -186,10 +171,11 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
 // Delete product details
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
-    // Use the delete_product_details RPC function
-    const { error } = await supabase.rpc('delete_product_details', {
-      p_product_id: productId
-    });
+    // Delete directly from product_details table
+    const { error } = await supabase
+      .from('product_details')
+      .delete()
+      .eq('product_id', productId);
     
     if (error) {
       console.error('Error deleting product details:', error);
@@ -202,7 +188,7 @@ export const deleteProductDetails = async (productId: number): Promise<void> => 
     }
     
     // Invalidate the query to remove deleted data
-    const queryClient = new useQueryClient();
+    const queryClient = useQueryClient();
     queryClient.invalidateQueries({ queryKey: ['productDetails', productId] });
     
     toast({
