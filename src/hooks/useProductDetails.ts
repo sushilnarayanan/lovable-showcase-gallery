@@ -13,21 +13,31 @@ export const useProductDetailsById = (productId: number) => {
         return null;
       }
       
-      // Use raw SQL query instead of typed API
-      const { data, error } = await supabase
-        .rpc('get_product_details', { p_product_id: productId });
-      
-      if (error) {
-        console.error('Error fetching product details:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to load product details',
-          variant: 'destructive',
-        });
+      try {
+        // Use RPC for get_product_details function
+        const { data, error } = await supabase
+          .rpc('get_product_details', { p_product_id: productId });
+        
+        if (error) {
+          console.error('Error fetching product details:', error);
+          toast({
+            title: 'Error',
+            description: 'Failed to load product details',
+            variant: 'destructive',
+          });
+          throw error;
+        }
+        
+        // Safely handle potentially null data
+        if (!data || data.length === 0) {
+          return null;
+        }
+        
+        return data[0] as ProductDetails;
+      } catch (error) {
+        console.error('Error in useProductDetailsById:', error);
         throw error;
       }
-      
-      return data?.[0] as ProductDetails | null;
     },
     enabled: !!productId
   });
@@ -36,8 +46,8 @@ export const useProductDetailsById = (productId: number) => {
 // Create new product details
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
-    // Use raw SQL query with RPC
-    const { data, error } = await supabase
+    // Use RPC for insert_product_details function
+    const { error } = await supabase
       .rpc('insert_product_details', { 
         p_product_id: details.product_id,
         p_problem_statement: details.problem_statement,
@@ -65,10 +75,15 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
     });
     
     // Get the newly created details
-    const { data: newData } = await supabase
+    const { data: newData, error: fetchError } = await supabase
       .rpc('get_product_details', { p_product_id: details.product_id });
       
-    return newData?.[0] as ProductDetails;
+    if (fetchError || !newData || newData.length === 0) {
+      console.error('Error fetching created product details:', fetchError);
+      return null;
+    }
+    
+    return newData[0] as ProductDetails;
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     return null;
@@ -78,8 +93,8 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
 // Update existing product details
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
-    // Use raw SQL query with RPC
-    const { data, error } = await supabase
+    // Use RPC for update_product_details function
+    const { error } = await supabase
       .rpc('update_product_details', {
         p_product_id: productId,
         p_problem_statement: updates.problem_statement,
@@ -107,10 +122,15 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
     });
     
     // Get the updated details
-    const { data: updatedData } = await supabase
+    const { data: updatedData, error: fetchError } = await supabase
       .rpc('get_product_details', { p_product_id: productId });
       
-    return updatedData?.[0] as ProductDetails;
+    if (fetchError || !updatedData || updatedData.length === 0) {
+      console.error('Error fetching updated product details:', fetchError);
+      return null;
+    }
+    
+    return updatedData[0] as ProductDetails;
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     return null;
@@ -121,8 +141,13 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
 export const upsertProductDetails = async (productId: number, details: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
     // Check if product details exist using RPC
-    const { data: existingDetails } = await supabase
+    const { data: existingDetails, error: checkError } = await supabase
       .rpc('get_product_details', { p_product_id: productId });
+    
+    if (checkError) {
+      console.error('Error checking for existing product details:', checkError);
+      throw checkError;
+    }
     
     if (existingDetails && existingDetails.length > 0) {
       // Update existing details
@@ -144,7 +169,7 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
 // Delete product details
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
-    // Use raw SQL query with RPC
+    // Use RPC for delete_product_details function
     const { error } = await supabase
       .rpc('delete_product_details', { p_product_id: productId });
     
