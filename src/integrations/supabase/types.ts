@@ -81,6 +81,7 @@ export type Database = {
           key_features: string[] | null
           problem_statement: string | null
           product_id: number
+          product_images: string[] | null
           solution_description: string | null
           target_audience: string | null
           technical_details: string | null
@@ -94,6 +95,7 @@ export type Database = {
           key_features?: string[] | null
           problem_statement?: string | null
           product_id: number
+          product_images?: string[] | null
           solution_description?: string | null
           target_audience?: string | null
           technical_details?: string | null
@@ -107,6 +109,7 @@ export type Database = {
           key_features?: string[] | null
           problem_statement?: string | null
           product_id?: number
+          product_images?: string[] | null
           solution_description?: string | null
           target_audience?: string | null
           technical_details?: string | null
@@ -194,6 +197,7 @@ export type Database = {
           key_features: string[] | null
           problem_statement: string | null
           product_id: number
+          product_images: string[] | null
           solution_description: string | null
           target_audience: string | null
           technical_details: string | null
@@ -205,11 +209,12 @@ export type Database = {
           p_product_id: number
           p_problem_statement?: string
           p_target_audience?: string
+          p_development_challenges?: string
           p_solution_description?: string
+          p_future_roadmap?: string
           p_key_features?: string[]
           p_technical_details?: string
-          p_future_roadmap?: string
-          p_development_challenges?: string
+          p_product_images?: string[]
         }
         Returns: boolean
       }
@@ -218,11 +223,12 @@ export type Database = {
           p_product_id: number
           p_problem_statement?: string
           p_target_audience?: string
+          p_development_challenges?: string
           p_solution_description?: string
+          p_future_roadmap?: string
           p_key_features?: string[]
           p_technical_details?: string
-          p_future_roadmap?: string
-          p_development_challenges?: string
+          p_product_images?: string[]
         }
         Returns: boolean
       }

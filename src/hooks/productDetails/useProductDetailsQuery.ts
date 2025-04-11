@@ -35,11 +35,12 @@ export const useProductDetailsById = (productId: number) => {
           product_id: data.product_id,
           problem_statement: data.problem_statement,
           target_audience: data.target_audience,
+          development_challenges: data.development_challenges,
           solution_description: data.solution_description,
+          future_roadmap: data.future_roadmap,
           key_features: data.key_features,
           technical_details: data.technical_details,
-          future_roadmap: data.future_roadmap,
-          development_challenges: data.development_challenges,
+          product_images: data.product_images,
           created_at: data.created_at,
           updated_at: data.updated_at
         };

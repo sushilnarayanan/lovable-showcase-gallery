@@ -42,11 +42,12 @@ export interface ProductDetails {
   product_id: number;
   problem_statement: string | null;
   target_audience: string | null;
+  development_challenges: string | null;
   solution_description: string | null;
+  future_roadmap: string | null;
   key_features: string[] | null;
   technical_details: string | null;
-  future_roadmap: string | null;
-  development_challenges: string | null;
+  product_images: string[] | null;
   created_at: string;
   updated_at: string | null;
 }
@@ -57,11 +58,12 @@ export interface RpcProductDetails {
   product_id: number;
   problem_statement: string | null;
   target_audience: string | null;
+  development_challenges: string | null;
   solution_description: string | null;
+  future_roadmap: string | null;
   key_features: string[] | null;
   technical_details: string | null;
-  future_roadmap: string | null;
-  development_challenges: string | null;
+  product_images: string[] | null;
   created_at: string;
   updated_at: string | null;
 }
@@ -79,11 +81,12 @@ export type ProductDetailsCreateInput = {
   product_id: number;
   problem_statement?: string | null;
   target_audience?: string | null;
+  development_challenges?: string | null;
   solution_description?: string | null;
+  future_roadmap?: string | null;
   key_features?: string[] | null;
   technical_details?: string | null;
-  future_roadmap?: string | null;
-  development_challenges?: string | null;
+  product_images?: string[] | null;
 };
 
 // All fields optional for updates

@@ -14,11 +14,12 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
         p_product_id: details.product_id,
         p_problem_statement: details.problem_statement || null,
         p_target_audience: details.target_audience || null,
+        p_development_challenges: details.development_challenges || null,
         p_solution_description: details.solution_description || null,
+        p_future_roadmap: details.future_roadmap || null,
         p_key_features: details.key_features || null,
         p_technical_details: details.technical_details || null,
-        p_future_roadmap: details.future_roadmap || null,
-        p_development_challenges: details.development_challenges || null
+        p_product_images: details.product_images || null
       });
     
     if (error) {
@@ -47,11 +48,12 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       product_id: newData.product_id,
       problem_statement: newData.problem_statement,
       target_audience: newData.target_audience,
+      development_challenges: newData.development_challenges,
       solution_description: newData.solution_description,
+      future_roadmap: newData.future_roadmap,
       key_features: newData.key_features,
       technical_details: newData.technical_details,
-      future_roadmap: newData.future_roadmap,
-      development_challenges: newData.development_challenges,
+      product_images: newData.product_images,
       created_at: newData.created_at,
       updated_at: newData.updated_at
     };
