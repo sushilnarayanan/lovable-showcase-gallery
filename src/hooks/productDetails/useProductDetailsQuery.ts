@@ -15,17 +15,36 @@ export const useProductDetailsById = (productId: number) => {
       }
       
       try {
+        // Use RPC function to get product details
         const { data, error } = await supabase
-          .from('product_details')
-          .select('*')
-          .eq('product_id', productId)
-          .maybeSingle();
+          .rpc('get_product_details', { p_product_id: productId })
+          .single();
         
         if (error) {
           throw error;
         }
         
-        return data as ProductDetails | null;
+        // If no data returned, return null
+        if (!data) {
+          return null;
+        }
+        
+        // Map the response to the ProductDetails type
+        const productDetails: ProductDetails = {
+          id: data.id,
+          product_id: data.product_id,
+          problem_statement: data.problem_statement,
+          target_audience: data.target_audience,
+          solution_description: data.solution_description,
+          key_features: data.key_features,
+          technical_details: data.technical_details,
+          future_roadmap: data.future_roadmap,
+          development_challenges: data.development_challenges,
+          created_at: data.created_at,
+          updated_at: data.updated_at
+        };
+        
+        return productDetails;
       } catch (error) {
         console.error('Error in useProductDetailsById:', error);
         throw error;

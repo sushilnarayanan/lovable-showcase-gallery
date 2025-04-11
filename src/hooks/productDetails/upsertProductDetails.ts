@@ -11,9 +11,7 @@ export const upsertProductDetails = async (productId: number, details: ProductDe
   try {
     // Check if product details exist
     const { data, error } = await supabase
-      .from('product_details')
-      .select('*')
-      .eq('product_id', productId)
+      .rpc('get_product_details', { p_product_id: productId })
       .maybeSingle();
     
     // If product details exist, update them

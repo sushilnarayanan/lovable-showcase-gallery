@@ -1,5 +1,4 @@
 
-import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
@@ -8,10 +7,9 @@ import { toast } from '@/hooks/use-toast';
  */
 export const deleteProductDetails = async (productId: number): Promise<void> => {
   try {
+    // Use RPC function to delete product details
     const { error } = await supabase
-      .from('product_details')
-      .delete()
-      .eq('product_id', productId);
+      .rpc('delete_product_details', { p_product_id: productId });
     
     if (error) {
       console.error('Error deleting product details:', error);

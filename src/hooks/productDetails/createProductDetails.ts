@@ -1,5 +1,4 @@
 
-import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { ProductDetails, ProductDetailsCreateInput } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
@@ -9,20 +8,18 @@ import { toast } from '@/hooks/use-toast';
  */
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
+    // Use RPC function to insert product details
     const { data, error } = await supabase
-      .from('product_details')
-      .insert({
-        product_id: details.product_id,
-        problem_statement: details.problem_statement || null,
-        target_audience: details.target_audience || null,
-        solution_description: details.solution_description || null,
-        key_features: details.key_features || null,
-        technical_details: details.technical_details || null,
-        future_roadmap: details.future_roadmap || null,
-        development_challenges: details.development_challenges || null
-      })
-      .select()
-      .single();
+      .rpc('insert_product_details', {
+        p_product_id: details.product_id,
+        p_problem_statement: details.problem_statement || null,
+        p_target_audience: details.target_audience || null,
+        p_solution_description: details.solution_description || null,
+        p_key_features: details.key_features || null,
+        p_technical_details: details.technical_details || null,
+        p_future_roadmap: details.future_roadmap || null,
+        p_development_challenges: details.development_challenges || null
+      });
     
     if (error) {
       console.error('Error creating product details:', error);
@@ -34,13 +31,38 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       return null;
     }
     
+    // Fetch the newly created record to return
+    const { data: newData, error: fetchError } = await supabase
+      .rpc('get_product_details', { p_product_id: details.product_id })
+      .single();
+    
+    if (fetchError) {
+      console.error('Error fetching created product details:', fetchError);
+      return null;
+    }
+    
+    // Map the response to the ProductDetails type
+    const productDetails: ProductDetails = {
+      id: newData.id,
+      product_id: newData.product_id,
+      problem_statement: newData.problem_statement,
+      target_audience: newData.target_audience,
+      solution_description: newData.solution_description,
+      key_features: newData.key_features,
+      technical_details: newData.technical_details,
+      future_roadmap: newData.future_roadmap,
+      development_challenges: newData.development_challenges,
+      created_at: newData.created_at,
+      updated_at: newData.updated_at
+    };
+    
     // Success toast
     toast({
       title: 'Success',
       description: 'Product details created successfully',
     });
     
-    return data as ProductDetails;
+    return productDetails;
   } catch (error) {
     console.error('Error in createProductDetails:', error);
     toast({

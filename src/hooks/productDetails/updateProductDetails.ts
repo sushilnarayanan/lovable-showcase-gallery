@@ -1,5 +1,4 @@
 
-import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { ProductDetails, ProductDetailsUpdateInput } from '@/integrations/supabase/types/portfolio';
 import { toast } from '@/hooks/use-toast';
@@ -9,21 +8,18 @@ import { toast } from '@/hooks/use-toast';
  */
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
+    // Use RPC function to update product details
     const { data, error } = await supabase
-      .from('product_details')
-      .update({
-        problem_statement: updates.problem_statement,
-        target_audience: updates.target_audience,
-        solution_description: updates.solution_description,
-        key_features: updates.key_features,
-        technical_details: updates.technical_details,
-        future_roadmap: updates.future_roadmap,
-        development_challenges: updates.development_challenges,
-        updated_at: new Date().toISOString()
-      })
-      .eq('product_id', productId)
-      .select()
-      .single();
+      .rpc('update_product_details', {
+        p_product_id: productId,
+        p_problem_statement: updates.problem_statement || null,
+        p_target_audience: updates.target_audience || null,
+        p_solution_description: updates.solution_description || null,
+        p_key_features: updates.key_features || null,
+        p_technical_details: updates.technical_details || null,
+        p_future_roadmap: updates.future_roadmap || null,
+        p_development_challenges: updates.development_challenges || null
+      });
     
     if (error) {
       console.error('Error updating product details:', error);
@@ -35,13 +31,38 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       return null;
     }
     
+    // Fetch the updated record to return
+    const { data: updatedData, error: fetchError } = await supabase
+      .rpc('get_product_details', { p_product_id: productId })
+      .single();
+    
+    if (fetchError) {
+      console.error('Error fetching updated product details:', fetchError);
+      return null;
+    }
+    
+    // Map the response to the ProductDetails type
+    const productDetails: ProductDetails = {
+      id: updatedData.id,
+      product_id: updatedData.product_id,
+      problem_statement: updatedData.problem_statement,
+      target_audience: updatedData.target_audience,
+      solution_description: updatedData.solution_description,
+      key_features: updatedData.key_features,
+      technical_details: updatedData.technical_details,
+      future_roadmap: updatedData.future_roadmap,
+      development_challenges: updatedData.development_challenges,
+      created_at: updatedData.created_at,
+      updated_at: updatedData.updated_at
+    };
+    
     // Success toast
     toast({
       title: 'Success',
       description: 'Product details updated successfully',
     });
     
-    return data as ProductDetails;
+    return productDetails;
   } catch (error) {
     console.error('Error in updateProductDetails:', error);
     toast({
