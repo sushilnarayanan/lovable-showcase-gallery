@@ -9,7 +9,7 @@ import { toast } from '@/hooks/use-toast';
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
     // Use RPC function to insert product details
-    const { data, error } = await supabase
+    const { error } = await supabase
       .rpc('insert_product_details', {
         p_product_id: details.product_id,
         p_problem_statement: details.problem_statement || null,
@@ -36,7 +36,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       .rpc('get_product_details', { p_product_id: details.product_id })
       .single();
     
-    if (fetchError) {
+    if (fetchError || !newData) {
       console.error('Error fetching created product details:', fetchError);
       return null;
     }

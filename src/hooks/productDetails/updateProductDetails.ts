@@ -9,7 +9,7 @@ import { toast } from '@/hooks/use-toast';
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
     // Use RPC function to update product details
-    const { data, error } = await supabase
+    const { error } = await supabase
       .rpc('update_product_details', {
         p_product_id: productId,
         p_problem_statement: updates.problem_statement || null,
@@ -36,7 +36,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       .rpc('get_product_details', { p_product_id: productId })
       .single();
     
-    if (fetchError) {
+    if (fetchError || !updatedData) {
       console.error('Error fetching updated product details:', fetchError);
       return null;
     }

@@ -18,7 +18,7 @@ export const useProductDetailsById = (productId: number) => {
         // Use RPC function to get product details
         const { data, error } = await supabase
           .rpc('get_product_details', { p_product_id: productId })
-          .single();
+          .maybeSingle();
         
         if (error) {
           throw error;

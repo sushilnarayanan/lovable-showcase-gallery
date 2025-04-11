@@ -72,6 +72,56 @@ export type Database = {
           },
         ]
       }
+      product_details: {
+        Row: {
+          created_at: string
+          development_challenges: string | null
+          future_roadmap: string | null
+          id: number
+          key_features: string[] | null
+          problem_statement: string | null
+          product_id: number
+          solution_description: string | null
+          target_audience: string | null
+          technical_details: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          development_challenges?: string | null
+          future_roadmap?: string | null
+          id?: number
+          key_features?: string[] | null
+          problem_statement?: string | null
+          product_id: number
+          solution_description?: string | null
+          target_audience?: string | null
+          technical_details?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          development_challenges?: string | null
+          future_roadmap?: string | null
+          id?: number
+          key_features?: string[] | null
+          problem_statement?: string | null
+          product_id?: number
+          solution_description?: string | null
+          target_audience?: string | null
+          technical_details?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_details_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: true
+            referencedRelation: "Products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Products: {
         Row: {
           category_id: number | null
@@ -130,7 +180,52 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      delete_product_details: {
+        Args: { p_product_id: number }
+        Returns: boolean
+      }
+      get_product_details: {
+        Args: { p_product_id: number }
+        Returns: {
+          created_at: string
+          development_challenges: string | null
+          future_roadmap: string | null
+          id: number
+          key_features: string[] | null
+          problem_statement: string | null
+          product_id: number
+          solution_description: string | null
+          target_audience: string | null
+          technical_details: string | null
+          updated_at: string | null
+        }[]
+      }
+      insert_product_details: {
+        Args: {
+          p_product_id: number
+          p_problem_statement?: string
+          p_target_audience?: string
+          p_solution_description?: string
+          p_key_features?: string[]
+          p_technical_details?: string
+          p_future_roadmap?: string
+          p_development_challenges?: string
+        }
+        Returns: boolean
+      }
+      update_product_details: {
+        Args: {
+          p_product_id: number
+          p_problem_statement?: string
+          p_target_audience?: string
+          p_solution_description?: string
+          p_key_features?: string[]
+          p_technical_details?: string
+          p_future_roadmap?: string
+          p_development_challenges?: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
