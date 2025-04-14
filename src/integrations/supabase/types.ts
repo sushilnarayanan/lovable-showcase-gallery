@@ -80,7 +80,8 @@ export type Database = {
           id: number
           key_features: string[] | null
           problem_statement: string | null
-          product_id: number
+          product_details: string | null
+          product_id: number | null
           product_images: string[] | null
           solution_description: string | null
           target_audience: string | null
@@ -94,7 +95,8 @@ export type Database = {
           id?: number
           key_features?: string[] | null
           problem_statement?: string | null
-          product_id: number
+          product_details?: string | null
+          product_id?: number | null
           product_images?: string[] | null
           solution_description?: string | null
           target_audience?: string | null
@@ -108,7 +110,8 @@ export type Database = {
           id?: number
           key_features?: string[] | null
           problem_statement?: string | null
-          product_id?: number
+          product_details?: string | null
+          product_id?: number | null
           product_images?: string[] | null
           solution_description?: string | null
           target_audience?: string | null
@@ -196,7 +199,8 @@ export type Database = {
           id: number
           key_features: string[] | null
           problem_statement: string | null
-          product_id: number
+          product_details: string | null
+          product_id: number | null
           product_images: string[] | null
           solution_description: string | null
           target_audience: string | null

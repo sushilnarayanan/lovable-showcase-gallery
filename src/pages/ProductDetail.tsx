@@ -430,7 +430,7 @@ const ProductDetail = () => {
             </TabsList>
           </div>
           
-          {/* Problem Tab - Modified Content */}
+          {/* Problem Tab - Modified for better mobile wrapping */}
           <TabsContent value="problem" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -453,32 +453,39 @@ const ProductDetail = () => {
                       </span>
                       Problem Statement
                     </h3>
-                    <p className="text-gray-300">
-                      {productDetails?.problem_statement || project.description || "This project addresses a specific problem in the market."}
+                    <p className="text-gray-300 break-words">
+                      Despite ChatGPT's popularity, many professionals don't know how 
+                      to effectively use it for specific work scenarios, missing out 
+                      on significant productivity gains.
                     </p>
                   </div>
                   
                   <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
+                    {/* Target Users section */}
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-netflix-red">
                       <span className="h-8 w-8 rounded-full bg-netflix-red/20 flex items-center justify-center mr-2">
                         <Users className="h-4 w-4 text-netflix-red" />
                       </span>
                       Target Users
                     </h3>
-                    <p className="text-gray-300">
-                      {productDetails?.target_audience || "People who needed a solution to efficiently manage their tasks and improve productivity."}
+                    <p className="text-gray-300 break-words">
+                      Knowledge workers, writers, marketers, educators, researchers, 
+                      and anyone looking to optimize their workflow using AI tools.
                     </p>
                   </div>
                   
                   <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
+                    {/* Why Built This section */}
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-netflix-red">
                       <span className="h-8 w-8 rounded-full bg-netflix-red/20 flex items-center justify-center mr-2">
                         <Shield className="h-4 w-4 text-netflix-red" />
                       </span>
                       Why Built This?
                     </h3>
-                    <p className="text-gray-300">
-                      {productDetails?.development_challenges || "The main reason for building this project was to create an intuitive interface while maintaining powerful features."}
+                    <p className="text-gray-300 break-words">
+                      Within six months of ChatGPT's launch, I was amazed by its potential 
+                      use cases but noticed most people were using only a fraction of its 
+                      capabilities due to lack of task-specific knowledge.
                     </p>
                   </div>
                 </div>
