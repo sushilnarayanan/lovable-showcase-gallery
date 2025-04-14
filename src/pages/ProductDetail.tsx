@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -22,6 +21,7 @@ import {
   AlertCircle,
   ChevronDown,
   ChevronUp,
+  Tag,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -197,7 +197,6 @@ const ProductDetail = () => {
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
   ];
 
-  // Mobile accordion section component for better reusability
   const AccordionSection = ({ 
     title, 
     icon, 
@@ -252,7 +251,6 @@ const ProductDetail = () => {
           Back
         </Button>
         
-        {/* Hero section with project image or video */}
         <div className="relative w-full h-[40vh] lg:h-[50vh]">
           {isVideoPlaying && project.videoUrl ? (
             <div className="absolute inset-0 bg-black z-40">
@@ -287,7 +285,6 @@ const ProductDetail = () => {
           )}
         </div>
 
-        {/* Product Title and Description - Now in a more mobile-friendly layout */}
         <div className="w-full px-4 py-6 -mt-16 relative z-30">
           <div className="max-w-3xl mx-auto">
             <span className="text-netflix-red text-sm font-medium tracking-wider">FEATURED PROJECT</span>
@@ -298,7 +295,6 @@ const ProductDetail = () => {
               {project.description}
             </p>
             
-            {/* Action Buttons in a row, but will stack on very small screens */}
             <div className="flex flex-wrap gap-3 mb-8">
               {project.videoUrl && (
                 <Button 
@@ -335,9 +331,32 @@ const ProductDetail = () => {
             </div>
           </div>
 
+          <div className="max-w-3xl mx-auto mb-6">
+            <div className="flex items-center mb-4">
+              <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
+                <Tag className="h-5 w-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-white">Technologies</h2>
+            </div>
+            
+            {project.tags && project.tags.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag, index) => (
+                  <span 
+                    key={index}
+                    className="px-3 py-1 bg-netflix-red/20 text-white border border-netflix-red/30 rounded-md text-sm font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-400 italic">No technologies listed for this project.</p>
+            )}
+          </div>
+
           <Separator className="bg-netflix-red/20 my-6" />
           
-          {/* Product Images Section */}
           <div className="max-w-3xl mx-auto mb-8">
             <div className="flex items-center mb-4">
               <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
@@ -365,9 +384,6 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <Separator className="bg-netflix-red/20 my-6" />
-          
-          {/* Product Details Section - Mobile Accordion layout for mobile, tabs for desktop */}
           {isMobile ? (
             <div className="max-w-3xl mx-auto">
               <AccordionSection 
@@ -484,7 +500,6 @@ const ProductDetail = () => {
               </AccordionSection>
             </div>
           ) : (
-            // Desktop version with tabs
             <div className="max-w-3xl mx-auto">
               <Tabs 
                 defaultValue="problem" 
