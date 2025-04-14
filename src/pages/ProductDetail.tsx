@@ -28,6 +28,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import Navbar from '@/components/Navbar';
+import { Badge } from '@/components/ui/badge';
 
 type ProductWithCategories = ProductItem & {
   categories?: CategoryItem[];
@@ -331,15 +332,8 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <div className="max-w-3xl mx-auto mb-6">
-            <div className="flex items-center mb-4">
-              <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
-                <Tag className="h-5 w-5 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white">Technologies</h2>
-            </div>
-            
-            {project.tags && project.tags.length > 0 ? (
+          {project.tags && project.tags.length > 0 && (
+            <div className="max-w-3xl mx-auto mb-6">
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag, index) => (
                   <span 
@@ -350,10 +344,8 @@ const ProductDetail = () => {
                   </span>
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-400 italic">No technologies listed for this project.</p>
-            )}
-          </div>
+            </div>
+          )}
 
           <Separator className="bg-netflix-red/20 my-6" />
           
