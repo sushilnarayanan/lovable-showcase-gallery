@@ -11,14 +11,9 @@ import {
   ExternalLink, 
   Github, 
   Play, 
-  Calendar, 
-  Tag, 
-  Check, 
-  AlertCircle,
   Lightbulb,
   PanelTopOpen,
   Wrench,
-  Target,
   Users,
   Shield,
   Image,
@@ -26,10 +21,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Navbar from '@/components/Navbar';
 
-// Define an extended type that includes categories
 type ProductWithCategories = ProductItem & {
   categories?: CategoryItem[];
 };
@@ -42,11 +35,9 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState('problem');
   const topRef = useRef<HTMLDivElement>(null);
   
-  // Try to get project from location state first
   const projectFromState = location.state?.project as Project & ProductWithCategories;
   const [project, setProject] = useState<(Project & ProductWithCategories) | null>(projectFromState || null);
   
-  // Fetch product data if not available in location state
   const { data: fetchedProduct, isLoading, error } = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
@@ -54,7 +45,6 @@ const ProductDetail = () => {
         throw new Error('Invalid product ID');
       }
       
-      // Enhanced query to also fetch the categories
       const { data, error } = await supabase
         .from('Products')
         .select('*')
@@ -65,10 +55,8 @@ const ProductDetail = () => {
         throw error;
       }
       
-      // Explicitly define the return type to include categories
       const productWithCategories = data as ProductWithCategories;
       
-      // Fetch categories for this product
       const { data: categoryRelations, error: relError } = await supabase
         .from('product_categories')
         .select('category_id')
@@ -92,11 +80,9 @@ const ProductDetail = () => {
     enabled: !projectFromState && !!id && id !== 'detail',
   });
 
-  // Fetch additional product details if we have an ID
   const productId = project?.id || (id && !isNaN(Number(id)) ? Number(id) : undefined);
   const { data: productDetails } = useProductDetailsById(productId as number);
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
@@ -185,35 +171,20 @@ const ProductDetail = () => {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "N/A";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
-
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
 
-  // Sample images for Product Images section - use thumbnail and potentially future gallery images
   const productImages = [
     project.image || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80',
     'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80',
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
   ];
 
-  // Display categories if available
-  const categoryTags = project.categories ? project.categories.map(cat => cat.name).join(', ') : '';
-
   return (
     <div className="min-h-screen bg-black text-white" ref={topRef}>
       <Navbar />
       
-      {/* Hero Section with Back Button */}
       <div className="relative w-full pt-16">
         <Button 
           variant="netflixOutline" 
@@ -224,7 +195,6 @@ const ProductDetail = () => {
           Back
         </Button>
         
-        {/* Hero Image / Video Player */}
         <div className="relative w-full h-[50vh] lg:h-[60vh]">
           {isVideoPlaying && project.videoUrl ? (
             <div className="absolute inset-0 bg-black z-40">
@@ -258,7 +228,6 @@ const ProductDetail = () => {
             </>
           )}
           
-          {/* Hero Content Overlay */}
           <div className="absolute bottom-0 left-0 w-full p-8 z-20">
             <div className="container mx-auto">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -270,66 +239,40 @@ const ProductDetail = () => {
                   <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white">{project.title}</h1>
                   <p className="text-xl text-gray-300 mb-4 max-w-2xl font-medium">{project.description}</p>
                   
-                  {/* Quick Stats */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm">
-                    {project.created_at && (
-                      <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
-                        <Calendar size={14} className="mr-1 text-netflix-red" />
-                        {formatDate(project.created_at)}
-                      </div>
+                  <div className="flex space-x-3">
+                    {project.videoUrl && (
+                      <Button 
+                        variant="netflix"
+                        className="font-medium" 
+                        onClick={handlePlayVideo}
+                      >
+                        <Play size={18} />
+                        Watch Demo
+                      </Button>
                     )}
-                    {project.categories && project.categories.length > 0 && (
-                      <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
-                        <Tag size={14} className="mr-1 text-netflix-red" />
-                        {project.categories.length} {project.categories.length === 1 ? 'Category' : 'Categories'}
-                      </div>
+                    
+                    {project.productLink && (
+                      <Button
+                        variant="netflixOutline"
+                        className="border-netflix-red" 
+                        onClick={() => window.open(project.productLink, '_blank')}
+                      >
+                        <ExternalLink size={18} />
+                        Visit Project
+                      </Button>
                     )}
-                    {project.tags && project.tags.length > 0 && (
-                      <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
-                        <Tag size={14} className="mr-1 text-netflix-red" />
-                        {project.tags.length} {project.tags.length === 1 ? 'Tag' : 'Tags'}
-                      </div>
+                    
+                    {project.github_link && (
+                      <Button
+                        variant="netflixOutline"
+                        className="border-netflix-red" 
+                        onClick={() => window.open(project.github_link, '_blank')}
+                      >
+                        <Github size={18} />
+                        View Code
+                      </Button>
                     )}
-                    <div className="flex items-center bg-black/60 px-3 py-1 rounded-full border border-netflix-red/20 text-white">
-                      <Check size={14} className="mr-1 text-gray-400" />
-                      Live
-                    </div>
                   </div>
-                </div>
-                
-                <div className="flex space-x-3">
-                  {project.videoUrl && (
-                    <Button 
-                      variant="netflix"
-                      className="font-medium" 
-                      onClick={handlePlayVideo}
-                    >
-                      <Play size={18} />
-                      Watch Demo
-                    </Button>
-                  )}
-                  
-                  {project.productLink && (
-                    <Button
-                      variant="netflixOutline"
-                      className="border-netflix-red" 
-                      onClick={() => window.open(project.productLink, '_blank')}
-                    >
-                      <ExternalLink size={18} />
-                      Visit Project
-                    </Button>
-                  )}
-                  
-                  {project.github_link && (
-                    <Button
-                      variant="netflixOutline"
-                      className="border-netflix-red" 
-                      onClick={() => window.open(project.github_link, '_blank')}
-                    >
-                      <Github size={18} />
-                      View Code
-                    </Button>
-                  )}
                 </div>
               </div>
             </div>
@@ -337,9 +280,7 @@ const ProductDetail = () => {
         </div>
       </div>
       
-      {/* Main Content with Tabs */}
       <div className="container mx-auto py-6 px-4">
-        {/* Product Images Section */}
         <div className="mb-8">
           <div className="flex items-center mb-4">
             <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
@@ -367,30 +308,6 @@ const ProductDetail = () => {
           </div>
         </div>
         
-        {/* Categories section - Show if categories exist */}
-        {project.categories && project.categories.length > 0 && (
-          <div className="mb-8">
-            <div className="flex items-center mb-4">
-              <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
-                <Tag className="h-5 w-5 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white">Categories</h2>
-            </div>
-            
-            <div className="flex flex-wrap gap-2">
-              {project.categories.map((category) => (
-                <span 
-                  key={category.id} 
-                  className="px-3 py-1 bg-netflix-red/10 text-white border border-netflix-red/30 rounded-full"
-                >
-                  {category.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {/* Tabs */}
         <Tabs 
           defaultValue="problem" 
           value={activeTab}
@@ -430,7 +347,6 @@ const ProductDetail = () => {
             </TabsList>
           </div>
           
-          {/* Problem Tab - Modified for better mobile wrapping */}
           <TabsContent value="problem" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -449,19 +365,16 @@ const ProductDetail = () => {
                   <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-netflix-red">
                       <span className="h-8 w-8 rounded-full bg-netflix-red/20 flex items-center justify-center mr-2">
-                        <Target className="h-4 w-4 text-netflix-red" />
+                        <Users className="h-4 w-4 text-netflix-red" />
                       </span>
                       Problem Statement
                     </h3>
                     <p className="text-gray-300 break-words">
-                      Despite ChatGPT's popularity, many professionals don't know how 
-                      to effectively use it for specific work scenarios, missing out 
-                      on significant productivity gains.
+                      {productDetails?.problem_statement || project.description || "This project addresses a specific problem in the market."}
                     </p>
                   </div>
                   
                   <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
-                    {/* Target Users section */}
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-netflix-red">
                       <span className="h-8 w-8 rounded-full bg-netflix-red/20 flex items-center justify-center mr-2">
                         <Users className="h-4 w-4 text-netflix-red" />
@@ -469,13 +382,11 @@ const ProductDetail = () => {
                       Target Users
                     </h3>
                     <p className="text-gray-300 break-words">
-                      Knowledge workers, writers, marketers, educators, researchers, 
-                      and anyone looking to optimize their workflow using AI tools.
+                      {productDetails?.target_audience || "People who needed a solution to efficiently manage their tasks and improve productivity."}
                     </p>
                   </div>
                   
                   <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
-                    {/* Why Built This section */}
                     <h3 className="text-lg font-semibold mb-2 flex items-center text-netflix-red">
                       <span className="h-8 w-8 rounded-full bg-netflix-red/20 flex items-center justify-center mr-2">
                         <Shield className="h-4 w-4 text-netflix-red" />
@@ -483,9 +394,7 @@ const ProductDetail = () => {
                       Why Built This?
                     </h3>
                     <p className="text-gray-300 break-words">
-                      Within six months of ChatGPT's launch, I was amazed by its potential 
-                      use cases but noticed most people were using only a fraction of its 
-                      capabilities due to lack of task-specific knowledge.
+                      {productDetails?.development_challenges || "The main reason for building this project was to create an intuitive interface while maintaining powerful features."}
                     </p>
                   </div>
                 </div>
@@ -493,7 +402,6 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Solution Tab - Enhanced with productDetails */}
           <TabsContent value="solution" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -531,7 +439,6 @@ const ProductDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Features Tab - Enhanced with productDetails */}
           <TabsContent value="features" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
@@ -546,58 +453,15 @@ const ProductDetail = () => {
                 </div>
               </div>
               <CardContent className="pt-6">
-                {productDetails?.key_features && productDetails.key_features.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {productDetails.key_features.map((feature, index) => (
-                      <div key={index} className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                        <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                          <Check className="text-black" size={24} />
-                        </div>
-                        <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature {index + 1}</h3>
-                        <p className="text-gray-300">{feature}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                        <Check className="text-black" size={24} />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 1</h3>
-                      <p className="text-gray-300">Detailed description of the first main feature.</p>
-                    </div>
-                    
-                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                        <Check className="text-black" size={24} />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 2</h3>
-                      <p className="text-gray-300">Detailed description of the second main feature.</p>
-                    </div>
-                    
-                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                        <Check className="text-black" size={24} />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 3</h3>
-                      <p className="text-gray-300">Detailed description of the third main feature.</p>
-                    </div>
-                    
-                    <div className="bg-black/70 border border-netflix-red/10 p-5 rounded-md hover:bg-black/90 transition-all duration-300 netflix-shadow">
-                      <div className="h-12 w-12 bg-netflix-red rounded-md flex items-center justify-center mb-4">
-                        <Check className="text-black" size={24} />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2 text-netflix-red netflix-text">Feature 4</h3>
-                      <p className="text-gray-300">Detailed description of the fourth main feature.</p>
-                    </div>
-                  </div>
-                )}
+                <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
+                  <p className="text-gray-300 break-words">
+                    {productDetails?.key_features?.join('. ') || "This project is designed to provide a comprehensive and intuitive solution to its target users. The key features are carefully crafted to address the specific needs and challenges identified in the problem statement."}
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
           
-          {/* Tools Tab - Enhanced with technical details */}
           <TabsContent value="tools" className="space-y-6">
             <Card className="bg-black border border-netflix-red/20 overflow-hidden rounded-md">
               <div className="bg-gradient-to-r from-netflix-red/10 to-transparent p-6">
