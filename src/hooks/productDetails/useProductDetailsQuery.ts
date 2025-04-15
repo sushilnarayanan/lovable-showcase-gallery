@@ -29,6 +29,28 @@ export const useProductDetailsById = (productId: number) => {
           return null;
         }
         
+        // Parse key_features if it's a string but should be an array
+        let keyFeatures: string[] | null = null;
+        if (data.key_features) {
+          try {
+            // If it's already an array, this will work
+            if (Array.isArray(data.key_features)) {
+              keyFeatures = data.key_features;
+            } 
+            // If it's a JSON string, try to parse it
+            else if (typeof data.key_features === 'string') {
+              keyFeatures = JSON.parse(data.key_features);
+              // Ensure it's actually an array after parsing
+              if (!Array.isArray(keyFeatures)) {
+                keyFeatures = [data.key_features];
+              }
+            }
+          } catch (e) {
+            // If parsing fails, treat it as a single item array
+            keyFeatures = [data.key_features as string];
+          }
+        }
+        
         // Map the response to the ProductDetails type
         const productDetails: ProductDetails = {
           id: data.id,
@@ -38,7 +60,7 @@ export const useProductDetailsById = (productId: number) => {
           development_challenges: data.development_challenges,
           solution_description: data.solution_description,
           future_roadmap: data.future_roadmap,
-          key_features: data.key_features,
+          key_features: keyFeatures,
           technical_details: data.technical_details,
           product_images: data.product_images,
           created_at: data.created_at,

@@ -8,6 +8,11 @@ import { toast } from '@/hooks/use-toast';
  */
 export const updateProductDetails = async (productId: number, updates: ProductDetailsUpdateInput): Promise<ProductDetails | null> => {
   try {
+    // Convert key_features array to string if needed for the database
+    const keyFeaturesForDb = updates.key_features ? 
+      (Array.isArray(updates.key_features) ? JSON.stringify(updates.key_features) : updates.key_features) : 
+      null;
+    
     // Use RPC function to update product details
     const { error } = await supabase
       .rpc('update_product_details', {
@@ -42,6 +47,23 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       return null;
     }
     
+    // Parse key_features if needed
+    let keyFeatures: string[] | null = null;
+    if (updatedData.key_features) {
+      try {
+        if (Array.isArray(updatedData.key_features)) {
+          keyFeatures = updatedData.key_features;
+        } else if (typeof updatedData.key_features === 'string') {
+          keyFeatures = JSON.parse(updatedData.key_features);
+          if (!Array.isArray(keyFeatures)) {
+            keyFeatures = [updatedData.key_features as string];
+          }
+        }
+      } catch (e) {
+        keyFeatures = [updatedData.key_features as string];
+      }
+    }
+    
     // Map the response to the ProductDetails type
     const productDetails: ProductDetails = {
       id: updatedData.id,
@@ -51,7 +73,7 @@ export const updateProductDetails = async (productId: number, updates: ProductDe
       development_challenges: updatedData.development_challenges,
       solution_description: updatedData.solution_description,
       future_roadmap: updatedData.future_roadmap,
-      key_features: updatedData.key_features,
+      key_features: keyFeatures,
       technical_details: updatedData.technical_details,
       product_images: updatedData.product_images,
       created_at: updatedData.created_at,

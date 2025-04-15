@@ -8,6 +8,11 @@ import { toast } from '@/hooks/use-toast';
  */
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
+    // Convert key_features array to string if needed for the database
+    const keyFeaturesForDb = details.key_features ? 
+      (Array.isArray(details.key_features) ? JSON.stringify(details.key_features) : details.key_features) : 
+      null;
+    
     // Use RPC function to insert product details
     const { error } = await supabase
       .rpc('insert_product_details', {
@@ -42,6 +47,23 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       return null;
     }
     
+    // Parse key_features if needed
+    let keyFeatures: string[] | null = null;
+    if (newData.key_features) {
+      try {
+        if (Array.isArray(newData.key_features)) {
+          keyFeatures = newData.key_features;
+        } else if (typeof newData.key_features === 'string') {
+          keyFeatures = JSON.parse(newData.key_features);
+          if (!Array.isArray(keyFeatures)) {
+            keyFeatures = [newData.key_features as string];
+          }
+        }
+      } catch (e) {
+        keyFeatures = [newData.key_features as string];
+      }
+    }
+    
     // Map the response to the ProductDetails type
     const productDetails: ProductDetails = {
       id: newData.id,
@@ -51,7 +73,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       development_challenges: newData.development_challenges,
       solution_description: newData.solution_description,
       future_roadmap: newData.future_roadmap,
-      key_features: newData.key_features,
+      key_features: keyFeatures,
       technical_details: newData.technical_details,
       product_images: newData.product_images,
       created_at: newData.created_at,
