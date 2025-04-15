@@ -238,6 +238,11 @@ const ProductDetail = () => {
     );
   };
 
+  const safeJoin = (arr: any[] | null | undefined, separator: string = '. '): string => {
+    if (!arr || !Array.isArray(arr)) return '';
+    return arr.join(separator);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white" ref={topRef}>
       <Navbar />
@@ -455,7 +460,7 @@ const ProductDetail = () => {
               >
                 <div className="bg-black/70 p-4 rounded-md border border-netflix-red/10 text-white">
                   <p className="text-gray-300 break-words">
-                    {productDetails?.key_features?.join('. ') || "This project is designed to provide a comprehensive and intuitive solution to its target users. The key features are carefully crafted to address the specific needs and challenges identified in the problem statement."}
+                    {safeJoin(productDetails?.key_features) || "This project is designed to provide a comprehensive and intuitive solution to its target users. The key features are carefully crafted to address the specific needs and challenges identified in the problem statement."}
                   </p>
                 </div>
               </AccordionSection>
@@ -640,7 +645,7 @@ const ProductDetail = () => {
                     <CardContent className="pt-6">
                       <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
                         <p className="text-gray-300 break-words">
-                          {productDetails?.key_features?.join('. ') || "This project is designed to provide a comprehensive and intuitive solution to its target users. The key features are carefully crafted to address the specific needs and challenges identified in the problem statement."}
+                          {safeJoin(productDetails?.key_features) || "This project is designed to provide a comprehensive and intuitive solution to its target users. The key features are carefully crafted to address the specific needs and challenges identified in the problem statement."}
                         </p>
                       </div>
                     </CardContent>
