@@ -120,14 +120,14 @@ const ContentRow = ({
   })) : projects || [];
   return <div className="netflix-row mb-8"> {/* Consistent bottom margin */}
       {/* Title - properly aligned with consistent left padding */}
-      <h2 className="text-2xl font-bold mb-3 text-white px-4 sm:px-8 md:px-12 lg:px-16">{title}</h2>
-      <div className="group relative">
+      <h2 className="text-2xl font-bold mb-3 text-white px-4 sm:px-8 md:px-12 text-left lg:px-[34px]">{title}</h2>
+      <div className="group relative px-0">
         {/* Left Navigation Button - only shown when we can scroll left */}
         {canScrollLeft && <button className="absolute left-0 top-0 bottom-0 z-40 bg-black/80 w-12 h-full flex items-center justify-center transition-opacity" onClick={() => scroll('left')} aria-label="Scroll left">
             <ChevronLeft className="text-white w-8 h-8" />
           </button>}
         
-        <div ref={rowRef} className="flex space-x-4 overflow-x-scroll py-4 px-4 sm:px-8 md:px-12 netflix-scrollbar lg:px-[8px]">
+        <div ref={rowRef} className="flex space-x-4 overflow-x-scroll py-4 px-4 sm:px-8 md:px-12 netflix-scrollbar lg:px-[15px]">
           {displayItems.length > 0 ? displayItems.map(project => <ProjectCard key={project.id} project={project} />) : <div className="flex items-center justify-center w-full h-[200px] text-gray-400 bg-gray-800/30 rounded p-4">
               No items in this category yet
               {categorySlug && <button onClick={assignToCategory} className="ml-2 text-sm bg-netflix-red hover:bg-netflix-red/90 text-white px-3 py-1 rounded-md flex items-center">
