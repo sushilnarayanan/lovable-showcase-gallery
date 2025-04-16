@@ -643,11 +643,25 @@ const ProductDetail = () => {
                       </div>
                     </div>
                     <CardContent className="pt-6">
-                      <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
-                        <p className="text-gray-300 break-words">
-                          {safeJoin(productDetails?.key_features) || "This project is designed to provide a comprehensive and intuitive solution to its target users. The key features are carefully crafted to address the specific needs and challenges identified in the problem statement."}
-                        </p>
-                      </div>
+                      {productDetails?.key_features && productDetails.key_features.length > 0 ? (
+                        <div className="space-y-4">
+                          {productDetails.key_features.map((feature, index) => (
+                            <div 
+                              key={index}
+                              className="bg-black/70 p-4 rounded-md border border-netflix-red/10 text-white flex items-start gap-3"
+                            >
+                              <div className="h-6 w-6 rounded-full bg-netflix-red/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                <span className="text-netflix-red text-sm">{index + 1}</span>
+                              </div>
+                              <p className="text-gray-300">{feature}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="bg-black/70 p-6 rounded-md border border-netflix-red/10 text-white">
+                          <p className="text-gray-300">No key features have been added for this product yet.</p>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </TabsContent>
