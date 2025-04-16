@@ -78,7 +78,7 @@ export type Database = {
           development_challenges: string | null
           future_roadmap: string | null
           id: number
-          key_features: string | null
+          key_features: string[] | null
           problem_statement: string | null
           product_details: string | null
           product_id: number | null
@@ -93,7 +93,7 @@ export type Database = {
           development_challenges?: string | null
           future_roadmap?: string | null
           id?: number
-          key_features?: string | null
+          key_features?: string[] | null
           problem_statement?: string | null
           product_details?: string | null
           product_id?: number | null
@@ -108,7 +108,7 @@ export type Database = {
           development_challenges?: string | null
           future_roadmap?: string | null
           id?: number
-          key_features?: string | null
+          key_features?: string[] | null
           problem_statement?: string | null
           product_details?: string | null
           product_id?: number | null
@@ -197,7 +197,7 @@ export type Database = {
           development_challenges: string | null
           future_roadmap: string | null
           id: number
-          key_features: string | null
+          key_features: string[] | null
           problem_statement: string | null
           product_details: string | null
           product_id: number | null

@@ -8,10 +8,8 @@ import { toast } from '@/hooks/use-toast';
  */
 export const createProductDetails = async (details: ProductDetailsCreateInput): Promise<ProductDetails | null> => {
   try {
-    // Convert key_features array to string if needed for the database
-    const keyFeaturesForDb = details.key_features ? 
-      (Array.isArray(details.key_features) ? JSON.stringify(details.key_features) : details.key_features) : 
-      null;
+    // Ensure key_features is an array
+    const keyFeatures = Array.isArray(details.key_features) ? details.key_features : null;
     
     // Use RPC function to insert product details
     const { error } = await supabase
@@ -22,7 +20,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
         p_development_challenges: details.development_challenges || null,
         p_solution_description: details.solution_description || null,
         p_future_roadmap: details.future_roadmap || null,
-        p_key_features: details.key_features || null,
+        p_key_features: keyFeatures,
         p_technical_details: details.technical_details || null,
         p_product_images: details.product_images || null
       });
@@ -48,19 +46,10 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
     }
     
     // Parse key_features if needed
-    let keyFeatures: string[] | null = null;
+    let parsedKeyFeatures: string[] | null = null;
     if (newData.key_features) {
-      try {
-        if (Array.isArray(newData.key_features)) {
-          keyFeatures = newData.key_features;
-        } else if (typeof newData.key_features === 'string') {
-          keyFeatures = JSON.parse(newData.key_features);
-          if (!Array.isArray(keyFeatures)) {
-            keyFeatures = [newData.key_features as string];
-          }
-        }
-      } catch (e) {
-        keyFeatures = [newData.key_features as string];
+      if (Array.isArray(newData.key_features)) {
+        parsedKeyFeatures = newData.key_features;
       }
     }
     
@@ -73,7 +62,7 @@ export const createProductDetails = async (details: ProductDetailsCreateInput): 
       development_challenges: newData.development_challenges,
       solution_description: newData.solution_description,
       future_roadmap: newData.future_roadmap,
-      key_features: keyFeatures,
+      key_features: parsedKeyFeatures,
       technical_details: newData.technical_details,
       product_images: newData.product_images,
       created_at: newData.created_at,

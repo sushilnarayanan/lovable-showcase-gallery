@@ -29,25 +29,14 @@ export const useProductDetailsById = (productId: number) => {
           return null;
         }
         
-        // Parse key_features if it's a string but should be an array
+        // Parse key_features if present
         let keyFeatures: string[] | null = null;
         if (data.key_features) {
-          try {
-            // If it's already an array, this will work
-            if (Array.isArray(data.key_features)) {
-              keyFeatures = data.key_features;
-            } 
-            // If it's a JSON string, try to parse it
-            else if (typeof data.key_features === 'string') {
-              keyFeatures = JSON.parse(data.key_features);
-              // Ensure it's actually an array after parsing
-              if (!Array.isArray(keyFeatures)) {
-                keyFeatures = [data.key_features];
-              }
-            }
-          } catch (e) {
-            // If parsing fails, treat it as a single item array
-            keyFeatures = [data.key_features as string];
+          if (Array.isArray(data.key_features)) {
+            keyFeatures = data.key_features;
+          } else {
+            console.warn('key_features is not an array:', data.key_features);
+            keyFeatures = null;
           }
         }
         
