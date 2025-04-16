@@ -1,11 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Bell, User } from 'lucide-react';
-
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -14,21 +11,14 @@ const Navbar = () => {
         setIsScrolled(false);
       }
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'
-      }`}
-    >
+  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'}`}>
       <div className="flex items-center justify-between py-4 px-4 sm:px-8 md:px-12 lg:px-16">
         <div className="flex items-center space-x-8">
           <Link to="/" className="h-8">
-            <span className="text-netflix-red text-3xl font-bold tracking-tighter">PORTFOLIO</span>
+            <span className="text-3xl font-bold tracking-tighter text-red-500">SINGULARITEA</span>
           </Link>
           <nav className="hidden md:flex">
             <ul className="flex space-x-6">
@@ -51,8 +41,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Navbar;
