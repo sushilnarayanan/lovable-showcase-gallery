@@ -39,7 +39,7 @@ const ProductHero = ({
   };
 
   return (
-    <div className="relative w-full h-[40vh] lg:h-[50vh]">
+    <div className="relative w-full h-[50vh] lg:h-[60vh] overflow-hidden">
       {isVideoPlaying && videoUrl ? (
         <div className="absolute inset-0 bg-black z-40">
           <div className="relative w-full h-full">
@@ -63,7 +63,7 @@ const ProductHero = ({
           <img 
             src={image || '/placeholder.svg'} 
             alt={title}
-            className="w-full h-full object-cover brightness-100" 
+            className="w-full h-full object-cover brightness-75" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = '/placeholder.svg';
             }}
@@ -72,17 +72,17 @@ const ProductHero = ({
         </>
       )}
 
-      <div className="w-full px-4 py-6 -mt-16 relative z-30">
+      <div className="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 to-transparent py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <span className="text-netflix-red text-sm font-medium tracking-wider">FEATURED PROJECT</span>
+          <span className="text-netflix-red text-sm font-medium tracking-wider block mb-2">FEATURED PROJECT</span>
           
-          <h1 className="text-3xl md:text-4xl font-bold mt-2 mb-3 text-white break-words">{title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white break-words">{title}</h1>
           
           <p className="text-lg text-gray-300 mb-6 max-w-2xl font-medium break-words">
             {description}
           </p>
           
-          <div className="flex flex-wrap gap-3 mb-8">
+          <div className="flex flex-wrap gap-3 mb-4">
             {videoUrl && (
               <Button 
                 variant="netflix"
@@ -116,10 +116,8 @@ const ProductHero = ({
               </Button>
             )}
           </div>
-        </div>
 
-        {tags && tags.length > 0 && (
-          <div className="max-w-3xl mx-auto mb-6">
+          {tags && tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {tags.map((tag, index) => (
                 <span 
@@ -130,8 +128,8 @@ const ProductHero = ({
                 </span>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
