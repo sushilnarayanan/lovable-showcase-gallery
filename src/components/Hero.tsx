@@ -1,23 +1,17 @@
-
 import React from 'react';
 import { Play, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
 const Hero = () => {
-  return (
-    <div className="relative h-[85vh] w-full overflow-hidden"> 
+  return <div className="relative h-[85vh] w-full overflow-hidden"> 
       {/* Hero Background Image */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat',
-          width: '100%',
-          height: '100%'
-        }}
-      />
+      <div className="absolute inset-0 z-0" style={{
+      backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      backgroundRepeat: 'no-repeat',
+      width: '100%',
+      height: '100%'
+    }} />
       
       {/* Gradient Overlay - Adjusted to be more subtle and match Netflix style */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent z-10" />
@@ -28,15 +22,15 @@ const Hero = () => {
         <div className="max-w-xl mt-0 pt-16"> 
           {/* Tag and categories */}
           <div className="mb-3">
-            <span className="bg-netflix-red text-white px-2 py-0.5 text-xs font-bold mr-2">N GAME</span>
-            <span className="text-sm text-gray-300">Mobile Game • Action</span>
+            <span className="bg-netflix-red text-white px-2 py-0.5 text-xs font-bold mr-2">Rated UA</span>
+            <span className="text-sm text-gray-300">Cult classic • Action</span>
           </div>
           
           {/* Title area */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white leading-tight">Creative Developer</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white leading-tight">Product Gallery</h1>
           
           {/* Membership info */}
-          <p className="text-sm text-white/80 mb-3 font-medium">Included with your membership</p>
+          <p className="text-sm text-white/80 mb-3 font-medium">Built by Sushil Narayanan</p>
           
           <p className="text-base md:text-lg mb-6 text-white/90 max-w-lg">
             Check out my latest projects built with modern technologies. 
@@ -55,8 +49,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Hero;
