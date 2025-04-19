@@ -32,10 +32,7 @@ const Hero = () => {
           {/* Membership info */}
           <p className="text-sm text-white/80 mb-3 font-medium">Built by Sushil Narayanan</p>
           
-          <p className="text-base md:text-lg mb-6 text-white/90 max-w-lg">
-            Check out my latest projects built with modern technologies. 
-            This portfolio showcases web applications created with React, Tailwind CSS, and more.
-          </p>
+          <p className="text-base md:text-lg mb-6 text-white/90 max-w-lg">Check out my latest products built with modern technologies. This portfolio showcases web applications created with Nocode and AI tools - Bolt, Lovable, Softr, Replit, and more. </p>
           
           <div className="flex space-x-4 mt-4">
             <Button variant="netflix" className="px-6 py-2 flex items-center text-base font-medium">
