@@ -22,7 +22,7 @@ const Hero = () => {
         <div className="max-w-xl mt-0 pt-16"> 
           {/* Tag and categories */}
           <div className="mb-3">
-            <span className="bg-netflix-red text-white px-2 py-0.5 text-xs font-bold mr-2">Rated UA</span>
+            <span className="bg-netflix-red text-white px-2 py-0.5 text-xs font-bold mr-2">Rated U/A</span>
             <span className="text-sm text-gray-300">Cult classic • Action</span>
           </div>
           
