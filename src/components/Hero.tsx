@@ -27,7 +27,7 @@ const Hero = () => {
           </div>
           
           {/* Title area */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white leading-tight">Product Gallery</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white leading-tight">The Products</h1>
           
           {/* Membership info */}
           <p className="text-sm text-white/80 mb-3 font-medium">Built by Sushil Narayanan</p>
