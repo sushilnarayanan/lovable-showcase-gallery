@@ -134,6 +134,8 @@ const ProductDetail = () => {
     }
   };
 
+  const productImages: string[] | undefined | null = productDetails?.product_images;
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -157,12 +159,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-  const productImages = [
-    project.image || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
-  ];
 
   return (
     <div className="min-h-screen bg-black text-white" ref={topRef}>
@@ -200,23 +196,29 @@ const ProductDetail = () => {
             <h2 className="text-2xl font-bold text-white">Product Images</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {productImages.map((img, index) => (
-              <div key={index} className="relative overflow-hidden rounded-md border border-netflix-red/20 aspect-video group">
-                <img 
-                  src={img} 
-                  alt={`${project.title} image ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/placeholder.svg';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <p className="text-white text-sm">Product Screenshot {index + 1}</p>
+          {productImages && productImages.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {productImages.map((img, index) => (
+                <div key={index} className="relative overflow-hidden rounded-md border border-netflix-red/20 aspect-video group">
+                  <img 
+                    src={img} 
+                    alt={`${project.title} image ${index + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/placeholder.svg';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <p className="text-white text-sm">Product Screenshot {index + 1}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-full h-[140px] bg-black/60 text-gray-400 rounded-lg border border-netflix-red/10 text-lg font-semibold">
+              No images
+            </div>
+          )}
         </div>
 
         {isMobile ? (

@@ -83,6 +83,7 @@ export type Database = {
           product_details: string | null
           product_id: number | null
           product_images: string[] | null
+          Product_link: string | null
           solution_description: string | null
           target_audience: string | null
           technical_details: string | null
@@ -98,6 +99,7 @@ export type Database = {
           product_details?: string | null
           product_id?: number | null
           product_images?: string[] | null
+          Product_link?: string | null
           solution_description?: string | null
           target_audience?: string | null
           technical_details?: string | null
@@ -113,6 +115,7 @@ export type Database = {
           product_details?: string | null
           product_id?: number | null
           product_images?: string[] | null
+          Product_link?: string | null
           solution_description?: string | null
           target_audience?: string | null
           technical_details?: string | null
@@ -202,6 +205,7 @@ export type Database = {
           product_details: string | null
           product_id: number | null
           product_images: string[] | null
+          Product_link: string | null
           solution_description: string | null
           target_audience: string | null
           technical_details: string | null
