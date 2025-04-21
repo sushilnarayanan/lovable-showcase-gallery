@@ -14,6 +14,7 @@ import Navbar from '@/components/Navbar';
 import ProductHero from '@/components/product/ProductHero';
 import ProductTabs from '@/components/product/ProductTabs';
 import ProductAccordion from '@/components/product/ProductAccordion';
+import ImageZoomDialog from '@/components/ImageZoomDialog';
 
 type ProductWithCategories = ProductItem & {
   categories?: CategoryItem[];
@@ -31,6 +32,7 @@ const ProductDetail = () => {
   
   const projectFromState = location.state?.project as Project & ProductWithCategories;
   const [project, setProject] = useState<(Project & ProductWithCategories) | null>(projectFromState || null);
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   
   const { data: fetchedProduct, isLoading, error } = useQuery({
     queryKey: ['product', id],
@@ -199,7 +201,15 @@ const ProductDetail = () => {
           {productImages && productImages.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {productImages.map((img, index) => (
-                <div key={index} className="relative overflow-hidden rounded-md border border-netflix-red/20 aspect-video group">
+                <div
+                  key={index}
+                  className="relative overflow-hidden rounded-md border border-netflix-red/20 aspect-video group cursor-pointer"
+                  onClick={() => setZoomedImage(img)}
+                  tabIndex={0}
+                  aria-label={`Zoom image ${index + 1}`}
+                  role="button"
+                  onKeyPress={e => { if (e.key === 'Enter') setZoomedImage(img); }}
+                >
                   <img 
                     src={img} 
                     alt={`${project.title} image ${index + 1}`}
@@ -219,6 +229,16 @@ const ProductDetail = () => {
               No images
             </div>
           )}
+
+          {/* Image Zoom Dialog */}
+          <ImageZoomDialog
+            open={!!zoomedImage}
+            onOpenChange={(open) => {
+              if (!open) setZoomedImage(null);
+            }}
+            imageUrl={zoomedImage || ""}
+            alt={zoomedImage ? `${project.title} - zoomed` : ""}
+          />
         </div>
 
         {isMobile ? (
