@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Bell, User } from 'lucide-react';
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
@@ -23,8 +24,7 @@ const Navbar = () => {
           <nav className="hidden md:flex">
             <ul className="flex space-x-6">
               <li><Link to="/" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">Home</Link></li>
-              <li><Link to="/portfolio" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">Projects</Link></li>
-              <li><Link to="#about" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">About</Link></li>
+              <li><Link to="/about" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">About</Link></li>
               <li><Link to="#contact" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">Contact</Link></li>
             </ul>
           </nav>
@@ -43,4 +43,5 @@ const Navbar = () => {
       </div>
     </header>;
 };
+
 export default Navbar;
