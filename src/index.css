@@ -1,8 +1,7 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,7 +65,7 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -167,4 +166,10 @@
 .netflix-footer {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+
+@layer components {
+  .page-content {
+    @apply mt-16 md:mt-20 lg:mt-24;
+  }
 }

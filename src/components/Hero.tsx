@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[70vh] w-full overflow-hidden"> 
+    <div className="relative h-[70vh] w-full overflow-hidden mt-16 md:mt-20 lg:mt-24"> 
       {/* Hero Background Image */}
       <div className="absolute inset-0 z-0" style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
@@ -22,7 +22,7 @@ const Hero = () => {
       
       {/* Hero Content - positioned with Netflix-style layout */}
       <div className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-8 md:px-[4%] lg:px-[4%] w-full">
-        <div className="max-w-xl mt-0 pt-16"> 
+        <div className="max-w-xl mt-0 pt-0"> 
           {/* Tag and categories */}
           <div className="mb-3">
             <span className="bg-netflix-red text-white px-2 py-0.5 text-xs font-bold mr-2">Rated U/A</span>
