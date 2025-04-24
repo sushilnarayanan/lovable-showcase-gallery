@@ -122,7 +122,8 @@ const Index = () => {
       <Navbar />
       <Hero />
       
-      <div className="pb-4 w-full">
+      {/* Added consistent spacing class to ensure proper gap between hero and content */}
+      <div className="pb-4 w-full mt-4">
         {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />

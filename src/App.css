@@ -1,3 +1,4 @@
+
 /* Remove all unwanted spaces and ensure full-width layout */
 #root {
   width: 100%;
@@ -28,16 +29,16 @@ body, html {
   padding: 0;
 }
 
-/* Updated to ensure proper spacing between sections */
+/* Updated to ensure consistent spacing between sections */
 .section-spacing {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
   .section-spacing {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }
 
@@ -47,7 +48,7 @@ body, html {
   position: relative;
 }
 
-/* Add improvements for spacing on ProductDetail page */
+/* Fix spacing on ProductDetail page */
 .product-detail-container {
   padding: 0;
   width: 100%;
@@ -73,6 +74,18 @@ body, html {
   }
 }
 
+/* Fix content row spacing */
+.netflix-row {
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .netflix-row {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Keep existing styles */
 .logo {
   height: 6em;
   padding: 1.5em;

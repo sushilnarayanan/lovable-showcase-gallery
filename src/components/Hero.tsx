@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[85vh] w-full overflow-hidden"> 
+    <div className="relative h-[70vh] w-full overflow-hidden"> 
       {/* Hero Background Image */}
       <div className="absolute inset-0 z-0" style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",

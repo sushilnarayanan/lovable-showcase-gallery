@@ -226,6 +226,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       update_product_details: {
         Args: {
           p_product_id: number
