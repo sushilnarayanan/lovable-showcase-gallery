@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/data/projects';
@@ -16,6 +16,14 @@ import ProductHero from '@/components/product/ProductHero';
 import ProductTabs from '@/components/product/ProductTabs';
 import ProductAccordion from '@/components/product/ProductAccordion';
 import ImageZoomDialog from '@/components/ImageZoomDialog';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb';
 
 type ProductWithCategories = ProductItem & {
   categories?: CategoryItem[];
@@ -168,26 +176,50 @@ const ProductDetail = () => {
       <Navbar />
       
       <div className="relative w-full pt-16 product-detail-content">
-        <Button 
-          variant="netflixOutline" 
-          className="absolute top-20 left-4 z-50" 
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft className="mr-1" size={16} />
-          <span className="inline-block">Back</span>
-        </Button>
+        {/* Improved back button with breadcrumbs */}
+        <div className="fixed top-[4.5rem] left-0 z-50 w-full bg-black/70 backdrop-blur-sm py-2 px-4 md:py-3">
+          <div className="max-w-screen-xl mx-auto">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link to="/" className="text-netflix-red hover:text-netflix-red/80">
+                      Home
+                    </Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{project.title}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            
+            <Button 
+              variant="netflixOutline"
+              className="mt-2 md:absolute md:top-2 md:left-4 hover:bg-netflix-red hover:border-netflix-red"
+              onClick={() => navigate('/')}
+              size="sm"
+            >
+              <ArrowLeft className="mr-1" size={16} />
+              <span className="inline-block">Back to products</span>
+            </Button>
+          </div>
+        </div>
         
-        <ProductHero 
-          videoUrl={project.videoUrl}
-          image={project.image}
-          isVideoPlaying={isVideoPlaying}
-          setIsVideoPlaying={setIsVideoPlaying}
-          title={project.title}
-          description={project.description}
-          productLink={project.productLink}
-          github_link={project.github_link}
-          tags={project.tags}
-        />
+        <div className="mt-16 md:mt-20">
+          <ProductHero 
+            videoUrl={project.videoUrl}
+            image={project.image}
+            isVideoPlaying={isVideoPlaying}
+            setIsVideoPlaying={setIsVideoPlaying}
+            title={project.title}
+            description={project.description}
+            productLink={project.productLink}
+            github_link={project.github_link}
+            tags={project.tags}
+          />
+        </div>
 
         <Separator className="bg-netflix-red/20 my-4 md:my-6" />
         
