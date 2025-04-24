@@ -19,10 +19,10 @@ const Navbar = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
   return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'}`}>
-      <div className="flex items-center justify-between py-2 sm:py-3 px-4 sm:px-8 md:px-12 lg:px-16 md:py-[16px]">
+      <div className="flex items-center justify-between py-2 sm:py-3 px-4 sm:px-8 md:px-12 md:py-[16px] lg:px-[49px]">
         <div className="flex items-center">
           <Link to="/" className="h-8">
-            <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tighter text-red-500">SINGULARITEA</span>
+            <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tighter text-red-500 px-0">Sushil Narayanan</span>
           </Link>
           <nav className="hidden md:flex ml-8">
             <ul className="flex space-x-6">
