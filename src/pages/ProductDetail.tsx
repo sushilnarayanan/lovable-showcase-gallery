@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -230,6 +231,7 @@ const ProductDetail = () => {
             </div>
           )}
 
+          {/* Image Zoom Dialog */}
           <ImageZoomDialog
             open={!!zoomedImage}
             onOpenChange={(open) => {
