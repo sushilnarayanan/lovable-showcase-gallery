@@ -39,12 +39,12 @@ const ProductHero = ({
   };
 
   return (
-    <div className="relative w-full h-[50vh] lg:h-[60vh] overflow-hidden">
+    <div className="relative w-full h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[60vh] overflow-hidden">
       {isVideoPlaying && videoUrl ? (
         <div className="absolute inset-0 bg-black z-40">
           <div className="relative w-full h-full">
             <Button 
-              className="absolute top-4 right-4 z-50 bg-black/70 hover:bg-black/90 border border-netflix-red/30 text-white" 
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 bg-black/70 hover:bg-black/90 border border-netflix-red/30 text-white p-1 sm:p-2"
               onClick={() => setIsVideoPlaying(false)}
             >
               Close
@@ -72,24 +72,24 @@ const ProductHero = ({
         </>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 to-transparent py-8 px-4">
+      <div className="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 to-transparent py-4 sm:py-6 md:py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <span className="text-netflix-red text-sm font-medium tracking-wider block mb-2">FEATURED PROJECT</span>
+          <span className="text-netflix-red text-xs sm:text-sm font-medium tracking-wider block mb-1 sm:mb-2">FEATURED PROJECT</span>
           
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white break-words">{title}</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 md:mb-4 text-white break-words line-clamp-2">{title}</h1>
           
-          <p className="text-lg text-gray-300 mb-6 max-w-2xl font-medium break-words">
+          <p className="text-base sm:text-lg text-gray-300 mb-3 sm:mb-4 md:mb-6 max-w-2xl font-medium break-words line-clamp-3 md:line-clamp-none">
             {description}
           </p>
           
-          <div className="flex flex-wrap gap-3 mb-4">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mb-3 sm:mb-4">
             {videoUrl && (
               <Button 
                 variant="netflix"
-                className="font-medium flex-grow sm:flex-grow-0" 
+                className="font-medium text-sm sm:text-base px-2 sm:px-3 py-1 sm:py-2" 
                 onClick={handlePlayVideo}
               >
-                <Play size={18} className="mr-2" />
+                <Play size={16} className="mr-1 sm:mr-2" />
                 Watch Demo
               </Button>
             )}
@@ -97,10 +97,10 @@ const ProductHero = ({
             {productLink && (
               <Button
                 variant="netflixOutline"
-                className="border-netflix-red flex-grow sm:flex-grow-0" 
+                className="border-netflix-red text-sm sm:text-base px-2 sm:px-3 py-1 sm:py-2"
                 onClick={() => window.open(productLink, '_blank')}
               >
-                <ExternalLink size={18} className="mr-2" />
+                <ExternalLink size={16} className="mr-1 sm:mr-2" />
                 Visit Project
               </Button>
             )}
@@ -108,21 +108,21 @@ const ProductHero = ({
             {github_link && (
               <Button
                 variant="netflixOutline"
-                className="border-netflix-red flex-grow sm:flex-grow-0" 
+                className="border-netflix-red text-sm sm:text-base px-2 sm:px-3 py-1 sm:py-2"
                 onClick={() => window.open(github_link, '_blank')}
               >
-                <Github size={18} className="mr-2" />
+                <Github size={16} className="mr-1 sm:mr-2" />
                 View Code
               </Button>
             )}
           </div>
 
           {tags && tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1 sm:gap-2">
               {tags.map((tag, index) => (
                 <span 
                   key={index}
-                  className="px-3 py-1 bg-netflix-red/20 text-white border border-netflix-red/30 rounded-md text-sm font-medium"
+                  className="px-2 py-0.5 sm:px-3 sm:py-1 bg-netflix-red/20 text-white border border-netflix-red/30 rounded-md text-xs sm:text-sm font-medium"
                 >
                   {tag}
                 </span>

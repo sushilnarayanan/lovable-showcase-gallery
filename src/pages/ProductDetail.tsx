@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -163,17 +164,17 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white" ref={topRef}>
+    <div className="min-h-screen bg-black text-white w-full product-detail-container" ref={topRef}>
       <Navbar />
       
-      <div className="relative w-full pt-16">
+      <div className="relative w-full pt-16 product-detail-content">
         <Button 
           variant="netflixOutline" 
           className="absolute top-20 left-4 z-50" 
           onClick={() => navigate(-1)}
         >
-          <ArrowLeft className="text-netflix-red" />
-          Back
+          <ArrowLeft className="mr-1" size={16} />
+          <span className="inline-block">Back</span>
         </Button>
         
         <ProductHero 
@@ -188,18 +189,18 @@ const ProductDetail = () => {
           tags={project.tags}
         />
 
-        <Separator className="bg-netflix-red/20 my-6" />
+        <Separator className="bg-netflix-red/20 my-4 md:my-6" />
         
-        <div className="max-w-3xl mx-auto mb-8">
+        <div className="max-w-3xl mx-auto mb-6 md:mb-8 px-2 sm:px-4">
           <div className="flex items-center mb-4">
-            <div className="mr-4 h-10 w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
-              <Image className="h-5 w-5 text-white" />
+            <div className="mr-4 h-8 w-8 md:h-10 md:w-10 rounded-full flex items-center justify-center bg-netflix-red/30">
+              <Image className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Product Images</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white">Product Images</h2>
           </div>
           
           {productImages && productImages.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
               {productImages.map((img, index) => (
                 <div
                   key={index}
@@ -218,14 +219,14 @@ const ProductDetail = () => {
                       (e.target as HTMLImageElement).src = '/placeholder.svg';
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <p className="text-white text-sm">Product Screenshot {index + 1}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2 md:p-4">
+                    <p className="text-white text-xs md:text-sm">Product Screenshot {index + 1}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="flex items-center justify-center w-full h-[140px] bg-black/60 text-gray-400 rounded-lg border border-netflix-red/10 text-lg font-semibold">
+            <div className="flex items-center justify-center w-full h-24 md:h-[140px] bg-black/60 text-gray-400 rounded-lg border border-netflix-red/10 text-base md:text-lg font-semibold">
               No images
             </div>
           )}
@@ -242,14 +243,16 @@ const ProductDetail = () => {
         </div>
 
         {isMobile ? (
-          <ProductAccordion
-            productDetails={productDetails}
-            expandedSection={expandedSection}
-            toggleSection={toggleSection}
-            tags={project.tags}
-          />
+          <div className="px-2">
+            <ProductAccordion
+              productDetails={productDetails}
+              expandedSection={expandedSection}
+              toggleSection={toggleSection}
+              tags={project.tags}
+            />
+          </div>
         ) : (
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto px-2 sm:px-4">
             <ProductTabs
               productDetails={productDetails}
               activeTab={activeTab}

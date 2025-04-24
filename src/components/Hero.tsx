@@ -1,17 +1,20 @@
+
 import React from 'react';
 import { Play, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
 const Hero = () => {
-  return <div className="relative h-[85vh] w-full overflow-hidden"> 
+  return (
+    <div className="relative h-[85vh] w-full overflow-hidden"> 
       {/* Hero Background Image */}
       <div className="absolute inset-0 z-0" style={{
-      backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-      backgroundRepeat: 'no-repeat',
-      width: '100%',
-      height: '100%'
-    }} />
+        backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        width: '100%',
+        height: '100%'
+      }} />
       
       {/* Gradient Overlay - Adjusted to be more subtle and match Netflix style */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent z-10" />
@@ -34,18 +37,20 @@ const Hero = () => {
           
           <p className="text-base md:text-lg mb-6 text-white/90 max-w-lg">Check out my latest products built with modern technologies. This portfolio showcases web applications created with Nocode and AI tools - Bolt, Lovable, Softr, Replit, and more. </p>
           
-          <div className="flex space-x-4 mt-4">
-            <Button variant="netflix" className="px-6 py-2 flex items-center text-base font-medium">
+          <div className="flex flex-wrap space-x-0 space-y-3 sm:space-x-4 sm:space-y-0 mt-4">
+            <Button variant="netflix" className="px-6 py-2 flex items-center text-base font-medium w-full sm:w-auto">
               <Play size={20} className="mr-2" />
               Start Watching
             </Button>
-            <Button variant="netflixOutline" className="px-6 py-2 flex items-center text-base font-medium">
+            <Button variant="netflixOutline" className="px-6 py-2 flex items-center text-base font-medium w-full sm:w-auto">
               <Info size={20} className="mr-2" />
               More Info
             </Button>
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Hero;
