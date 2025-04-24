@@ -1,12 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Bell, User, Menu, X } from 'lucide-react';
-
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -18,14 +15,11 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
-  
-  return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'}`}>
-      <div className="flex items-center justify-between py-2 sm:py-3 md:py-4 px-4 sm:px-8 md:px-12 lg:px-16">
+  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'}`}>
+      <div className="flex items-center justify-between py-2 sm:py-3 px-4 sm:px-8 md:px-12 lg:px-16 md:py-[16px]">
         <div className="flex items-center">
           <Link to="/" className="h-8">
             <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tighter text-red-500">SINGULARITEA</span>
@@ -51,57 +45,34 @@ const Navbar = () => {
           </div>
           
           {/* Mobile menu button */}
-          <button 
-            className="text-white md:hidden focus:outline-none"
-            onClick={toggleMobileMenu}
-          >
-            {mobileMenuOpen ? (
-              <X size={24} />
-            ) : (
-              <Menu size={24} />
-            )}
+          <button className="text-white md:hidden focus:outline-none" onClick={toggleMobileMenu}>
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
       
       {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-black">
+      {mobileMenuOpen && <div className="md:hidden bg-black">
           <nav className="px-4 py-4">
             <ul className="flex flex-col space-y-4">
               <li>
-                <Link 
-                  to="/" 
-                  className="text-white block py-2" 
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                <Link to="/" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
                   Home
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/about" 
-                  className="text-white block py-2" 
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                <Link to="/about" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
                   About
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="#contact" 
-                  className="text-white block py-2" 
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                <Link to="#contact" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
                   Contact
                 </Link>
               </li>
             </ul>
           </nav>
-        </div>
-      )}
-    </header>
-  );
+        </div>}
+    </header>;
 };
-
 export default Navbar;
