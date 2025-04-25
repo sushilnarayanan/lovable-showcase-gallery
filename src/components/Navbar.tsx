@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Mail, WhatsApp, Menu, X } from 'lucide-react';
+import { Linkedin, Mail, MessageSquare, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,7 +46,7 @@ const Navbar = () => {
             <Mail size={18} className="sm:size-20" />
           </a>
           <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300 transition-colors">
-            <WhatsApp size={18} className="sm:size-20" />
+            <MessageSquare size={18} className="sm:size-20" />
           </a>
           
           <button className="text-white md:hidden focus:outline-none" onClick={toggleMobileMenu}>

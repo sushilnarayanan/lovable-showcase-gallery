@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Linkedin, Mail, WhatsApp } from 'lucide-react';
+import { Linkedin, Mail, MessageSquare } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -25,7 +25,7 @@ const Footer = () => {
                 <Mail size={20} />
               </a>
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
-                <WhatsApp size={20} />
+                <MessageSquare size={20} />
               </a>
             </div>
           </div>
