@@ -184,6 +184,30 @@ export type Database = {
           },
         ]
       }
+      "social media icons": {
+        Row: {
+          created_at: string
+          icon_link: string | null
+          id: number
+          name: string | null
+          URL: string | null
+        }
+        Insert: {
+          created_at?: string
+          icon_link?: string | null
+          id?: number
+          name?: string | null
+          URL?: string | null
+        }
+        Update: {
+          created_at?: string
+          icon_link?: string | null
+          id?: number
+          name?: string | null
+          URL?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

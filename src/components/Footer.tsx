@@ -1,8 +1,10 @@
 
 import React from 'react';
-import { Linkedin, Mail, MessageSquare } from 'lucide-react';
+import { useSocialMediaIcons } from '@/hooks/useSocialMediaIcons';
 
 const Footer = () => {
+  const { data: socialIcons } = useSocialMediaIcons();
+
   return (
     <footer className="py-8 border-t border-netflix-gray/20">
       <div className="px-12 lg:px-16">
@@ -18,15 +20,21 @@ const Footer = () => {
           <div>
             <h5 className="text-netflix-white text-sm font-medium mb-4">Connect</h5>
             <div className="flex space-x-4">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
-                <Linkedin size={20} />
-              </a>
-              <a href="mailto:contact@example.com" className="text-netflix-gray hover:text-netflix-white">
-                <Mail size={20} />
-              </a>
-              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
-                <MessageSquare size={20} />
-              </a>
+              {socialIcons?.map((icon) => (
+                <a
+                  key={icon.id}
+                  href={icon.URL || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-netflix-gray hover:text-netflix-white"
+                >
+                  <img 
+                    src={icon.icon_link || ''} 
+                    alt={icon.name || 'Social Media Icon'} 
+                    className="w-5 h-5 object-contain"
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </div>

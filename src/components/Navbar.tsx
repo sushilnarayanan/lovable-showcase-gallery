@@ -1,10 +1,12 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Mail, MessageSquare, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { useSocialMediaIcons } from '@/hooks/useSocialMediaIcons';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: socialIcons } = useSocialMediaIcons();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -28,15 +30,21 @@ const Navbar = () => {
         
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-6">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-colors">
-              <Linkedin size={20} />
-            </a>
-            <a href="mailto:contact@example.com" className="text-white/80 hover:text-white transition-colors">
-              <Mail size={20} />
-            </a>
-            <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-colors">
-              <MessageSquare size={20} />
-            </a>
+            {socialIcons?.map((icon) => (
+              <a
+                key={icon.id}
+                href={icon.URL || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                <img 
+                  src={icon.icon_link || ''} 
+                  alt={icon.name || 'Social Media Icon'} 
+                  className="w-5 h-5 object-contain"
+                />
+              </a>
+            ))}
           </div>
           
           <button className="text-white md:hidden" onClick={toggleMobileMenu}>
