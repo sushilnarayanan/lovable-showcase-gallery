@@ -2,8 +2,22 @@
 import React from 'react';
 import { Play, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleStartWatching = () => {
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleMoreInfo = () => {
+    navigate('/about');
+  };
+
   return (
     <div className="relative h-[100vh] w-full overflow-hidden"> 
       {/* Hero Background Image */}
@@ -23,26 +37,33 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-8 md:px-[4%] lg:px-[4%] w-full">
         <div className="max-w-xl mt-0 pt-0"> 
-          {/* Tag and categories */}
           <div className="mb-3">
             <span className="bg-netflix-red text-white px-2 py-0.5 text-xs font-bold mr-2">Rated U/A</span>
             <span className="text-sm text-gray-300">Cult classic • Action</span>
           </div>
           
-          {/* Title area */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white leading-tight">The Products</h1>
           
-          {/* Membership info */}
           <p className="text-sm text-white/80 mb-3 font-medium">Built by Sushil Narayanan</p>
           
-          <p className="text-base md:text-lg mb-6 text-white/90 max-w-lg">Check out my latest products built with modern technologies. This portfolio showcases web applications created with Nocode and AI tools - Bolt, Lovable, Softr, Replit, and more. </p>
+          <p className="text-base md:text-lg mb-6 text-white/90 max-w-lg">
+            Check out my latest products built with modern technologies. This portfolio showcases web applications created with Nocode and AI tools - Bolt, Lovable, Softr, Replit, and more.
+          </p>
           
-          <div className="flex flex-wrap space-x-0 space-y-3 sm:space-x-4 sm:space-y-0 mt-4">
-            <Button variant="netflix" className="px-6 py-2 flex items-center text-base font-medium w-full sm:w-auto">
+          <div className="flex flex-wrap gap-4 mt-4">
+            <Button 
+              variant="netflix" 
+              className="px-6 py-2 flex items-center text-base font-medium w-full sm:w-auto"
+              onClick={handleStartWatching}
+            >
               <Play size={20} className="mr-2" />
               Start Watching
             </Button>
-            <Button variant="netflixOutline" className="px-6 py-2 flex items-center text-base font-medium w-full sm:w-auto">
+            <Button 
+              variant="netflixOutline" 
+              className="px-6 py-2 flex items-center text-base font-medium w-full sm:w-auto"
+              onClick={handleMoreInfo}
+            >
               <Info size={20} className="mr-2" />
               More Info
             </Button>
