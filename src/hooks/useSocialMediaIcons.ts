@@ -13,6 +13,9 @@ export const useSocialMediaIcons = () => {
   return useQuery({
     queryKey: ['socialMediaIcons'],
     queryFn: async () => {
+      // Log the query attempt
+      console.log('Fetching social media icons...');
+      
       const { data, error } = await supabase
         .from('social media icons')
         .select('*');
@@ -22,6 +25,7 @@ export const useSocialMediaIcons = () => {
         throw error;
       }
       
+      console.log('Social media icons fetched:', data);
       return data as SocialMediaIcon[];
     }
   });

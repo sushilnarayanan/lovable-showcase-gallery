@@ -3,7 +3,9 @@ import React from 'react';
 import { useSocialMediaIcons } from '@/hooks/useSocialMediaIcons';
 
 const Footer = () => {
-  const { data: socialIcons } = useSocialMediaIcons();
+  const { data: socialIcons, isLoading, error } = useSocialMediaIcons();
+  
+  console.log('Footer social icons:', socialIcons);
 
   return (
     <footer className="py-8 border-t border-netflix-gray/20">
@@ -20,21 +22,31 @@ const Footer = () => {
           <div>
             <h5 className="text-netflix-white text-sm font-medium mb-4">Connect</h5>
             <div className="flex space-x-4">
-              {socialIcons?.map((icon) => (
-                <a
-                  key={icon.id}
-                  href={icon.URL || '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-netflix-gray hover:text-netflix-white"
-                >
-                  <img 
-                    src={icon.icon_link || ''} 
-                    alt={icon.name || 'Social Media Icon'} 
-                    className="w-5 h-5 object-contain"
-                  />
-                </a>
-              ))}
+              {isLoading && <span className="text-netflix-gray text-sm">Loading...</span>}
+              {error && <span className="text-red-400 text-sm">Error loading icons</span>}
+              {socialIcons && socialIcons.length > 0 ? (
+                socialIcons.map((icon) => (
+                  <a
+                    key={icon.id}
+                    href={icon.URL || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-netflix-gray hover:text-netflix-white"
+                  >
+                    <img 
+                      src={icon.icon_link || ''} 
+                      alt={icon.name || 'Social Media Icon'} 
+                      className="w-5 h-5 object-contain"
+                      onError={(e) => {
+                        console.error(`Failed to load icon: ${icon.icon_link}`);
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  </a>
+                ))
+              ) : !isLoading && !error ? (
+                <span className="text-netflix-gray/60 text-sm">No social icons available</span>
+              ) : null}
             </div>
           </div>
         </div>

@@ -6,11 +6,13 @@ import { useSocialMediaIcons } from '@/hooks/useSocialMediaIcons';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { data: socialIcons } = useSocialMediaIcons();
+  const { data: socialIcons, isLoading, error } = useSocialMediaIcons();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  console.log('Navbar social icons:', socialIcons);
 
   return (
     <header className="absolute top-0 left-0 right-0 z-50">
@@ -30,21 +32,31 @@ const Navbar = () => {
         
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-6">
-            {socialIcons?.map((icon) => (
-              <a
-                key={icon.id}
-                href={icon.URL || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors"
-              >
-                <img 
-                  src={icon.icon_link || ''} 
-                  alt={icon.name || 'Social Media Icon'} 
-                  className="w-5 h-5 object-contain"
-                />
-              </a>
-            ))}
+            {isLoading && <span className="text-white/50 text-sm">Loading...</span>}
+            {error && <span className="text-red-400 text-sm">Error loading icons</span>}
+            {socialIcons && socialIcons.length > 0 ? (
+              socialIcons.map((icon) => (
+                <a
+                  key={icon.id}
+                  href={icon.URL || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 hover:text-white transition-colors flex items-center justify-center"
+                >
+                  <img 
+                    src={icon.icon_link || ''} 
+                    alt={icon.name || 'Social Media Icon'} 
+                    className="w-5 h-5 object-contain"
+                    onError={(e) => {
+                      console.error(`Failed to load icon: ${icon.icon_link}`);
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </a>
+              ))
+            ) : !isLoading && !error ? (
+              <span className="text-white/50 text-sm">No icons available</span>
+            ) : null}
           </div>
           
           <button className="text-white md:hidden" onClick={toggleMobileMenu}>
@@ -68,8 +80,8 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="#contact" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
-                  Contact
+                <Link to="#products" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
+                  Products
                 </Link>
               </li>
             </ul>
