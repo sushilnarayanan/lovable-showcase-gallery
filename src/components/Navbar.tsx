@@ -39,14 +39,14 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center space-x-3 sm:space-x-5">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300 transition-colors">
-            <Linkedin size={18} className="sm:size-20" />
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
+            <Linkedin size={20} />
           </a>
-          <a href="mailto:contact@example.com" className="text-white hover:text-gray-300 transition-colors">
-            <Mail size={18} className="sm:size-20" />
+          <a href="mailto:contact@example.com" className="text-netflix-gray hover:text-netflix-white">
+            <Mail size={20} />
           </a>
-          <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300 transition-colors">
-            <MessageSquare size={18} className="sm:size-20" />
+          <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
+            <MessageSquare size={20} />
           </a>
           
           <button className="text-white md:hidden focus:outline-none" onClick={toggleMobileMenu}>
