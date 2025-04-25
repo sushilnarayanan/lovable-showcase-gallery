@@ -17,7 +17,7 @@ export const useSocialMediaIcons = () => {
       console.log('Fetching social media icons...');
       
       const { data, error } = await supabase
-        .from('social media icons')
+        .from('social_media_icons')
         .select('*');
       
       if (error) {

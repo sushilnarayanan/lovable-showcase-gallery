@@ -184,7 +184,7 @@ export type Database = {
           },
         ]
       }
-      "social media icons": {
+      social_media_icons: {
         Row: {
           created_at: string
           icon_link: string | null
