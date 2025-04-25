@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Linkedin, Mail, WhatsApp } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -15,45 +15,18 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h5 className="text-netflix-white text-sm font-medium mb-4">Navigation</h5>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">Home</a></li>
-                <li><a href="#projects" className="text-netflix-gray text-sm hover:text-netflix-white">Projects</a></li>
-                <li><a href="#about" className="text-netflix-gray text-sm hover:text-netflix-white">About</a></li>
-                <li><a href="#contact" className="text-netflix-gray text-sm hover:text-netflix-white">Contact</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h5 className="text-netflix-white text-sm font-medium mb-4">Categories</h5>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">Web Apps</a></li>
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">UI/UX Designs</a></li>
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">Animations</a></li>
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">Experiments</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h5 className="text-netflix-white text-sm font-medium mb-4">Technologies</h5>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">React</a></li>
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">Tailwind CSS</a></li>
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">TypeScript</a></li>
-                <li><a href="#" className="text-netflix-gray text-sm hover:text-netflix-white">Lovable</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h5 className="text-netflix-white text-sm font-medium mb-4">Connect</h5>
-              <div className="flex space-x-4">
-                <a href="#" className="text-netflix-gray hover:text-netflix-white"><Github size={20} /></a>
-                <a href="#" className="text-netflix-gray hover:text-netflix-white"><Twitter size={20} /></a>
-                <a href="#" className="text-netflix-gray hover:text-netflix-white"><Linkedin size={20} /></a>
-                <a href="#" className="text-netflix-gray hover:text-netflix-white"><Mail size={20} /></a>
-              </div>
+          <div>
+            <h5 className="text-netflix-white text-sm font-medium mb-4">Connect</h5>
+            <div className="flex space-x-4">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
+                <Linkedin size={20} />
+              </a>
+              <a href="mailto:contact@example.com" className="text-netflix-gray hover:text-netflix-white">
+                <Mail size={20} />
+              </a>
+              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-netflix-gray hover:text-netflix-white">
+                <WhatsApp size={20} />
+              </a>
             </div>
           </div>
         </div>

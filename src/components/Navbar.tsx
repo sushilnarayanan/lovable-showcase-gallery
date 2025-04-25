@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Bell, User, Menu, X } from 'lucide-react';
+import { Linkedin, Mail, WhatsApp, Menu, X } from 'lucide-react';
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -15,9 +17,11 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
   return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent'}`}>
       <div className="flex items-center justify-between py-2 sm:py-3 px-4 sm:px-8 md:px-12 md:py-[16px] lg:px-[49px]">
         <div className="flex items-center">
@@ -34,24 +38,22 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center space-x-3 sm:space-x-5">
-          <button className="text-white hover:text-gray-300 transition-colors hidden sm:block">
-            <Search size={18} className="sm:size-20" />
-          </button>
-          <button className="text-white hover:text-gray-300 transition-colors hidden sm:block">
-            <Bell size={18} className="sm:size-20" />
-          </button>
-          <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-sm bg-netflix-red flex items-center justify-center">
-            <User size={14} className="sm:size-16 text-white" />
-          </div>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300 transition-colors">
+            <Linkedin size={18} className="sm:size-20" />
+          </a>
+          <a href="mailto:contact@example.com" className="text-white hover:text-gray-300 transition-colors">
+            <Mail size={18} className="sm:size-20" />
+          </a>
+          <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300 transition-colors">
+            <WhatsApp size={18} className="sm:size-20" />
+          </a>
           
-          {/* Mobile menu button */}
           <button className="text-white md:hidden focus:outline-none" onClick={toggleMobileMenu}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
       
-      {/* Mobile menu */}
       {mobileMenuOpen && <div className="md:hidden bg-black">
           <nav className="px-4 py-4">
             <ul className="flex flex-col space-y-4">
@@ -75,4 +77,5 @@ const Navbar = () => {
         </div>}
     </header>;
 };
+
 export default Navbar;
