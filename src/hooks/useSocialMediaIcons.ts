@@ -13,7 +13,6 @@ export const useSocialMediaIcons = () => {
   return useQuery({
     queryKey: ['socialMediaIcons'],
     queryFn: async () => {
-      // Log the query attempt
       console.log('Fetching social media icons...');
       
       const { data, error } = await supabase
