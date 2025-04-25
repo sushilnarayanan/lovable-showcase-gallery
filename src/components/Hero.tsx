@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <div className="relative h-[70vh] w-full overflow-hidden mt-16 md:mt-20 lg:mt-24"> 
+    <div className="relative h-[100vh] w-full overflow-hidden"> 
       {/* Hero Background Image */}
       <div className="absolute inset-0 z-0" style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
@@ -16,11 +16,11 @@ const Hero = () => {
         height: '100%'
       }} />
       
-      {/* Gradient Overlay - Adjusted to be more subtle and match Netflix style */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent z-10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+      {/* Gradient Overlay - Adjusted for better blending with header */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10" />
       
-      {/* Hero Content - positioned with Netflix-style layout */}
+      {/* Hero Content */}
       <div className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-8 md:px-[4%] lg:px-[4%] w-full">
         <div className="max-w-xl mt-0 pt-0"> 
           {/* Tag and categories */}
