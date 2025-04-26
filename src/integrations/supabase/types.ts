@@ -21,7 +21,7 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
-          id?: number
+          id?: never
           name: string
           slug: string
           updated_at?: string | null
@@ -29,7 +29,7 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
-          id?: number
+          id?: never
           name?: string
           slug?: string
           updated_at?: string | null
@@ -46,13 +46,13 @@ export type Database = {
         Insert: {
           category_id: number
           created_at?: string
-          id?: number
+          id?: never
           product_id: number
         }
         Update: {
           category_id?: number
           created_at?: string
-          id?: number
+          id?: never
           product_id?: number
         }
         Relationships: [
@@ -81,7 +81,7 @@ export type Database = {
           key_features: string[] | null
           problem_statement: string | null
           product_details: string | null
-          product_id: number | null
+          product_id: number
           product_images: string[] | null
           Product_link: string | null
           solution_description: string | null
@@ -93,11 +93,11 @@ export type Database = {
           created_at?: string
           development_challenges?: string | null
           future_roadmap?: string | null
-          id?: number
+          id?: never
           key_features?: string[] | null
           problem_statement?: string | null
           product_details?: string | null
-          product_id?: number | null
+          product_id: number
           product_images?: string[] | null
           Product_link?: string | null
           solution_description?: string | null
@@ -109,11 +109,11 @@ export type Database = {
           created_at?: string
           development_challenges?: string | null
           future_roadmap?: string | null
-          id?: number
+          id?: never
           key_features?: string[] | null
           problem_statement?: string | null
           product_details?: string | null
-          product_id?: number | null
+          product_id?: number
           product_images?: string[] | null
           Product_link?: string | null
           solution_description?: string | null
@@ -151,7 +151,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           github_link?: string | null
-          id?: number
+          id?: never
           product_link?: string | null
           product_video?: string | null
           sub_title?: string | null
@@ -165,7 +165,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           github_link?: string | null
-          id?: number
+          id?: never
           product_link?: string | null
           product_video?: string | null
           sub_title?: string | null
@@ -227,7 +227,7 @@ export type Database = {
           key_features: string[] | null
           problem_statement: string | null
           product_details: string | null
-          product_id: number | null
+          product_id: number
           product_images: string[] | null
           Product_link: string | null
           solution_description: string | null
