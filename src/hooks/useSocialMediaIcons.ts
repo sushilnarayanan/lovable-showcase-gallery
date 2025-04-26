@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
 export type SocialMediaIcon = {
-  id: bigint;
+  id: number; // Changed from bigint to number to match what Supabase JS client returns
   name: string | null;
   icon_link: string | null;
   URL: string | null;
