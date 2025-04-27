@@ -1,5 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export type SocialMediaIcon = {
   id: number;
@@ -12,31 +13,19 @@ export const useSocialMediaIcons = () => {
   return useQuery({
     queryKey: ['socialMediaIcons'],
     queryFn: async () => {
-      console.log('Fetching social media icons...');
+      console.log('Fetching social media icons from Supabase...');
       
-      const icons: SocialMediaIcon[] = [
-        {
-          id: 1,
-          name: 'Email',
-          icon_link: '/mail.svg',
-          URL: `mailto:sushilnarayanan@gmail.com`
-        },
-        {
-          id: 2,
-          name: 'LinkedIn',
-          icon_link: '/linkedin.svg',
-          URL: 'https://www.linkedin.com/in/sushil-kumar08/'
-        },
-        {
-          id: 3,
-          name: 'WhatsApp',
-          icon_link: '/whatsapp.svg',
-          URL: `https://wa.me/919789027993`
-        }
-      ];
+      const { data, error } = await supabase
+        .from('social_media_icons')
+        .select('*');
       
-      console.log('Social media icons:', icons);
-      return icons;
+      if (error) {
+        console.error('Error fetching social media icons:', error);
+        return [];
+      }
+      
+      console.log('Social media icons:', data);
+      return data as SocialMediaIcon[];
     }
   });
 };
