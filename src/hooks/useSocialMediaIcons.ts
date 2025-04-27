@@ -14,7 +14,6 @@ export const useSocialMediaIcons = () => {
     queryFn: async () => {
       console.log('Fetching social media icons...');
       
-      // Instead of trying to modify the database, just return the icons directly
       const icons: SocialMediaIcon[] = [
         {
           id: 1,
