@@ -21,10 +21,10 @@ export const useSocialMediaIcons = () => {
       
       if (error) {
         console.error('Error fetching social media icons:', error);
-        return [];
+        throw new Error('Failed to fetch social media icons');
       }
       
-      console.log('Social media icons:', data);
+      console.log('Social media icons fetched successfully:', data);
       return data as SocialMediaIcon[];
     }
   });

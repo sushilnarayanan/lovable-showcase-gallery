@@ -22,8 +22,8 @@ const Footer = () => {
           <div>
             <h5 className="text-netflix-white text-sm font-medium mb-4">Connect</h5>
             <div className="flex space-x-4">
-              {isLoading && <span className="text-netflix-gray text-sm">Loading...</span>}
-              {error && <span className="text-red-400 text-sm">Error loading icons</span>}
+              {isLoading && <span className="text-netflix-gray text-sm">Loading icons...</span>}
+              {error && <span className="text-red-400 text-sm">Error loading social icons</span>}
               {socialIcons && socialIcons.length > 0 ? (
                 socialIcons.map((icon) => (
                   <a
@@ -31,15 +31,16 @@ const Footer = () => {
                     href={icon.URL || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-netflix-gray hover:text-netflix-white"
+                    className="text-netflix-gray hover:text-netflix-white transition-colors"
+                    title={icon.name || ''}
                   >
                     <img 
                       src={icon.icon_link || ''} 
                       alt={icon.name || 'Social Media Icon'} 
-                      className="w-5 h-5 object-contain bg-white rounded-full p-0.5"
+                      className="w-6 h-6 object-contain bg-white rounded-full p-0.5"
                       onError={(e) => {
                         console.error(`Failed to load icon: ${icon.icon_link}`);
-                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.src = '/placeholder.svg';
                       }}
                     />
                   </a>

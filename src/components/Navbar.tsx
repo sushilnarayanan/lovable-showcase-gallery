@@ -39,17 +39,18 @@ const Navbar = () => {
                 <a
                   key={icon.id}
                   href={icon.URL || '#'}
-                  target="_blank"
+                  target="_blank" 
                   rel="noopener noreferrer"
                   className="text-white/80 hover:text-white transition-colors flex items-center justify-center"
+                  title={icon.name || ''}
                 >
                   <img 
                     src={icon.icon_link || ''} 
                     alt={icon.name || 'Social Media Icon'} 
-                    className="w-5 h-5 object-contain bg-white rounded-full p-0.5"
+                    className="w-6 h-6 object-contain bg-white rounded-full p-0.5"
                     onError={(e) => {
                       console.error(`Failed to load icon: ${icon.icon_link}`);
-                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.src = '/placeholder.svg';
                     }}
                   />
                 </a>
