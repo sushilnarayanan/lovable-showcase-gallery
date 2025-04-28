@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -19,6 +18,8 @@ const Index = () => {
   
   const [refreshKey, setRefreshKey] = useState(0); // Add a state for triggering refetches
   
+  // Add query for exit category
+  const { data: exitItems } = useProductsByCategory('exit');
   // Use category slug instead of ID for better reliability
   const { data: featuredProductItems } = useProductsByCategory('featured-products');
   const { data: vibedCodedItems } = useProductsByCategory('vibe-coded');
@@ -124,6 +125,11 @@ const Index = () => {
       
       {/* Added consistent spacing class to ensure proper gap between hero and content */}
       <div className="pb-4 w-full mt-4">
+        {/* Display Exit category first */}
+        {!productsLoading && !productsError && exitItems && exitItems.length > 0 && (
+          <ContentRow title="Exit" productItems={exitItems} />
+        )}
+        
         {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />
