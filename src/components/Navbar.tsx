@@ -46,7 +46,7 @@ const Navbar = () => {
                   <img 
                     src={icon.icon_link || ''} 
                     alt={icon.name || 'Social Media Icon'} 
-                    className="w-5 h-5 object-contain"
+                    className="w-5 h-5 object-contain bg-white rounded-full p-0.5"
                     onError={(e) => {
                       console.error(`Failed to load icon: ${icon.icon_link}`);
                       e.currentTarget.style.display = 'none';
