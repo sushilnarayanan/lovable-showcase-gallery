@@ -208,6 +208,30 @@ export type Database = {
         }
         Relationships: []
       }
+      Videos: {
+        Row: {
+          created_at: string
+          id: number
+          Name: string | null
+          thumbnail: string | null
+          video: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          Name?: string | null
+          thumbnail?: string | null
+          video?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          Name?: string | null
+          thumbnail?: string | null
+          video?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -25,6 +25,8 @@ const Navbar = () => {
             <ul className="flex space-x-6">
               <li><Link to="/" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Home</Link></li>
               <li><Link to="/about" className="text-base font-medium text-white hover:text-gray-300 transition-colors">About</Link></li>
+              <li><Link to="/videos" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Videos</Link></li>
+              <li><a href="https://futuretenseai.substack.com/" target="_blank" rel="noopener noreferrer" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Substack</a></li>
               <li><Link to="#products" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Products</Link></li>
             </ul>
           </nav>
@@ -79,6 +81,22 @@ const Navbar = () => {
                 <Link to="/about" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
                   About
                 </Link>
+              </li>
+              <li>
+                <Link to="/videos" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
+                  Videos
+                </Link>
+              </li>
+              <li>
+                <a 
+                  href="https://futuretenseai.substack.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-white block py-2" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Substack
+                </a>
               </li>
               <li>
                 <Link to="#products" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
