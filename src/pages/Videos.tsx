@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { toast } from '@/hooks/use-toast';
-import { Link } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 // Define the Video type based on our database schema
 type Video = {
@@ -21,6 +21,9 @@ const useVideos = () => {
   return useQuery({
     queryKey: ['videos'],
     queryFn: async () => {
+      // Log the start of the query for debugging
+      console.log('Fetching videos from Supabase...');
+
       const { data, error } = await supabase
         .from('Videos')
         .select('*')
@@ -36,6 +39,7 @@ const useVideos = () => {
         throw error;
       }
 
+      console.log('Videos data received:', data);
       return data as Video[];
     },
   });
@@ -68,7 +72,7 @@ const VideoCard = ({ video }: { video: Video }) => {
             className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 hover:opacity-100 transition-opacity"
           >
             <div className="p-2 bg-red-600 rounded-full">
-              <Link size={24} className="text-white" />
+              <ExternalLink size={24} className="text-white" />
             </div>
           </a>
         )}
