@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 
 const VideoGallery = () => {
   const { data: videos, isLoading, error } = useVideos();
+  
+  console.log("VideoGallery rendering with data:", videos);
 
   if (isLoading) {
     return (
@@ -23,6 +25,7 @@ const VideoGallery = () => {
   }
 
   if (error) {
+    console.error("Error in VideoGallery:", error);
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <div className="text-red-500 mb-4">Error loading videos. Please try again later.</div>
