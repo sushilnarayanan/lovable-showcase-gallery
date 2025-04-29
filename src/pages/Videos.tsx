@@ -8,6 +8,7 @@ import { toast } from '@/hooks/use-toast';
 import { ExternalLink, Play } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 // Define the Video type based on our database schema
 type Video = {
