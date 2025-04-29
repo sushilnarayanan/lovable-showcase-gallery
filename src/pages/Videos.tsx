@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { toast } from '@/hooks/use-toast';
-import { ExternalLink, Play } from "lucide-react";
+import { ExternalLink, Play, FileImage } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -48,31 +48,70 @@ const useVideos = () => {
   });
 };
 
+const VideoThumbnail = ({ src, alt }: { src: string | null; alt: string }) => {
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  if (!src || hasError) {
+    return (
+      <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center">
+        <FileImage size={48} className="text-gray-500 mb-2" />
+        <span className="text-gray-400 text-sm">No thumbnail</span>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        onError={(e) => {
+          console.error(`Failed to load thumbnail: ${src}`);
+          setHasError(true);
+        }}
+        onLoad={() => setIsLoading(false)}
+      />
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+          <Skeleton className="w-full h-full absolute" />
+        </div>
+      )}
+    </>
+  );
+};
+
 const VideoCard = ({ video }: { video: Video }) => {
+  // Debug video data
+  console.log(`Rendering video card:`, {
+    id: video.id,
+    name: video.Name,
+    thumbnail: video.thumbnail_url,
+    videoUrl: video.video_url
+  });
+
+  // Format video URL to ensure it has a protocol
+  const formattedVideoUrl = video.video_url && !video.video_url.startsWith('http') 
+    ? `https://${video.video_url}` 
+    : video.video_url;
+
   return (
     <Card className="group overflow-hidden bg-netflix-card border-gray-800 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-gray-600">
       <div className="relative aspect-video">
         <a
-          href={video.video_url || '#'}
+          href={formattedVideoUrl || '#'}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full h-full"
         >
-          {video.thumbnail_url ? (
-            <img
-              src={video.thumbnail_url}
-              alt={video.Name || 'Video thumbnail'}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                console.error(`Failed to load thumbnail: ${video.thumbnail_url}`);
-                e.currentTarget.src = '/placeholder.svg';
-              }}
+          <div className="relative h-full">
+            <VideoThumbnail 
+              src={video.thumbnail_url} 
+              alt={video.Name || 'Video thumbnail'} 
             />
-          ) : (
-            <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-              <span className="text-gray-400">No thumbnail</span>
-            </div>
-          )}
+          </div>
+          
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="p-3 bg-red-600 rounded-full">
               <Play size={24} className="text-white" />
@@ -82,7 +121,7 @@ const VideoCard = ({ video }: { video: Video }) => {
       </div>
       <CardContent className="p-4">
         <a
-          href={video.video_url || '#'}
+          href={formattedVideoUrl || '#'}
           target="_blank"
           rel="noopener noreferrer"
           className="text-white hover:text-red-400 transition-colors"
@@ -95,9 +134,9 @@ const VideoCard = ({ video }: { video: Video }) => {
           <span className="text-sm text-gray-400">
             {new Date(video.created_at).toLocaleDateString()}
           </span>
-          {video.video_url && (
+          {formattedVideoUrl && (
             <a
-              href={video.video_url}
+              href={formattedVideoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-sm text-blue-400 hover:text-blue-300"
@@ -142,12 +181,13 @@ const Videos = () => {
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-12">
             <div className="text-red-500 mb-4">Error loading videos. Please try again later.</div>
-            <button 
+            <Button 
+              variant="netflix"
               onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+              className="px-4 py-2"
             >
               Retry
-            </button>
+            </Button>
           </div>
         ) : videos && videos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
