@@ -19,7 +19,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
     videoUrl: video.video_url
   });
 
-  // Format video URL to ensure it has a protocol
+  // Ensure video URL is properly formatted
   const formattedVideoUrl = video.video_url;
 
   return (
