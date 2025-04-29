@@ -42,15 +42,45 @@ const useVideos = () => {
         throw error;
       }
 
+      // Debug log the fetched data
       console.log('Videos data received:', data);
-      return data as Video[];
+      
+      // Process video data - ensure URLs are properly formatted
+      const processedData = data?.map(video => ({
+        ...video,
+        // Format video_url to ensure it has a protocol
+        video_url: formatUrl(video.video_url),
+        // Format thumbnail_url to ensure it has a protocol
+        thumbnail_url: formatUrl(video.thumbnail_url)
+      })) || [];
+      
+      // Log the processed data
+      console.log('Videos processed data:', processedData);
+      
+      return processedData as Video[];
     },
   });
+};
+
+// Helper function to ensure URLs have a protocol
+const formatUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  
+  // If URL already has a protocol, return as is
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  // Add https protocol by default
+  return `https://${url}`;
 };
 
 const VideoThumbnail = ({ src, alt }: { src: string | null; alt: string }) => {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Log thumbnail source for debugging
+  console.log(`Rendering thumbnail for ${alt}:`, src);
   
   if (!src || hasError) {
     return (
@@ -71,7 +101,10 @@ const VideoThumbnail = ({ src, alt }: { src: string | null; alt: string }) => {
           console.error(`Failed to load thumbnail: ${src}`);
           setHasError(true);
         }}
-        onLoad={() => setIsLoading(false)}
+        onLoad={() => {
+          console.log(`Successfully loaded thumbnail: ${src}`);
+          setIsLoading(false);
+        }}
       />
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
@@ -92,9 +125,7 @@ const VideoCard = ({ video }: { video: Video }) => {
   });
 
   // Format video URL to ensure it has a protocol
-  const formattedVideoUrl = video.video_url && !video.video_url.startsWith('http') 
-    ? `https://${video.video_url}` 
-    : video.video_url;
+  const formattedVideoUrl = video.video_url;
 
   return (
     <Card className="group overflow-hidden bg-netflix-card border-gray-800 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-gray-600">
