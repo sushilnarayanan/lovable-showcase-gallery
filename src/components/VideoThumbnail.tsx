@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FileImage } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -16,6 +16,14 @@ const VideoThumbnail = ({ src, alt }: VideoThumbnailProps) => {
   
   // Log thumbnail source for debugging
   console.log(`Rendering thumbnail for ${alt}:`, src);
+  
+  useEffect(() => {
+    // Reset states when src changes
+    setHasError(false);
+    setIsLoading(true);
+    setAttemptedHttps(false);
+    setCurrentSrc(src);
+  }, [src]);
   
   // Try alternate protocol if original fails
   const tryAlternateProtocol = (originalSrc: string | null) => {

@@ -4,6 +4,7 @@ import { ExternalLink, Play } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import VideoThumbnail from "./VideoThumbnail";
 import { type Video } from "@/hooks/useVideos";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 
 interface VideoCardProps {
   video: Video;
@@ -38,23 +39,30 @@ const VideoCard = ({ video }: VideoCardProps) => {
           </div>
           
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="p-3 bg-red-600 rounded-full">
+            <div className="p-3 bg-red-600 rounded-full transform scale-90 group-hover:scale-100 transition-transform">
               <Play size={24} className="text-white" />
             </div>
           </div>
         </a>
       </div>
       <CardContent className="p-4">
-        <a
-          href={formattedVideoUrl || '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white hover:text-red-400 transition-colors"
-        >
-          <h3 className="text-lg font-medium line-clamp-2">
-            {video.Name || 'Untitled Video'}
-          </h3>
-        </a>
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <a
+              href={formattedVideoUrl || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-red-400 transition-colors block"
+            >
+              <h3 className="text-lg font-medium line-clamp-2">
+                {video.Name || 'Untitled Video'}
+              </h3>
+            </a>
+          </HoverCardTrigger>
+          <HoverCardContent className="bg-netflix-dark border-gray-700 text-white">
+            {video.Name}
+          </HoverCardContent>
+        </HoverCard>
         <div className="flex items-center mt-2 justify-between">
           <span className="text-sm text-gray-400">
             {new Date(video.created_at).toLocaleDateString()}
