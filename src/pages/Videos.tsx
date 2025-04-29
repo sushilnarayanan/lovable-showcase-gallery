@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import { toast } from '@/hooks/use-toast';
 import { ExternalLink, Play } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Define the Video type based on our database schema
 type Video = {
@@ -16,52 +17,6 @@ type Video = {
   video: string | null;
   created_at: string;
 };
-
-// Sample videos to display when database is empty
-const sampleVideos: Video[] = [
-  {
-    id: 1,
-    Name: "How to Get Started with React",
-    thumbnail: "https://img.youtube.com/vi/SqcY0GlETPk/maxresdefault.jpg",
-    video: "https://www.youtube.com/watch?v=SqcY0GlETPk",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    Name: "AI for Developers: ChatGPT API Tutorial",
-    thumbnail: "https://img.youtube.com/vi/mBD_OnVkA9o/maxresdefault.jpg",
-    video: "https://www.youtube.com/watch?v=mBD_OnVkA9o",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 3,
-    Name: "Next.js 13 Full Course for Beginners",
-    thumbnail: "https://img.youtube.com/vi/wm5gMKuwSYk/maxresdefault.jpg",
-    video: "https://www.youtube.com/watch?v=wm5gMKuwSYk",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 4,
-    Name: "Build a SaaS with Next.js, Supabase and Stripe",
-    thumbnail: "https://img.youtube.com/vi/jOcYZnPr4jU/maxresdefault.jpg",
-    video: "https://www.youtube.com/watch?v=jOcYZnPr4jU",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 5,
-    Name: "Learn Tailwind CSS in 20 Minutes",
-    thumbnail: "https://img.youtube.com/vi/hdGsFpZ0J2E/maxresdefault.jpg",
-    video: "https://www.youtube.com/watch?v=hdGsFpZ0J2E",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 6,
-    Name: "TypeScript Course for Beginners",
-    thumbnail: "https://img.youtube.com/vi/BwuLxPH8IDs/maxresdefault.jpg",
-    video: "https://www.youtube.com/watch?v=BwuLxPH8IDs",
-    created_at: new Date().toISOString(),
-  }
-];
 
 // Custom hook to fetch videos from the database
 const useVideos = () => {
@@ -87,13 +42,6 @@ const useVideos = () => {
       }
 
       console.log('Videos data received:', data);
-      
-      // Return sample videos if no data or empty array
-      if (!data || data.length === 0) {
-        console.log('No videos found in database, using sample videos');
-        return sampleVideos;
-      }
-      
       return data as Video[];
     },
   });
@@ -183,13 +131,11 @@ const Videos = () => {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(6)].map((_, idx) => (
-              <Card key={idx} className="bg-netflix-card border-gray-800 rounded-lg">
-                <div className="aspect-video bg-gray-800 animate-pulse"></div>
-                <CardContent className="p-4">
-                  <div className="h-5 w-3/4 bg-gray-800 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 w-1/4 bg-gray-800 rounded animate-pulse"></div>
-                </CardContent>
-              </Card>
+              <div key={idx} className="flex flex-col space-y-2">
+                <Skeleton className="aspect-video w-full" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
             ))}
           </div>
         ) : error ? (
@@ -209,8 +155,11 @@ const Videos = () => {
             ))}
           </div>
         ) : (
-          <div className="flex justify-center py-12">
-            <div className="text-gray-400">No videos available.</div>
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="text-gray-400 mb-4">No videos available in the database.</div>
+            <p className="text-sm text-gray-500 max-w-md text-center">
+              Add videos to the 'Videos' table in Supabase with Name, thumbnail URL, and video URL fields to display them here.
+            </p>
           </div>
         )}
       </div>
