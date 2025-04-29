@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button";
 type Video = {
   id: number;
   Name: string | null;
-  thumbnail: string | null;
-  video: string | null;
+  thumbnail_url: string | null;
+  video_url: string | null;
   created_at: string;
 };
 
@@ -53,18 +53,18 @@ const VideoCard = ({ video }: { video: Video }) => {
     <Card className="group overflow-hidden bg-netflix-card border-gray-800 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-gray-600">
       <div className="relative aspect-video">
         <a
-          href={video.video || '#'}
+          href={video.video_url || '#'}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full h-full"
         >
-          {video.thumbnail ? (
+          {video.thumbnail_url ? (
             <img
-              src={video.thumbnail}
+              src={video.thumbnail_url}
               alt={video.Name || 'Video thumbnail'}
               className="w-full h-full object-cover"
               onError={(e) => {
-                console.error(`Failed to load thumbnail: ${video.thumbnail}`);
+                console.error(`Failed to load thumbnail: ${video.thumbnail_url}`);
                 e.currentTarget.src = '/placeholder.svg';
               }}
             />
@@ -82,7 +82,7 @@ const VideoCard = ({ video }: { video: Video }) => {
       </div>
       <CardContent className="p-4">
         <a
-          href={video.video || '#'}
+          href={video.video_url || '#'}
           target="_blank"
           rel="noopener noreferrer"
           className="text-white hover:text-red-400 transition-colors"
@@ -95,9 +95,9 @@ const VideoCard = ({ video }: { video: Video }) => {
           <span className="text-sm text-gray-400">
             {new Date(video.created_at).toLocaleDateString()}
           </span>
-          {video.video && (
+          {video.video_url && (
             <a
-              href={video.video}
+              href={video.video_url}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-sm text-blue-400 hover:text-blue-300"
@@ -159,7 +159,7 @@ const Videos = () => {
           <div className="flex flex-col items-center justify-center py-12">
             <div className="text-gray-400 mb-4">No videos available in the database.</div>
             <p className="text-sm text-gray-500 max-w-md text-center">
-              Add videos to the 'Videos' table in Supabase with Name, thumbnail URL, and video URL fields to display them here.
+              Add videos to the 'Videos' table in Supabase with Name, thumbnail_url, and video_url fields to display them here.
             </p>
           </div>
         )}

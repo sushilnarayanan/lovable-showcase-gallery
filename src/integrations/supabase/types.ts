@@ -213,22 +213,22 @@ export type Database = {
           created_at: string
           id: number
           Name: string | null
-          thumbnail: string | null
-          video: string | null
+          thumbnail_url: string | null
+          video_url: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           Name?: string | null
-          thumbnail?: string | null
-          video?: string | null
+          thumbnail_url?: string | null
+          video_url?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           Name?: string | null
-          thumbnail?: string | null
-          video?: string | null
+          thumbnail_url?: string | null
+          video_url?: string | null
         }
         Relationships: []
       }
