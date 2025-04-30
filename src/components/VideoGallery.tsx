@@ -1,12 +1,19 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useVideos } from '@/hooks/useVideos';
 import VideoCard from '@/components/VideoCard';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from '@tanstack/react-query';
 
 const VideoGallery = () => {
-  const { data: videos, isLoading, error } = useVideos();
+  const queryClient = useQueryClient();
+  const { data: videos, isLoading, error, refetch } = useVideos();
+  
+  // Invalidate videos query on component mount to ensure fresh data
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['videos'] });
+  }, [queryClient]);
   
   console.log("VideoGallery rendering with data:", videos);
 

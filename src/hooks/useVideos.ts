@@ -41,7 +41,7 @@ export const useVideos = () => {
       const { data, error } = await supabase
         .from('video_page')
         .select('id, name, thumbnail_url, video_url, created_at')
-        .order('created_at', { ascending: false }); // Changed to descending order
+        .order('created_at', { ascending: false }); // Explicitly set to descending order to show newest first
 
       if (error) {
         console.error('Error fetching videos:', error);
@@ -70,6 +70,7 @@ export const useVideos = () => {
       
       return processedData as Video[];
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60, // Reduced stale time to 1 minute to refresh more frequently
+    refetchOnMount: true, // Force refetch when component mounts
   });
 };
