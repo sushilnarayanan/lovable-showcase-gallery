@@ -1,9 +1,40 @@
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Play, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+
 const Hero = () => {
   const navigate = useNavigate();
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHomeBackground = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabase
+          .from('home_page')
+          .select('home_bg')
+          .single();
+
+        if (error) {
+          console.error('Error fetching home background:', error);
+          // Fallback to default image
+        } else if (data && data.home_bg) {
+          setBackgroundImage(data.home_bg);
+        }
+      } catch (error) {
+        console.error('Error in fetching home background:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchHomeBackground();
+  }, []);
+
   const handleStartWatching = () => {
     const productsSection = document.getElementById('products');
     if (productsSection) {
@@ -12,19 +43,31 @@ const Hero = () => {
       });
     }
   };
+
   const handleMoreInfo = () => {
     navigate('/about');
   };
+
+  // Default background if none found in database
+  const defaultBackground = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80";
+
   return <div className="relative h-[100vh] w-full overflow-hidden"> 
       {/* Hero Background Image */}
       <div className="absolute inset-0 z-0" style={{
-      backgroundImage: "url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-      backgroundRepeat: 'no-repeat',
-      width: '100%',
-      height: '100%'
-    }} />
+        backgroundImage: `url('${backgroundImage || defaultBackground}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        width: '100%',
+        height: '100%'
+      }} />
+      
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 z-5 flex items-center justify-center bg-black/50">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-netflix-red"></div>
+        </div>
+      )}
       
       {/* Gradient Overlay - Adjusted for better blending with header */}
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
@@ -61,4 +104,5 @@ const Hero = () => {
       </div>
     </div>;
 };
+
 export default Hero;

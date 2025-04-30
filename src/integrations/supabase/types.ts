@@ -57,6 +57,24 @@ export type Database = {
         }
         Relationships: []
       }
+      home_page: {
+        Row: {
+          created_at: string
+          home_bg: string | null
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          home_bg?: string | null
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          home_bg?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
       product_categories: {
         Row: {
           category_id: number
