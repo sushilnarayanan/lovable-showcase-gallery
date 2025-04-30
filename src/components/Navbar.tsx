@@ -33,7 +33,6 @@ const Navbar = () => {
               <li><Link to="/about" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>About</Link></li>
               <li><Link to="/videos" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Videos</Link></li>
               <li><a href="https://futuretenseai.substack.com/" target="_blank" rel="noopener noreferrer" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Substack</a></li>
-              <li><Link to="#products" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Products</Link></li>
             </ul>
           </nav>
         </div>
@@ -103,11 +102,6 @@ const Navbar = () => {
                 >
                   Substack
                 </a>
-              </li>
-              <li>
-                <Link to="#products" className="text-black block py-2" onClick={() => setMobileMenuOpen(false)}>
-                  Products
-                </Link>
               </li>
             </ul>
           </nav>
