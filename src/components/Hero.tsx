@@ -36,11 +36,23 @@ const Hero = () => {
   }, []);
 
   const handleStartWatching = () => {
+    // Find the products section by ID
     const productsSection = document.getElementById('products');
     if (productsSection) {
       productsSection.scrollIntoView({
         behavior: 'smooth'
       });
+    } else {
+      // If products section is not found, try scrolling to the first ContentRow
+      const contentRow = document.querySelector('.content-row');
+      if (contentRow) {
+        contentRow.scrollIntoView({
+          behavior: 'smooth'
+        });
+        console.log('Scrolling to first content row instead');
+      } else {
+        console.log('Neither products section nor content row found');
+      }
     }
   };
 
