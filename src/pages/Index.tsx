@@ -129,23 +129,23 @@ const Index = () => {
         
         {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
-          <ContentRow title="All Products" productItems={productItems} className="content-row" />
+          <ContentRow title="All Products" productItems={productItems} />
         )}
         
         {/* Display Exit category second */}
         {!productsLoading && !productsError && exitItems && exitItems.length > 0 && (
-          <ContentRow title="Exit" productItems={exitItems} className="content-row" />
+          <ContentRow title="Exit" productItems={exitItems} />
         )}
         
         {/* Display other category-specific products */}
         {!productsLoading && !productsError && (
           <>
             {featuredProductItems && featuredProductItems.length > 0 && (
-              <ContentRow title="Featured Products" productItems={featuredProductItems} className="content-row" />
+              <ContentRow title="Featured Products" productItems={featuredProductItems} />
             )}
             
             {vibedCodedItems && vibedCodedItems.length > 0 && (
-              <ContentRow title="Vibe-coded" productItems={vibedCodedItems} className="content-row" />
+              <ContentRow title="Vibe-coded" productItems={vibedCodedItems} />
             )}
             
             {/* Display MicroSaaS items with refresh button */}
@@ -158,7 +158,6 @@ const Index = () => {
                   productItems={microSaasItems || []} 
                   projects={microSaasItems && microSaasItems.length === 0 ? webApps : undefined} 
                   categorySlug="microsaas"
-                  className="content-row"
                 />
               )}
               {microSaasItems?.length === 0 && (
@@ -181,7 +180,6 @@ const Index = () => {
                   productItems={noCodeItems || []} 
                   projects={noCodeItems && noCodeItems.length === 0 ? designProjects : undefined}
                   categorySlug="nocode"
-                  className="content-row"
                 />
               )}
               {noCodeItems?.length === 0 && (
@@ -199,10 +197,10 @@ const Index = () => {
         {/* Keep existing content rows as fallback - ensure left alignment */}
         {(productsLoading || categoriesLoading || productItems?.length === 0) && (
           <>
-            <ContentRow title="Featured Projects" projects={featuredProjects} className="content-row" />
-            <ContentRow title="Web Applications" projects={webApps} className="content-row" />
-            <ContentRow title="Design Projects" projects={designProjects} className="content-row" />
-            <ContentRow title="Experiments" projects={experiments} className="content-row" />
+            <ContentRow title="Featured Projects" projects={featuredProjects} />
+            <ContentRow title="Web Applications" projects={webApps} />
+            <ContentRow title="Design Projects" projects={designProjects} />
+            <ContentRow title="Experiments" projects={experiments} />
           </>
         )}
       </div>
