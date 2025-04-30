@@ -23,18 +23,18 @@ const Navbar = () => {
           </Link>
           <nav className="hidden md:flex ml-8">
             <ul className="flex space-x-6">
-              <li><Link to="/" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Home</Link></li>
-              <li><Link to="/about" className="text-base font-medium text-white hover:text-gray-300 transition-colors">About</Link></li>
-              <li><Link to="/videos" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Videos</Link></li>
-              <li><a href="https://futuretenseai.substack.com/" target="_blank" rel="noopener noreferrer" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Substack</a></li>
-              <li><Link to="#products" className="text-base font-medium text-white hover:text-gray-300 transition-colors">Products</Link></li>
+              <li><Link to="/" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Home</Link></li>
+              <li><Link to="/about" className="text-base font-medium text-black hover:text-gray-600 transition-colors">About</Link></li>
+              <li><Link to="/videos" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Videos</Link></li>
+              <li><a href="https://futuretenseai.substack.com/" target="_blank" rel="noopener noreferrer" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Substack</a></li>
+              <li><Link to="#products" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Products</Link></li>
             </ul>
           </nav>
         </div>
         
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-6">
-            {isLoading && <span className="text-white/50 text-sm">Loading...</span>}
+            {isLoading && <span className="text-black/50 text-sm">Loading...</span>}
             {error && <span className="text-red-400 text-sm">Error loading icons</span>}
             {socialIcons && socialIcons.length > 0 ? (
               socialIcons.map((icon) => (
@@ -58,32 +58,32 @@ const Navbar = () => {
                 </a>
               ))
             ) : !isLoading && !error ? (
-              <span className="text-white/50 text-sm">No icons available</span>
+              <span className="text-black/50 text-sm">No icons available</span>
             ) : null}
           </div>
           
-          <button className="text-white md:hidden" onClick={toggleMobileMenu}>
+          <button className="text-black md:hidden" onClick={toggleMobileMenu}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
       
       {mobileMenuOpen && (
-        <div className="md:hidden bg-black">
+        <div className="md:hidden bg-white">
           <nav className="px-4 py-4">
             <ul className="flex flex-col space-y-4">
               <li>
-                <Link to="/" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/" className="text-black block py-2" onClick={() => setMobileMenuOpen(false)}>
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/about" className="text-black block py-2" onClick={() => setMobileMenuOpen(false)}>
                   About
                 </Link>
               </li>
               <li>
-                <Link to="/videos" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/videos" className="text-black block py-2" onClick={() => setMobileMenuOpen(false)}>
                   Videos
                 </Link>
               </li>
@@ -92,14 +92,14 @@ const Navbar = () => {
                   href="https://futuretenseai.substack.com/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-white block py-2" 
+                  className="text-black block py-2" 
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Substack
                 </a>
               </li>
               <li>
-                <Link to="#products" className="text-white block py-2" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="#products" className="text-black block py-2" onClick={() => setMobileMenuOpen(false)}>
                   Products
                 </Link>
               </li>

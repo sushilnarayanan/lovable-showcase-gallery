@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      about_page: {
+        Row: {
+          about_text: string | null
+          about_video: string | null
+          created_at: string
+          id: number
+        }
+        Insert: {
+          about_text?: string | null
+          about_video?: string | null
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          about_text?: string | null
+          about_video?: string | null
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
       Categories: {
         Row: {
           created_at: string
@@ -230,30 +251,6 @@ export type Database = {
           date?: string | null
           id?: number
           name?: string | null
-          thumbnail_url?: string | null
-          video_url?: string | null
-        }
-        Relationships: []
-      }
-      Videos: {
-        Row: {
-          created_at: string
-          id: number
-          Name: string | null
-          thumbnail_url: string | null
-          video_url: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          Name?: string | null
-          thumbnail_url?: string | null
-          video_url?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          Name?: string | null
           thumbnail_url?: string | null
           video_url?: string | null
         }
