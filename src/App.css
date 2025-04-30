@@ -85,13 +85,15 @@ body, html {
   }
 }
 
-/* Netflix card styles for grid layout */
+/* Netflix card styles for grid layout - removed padding and margins */
 .netflix-card {
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
   height: 200px;
+  margin: 0;
+  padding: 0;
 }
 
 .netflix-card:hover {
