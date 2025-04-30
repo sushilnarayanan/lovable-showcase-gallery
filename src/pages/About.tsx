@@ -42,7 +42,9 @@ const About = () => {
                       <video
                         className="w-full h-full object-cover"
                         controls
-                        autoPlay={false}
+                        autoPlay
+                        muted
+                        playsInline
                       >
                         <source src={aboutData.about_video} type="video/mp4" />
                         Your browser does not support the video tag.
