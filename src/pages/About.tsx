@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -43,7 +42,6 @@ const About = () => {
                         className="w-full h-full object-cover"
                         controls
                         autoPlay
-                        muted
                         playsInline
                       >
                         <source src={aboutData.about_video} type="video/mp4" />
