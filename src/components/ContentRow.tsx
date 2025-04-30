@@ -120,6 +120,9 @@ const ContentRow = ({
     showTitleByDefault: true
   })) : projects || [];
 
+  // Determine if this is the "All Products" category row to apply specific styling
+  const isAllProductsCategory = title === "All Products";
+  
   return (
     <div className="netflix-row mb-8"> {/* Consistent bottom margin */}
       {/* Title - properly aligned with consistent left padding */}
@@ -145,7 +148,7 @@ const ContentRow = ({
               <ProjectCard 
                 key={project.id} 
                 project={project} 
-                className="min-w-[calc(25%-12px)] w-[calc(25%-12px)]" 
+                className={isAllProductsCategory ? "min-w-[calc(25%-12px)] w-[calc(25%-12px)]" : "min-w-[calc(25%-12px)] w-[calc(25%-12px)]"} 
               />
             ))
           ) : (
