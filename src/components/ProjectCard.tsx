@@ -15,7 +15,7 @@ interface ProjectProps {
     categories?: CategoryItem[];
     subtitle?: string; 
   };
-  className?: string; // Add className prop
+  className?: string;
 }
 
 const ProjectCard = ({ project, className = "" }: ProjectProps) => {
@@ -70,7 +70,7 @@ const ProjectCard = ({ project, className = "" }: ProjectProps) => {
   };
 
   return (
-    <div className={`netflix-card min-w-[300px] sm:min-w-[320px] md:min-w-[340px] h-[200px] relative group cursor-pointer ${className}`} onClick={handleCardClick}>
+    <div className={`netflix-card h-[200px] relative group cursor-pointer w-full ${className}`} onClick={handleCardClick}>
       {showVideo && project.videoUrl ? (
         <div className="w-full h-full absolute top-0 left-0 z-20">
           {project.videoUrl.endsWith('.gif') ? (
