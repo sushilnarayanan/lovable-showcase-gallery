@@ -41,7 +41,7 @@ export const useVideos = () => {
       const { data, error } = await supabase
         .from('video_page')
         .select('id, name, thumbnail_url, video_url, created_at')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false }); // Changed to descending order
 
       if (error) {
         console.error('Error fetching videos:', error);
