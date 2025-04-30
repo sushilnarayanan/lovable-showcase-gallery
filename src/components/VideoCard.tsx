@@ -14,7 +14,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
   // Debug video data
   console.log(`Rendering video card:`, {
     id: video.id,
-    name: video.Name,
+    name: video.name,
     thumbnail: video.thumbnail_url,
     videoUrl: video.video_url
   });
@@ -34,7 +34,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
           <div className="relative h-full">
             <VideoThumbnail 
               src={video.thumbnail_url} 
-              alt={video.Name || 'Video thumbnail'} 
+              alt={video.name || 'Video thumbnail'} 
             />
           </div>
           
@@ -55,12 +55,12 @@ const VideoCard = ({ video }: VideoCardProps) => {
               className="text-white hover:text-red-400 transition-colors block"
             >
               <h3 className="text-lg font-medium line-clamp-2">
-                {video.Name || 'Untitled Video'}
+                {video.name || 'Untitled Video'}
               </h3>
             </a>
           </HoverCardTrigger>
           <HoverCardContent className="bg-netflix-dark border-gray-700 text-white">
-            {video.Name}
+            {video.name}
           </HoverCardContent>
         </HoverCard>
         <div className="flex items-center mt-2 justify-between">

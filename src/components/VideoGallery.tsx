@@ -45,7 +45,7 @@ const VideoGallery = () => {
       <div className="flex flex-col items-center justify-center py-12">
         <div className="text-gray-400 mb-4">No videos available in the database.</div>
         <p className="text-sm text-gray-500 max-w-md text-center">
-          Add videos to the 'Videos' table in Supabase with Name, thumbnail_url, and video_url fields to display them here.
+          Add videos to the 'video_page' table in Supabase with name, thumbnail_url, and video_url fields to display them here.
         </p>
       </div>
     );

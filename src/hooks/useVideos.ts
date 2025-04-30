@@ -3,18 +3,23 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
-// Define the Video type based on our database schema
+// Define the Video type based on the video_page table schema
 export type Video = {
   id: number;
-  Name: string | null;
+  name: string | null;
   thumbnail_url: string | null;
   video_url: string | null;
   created_at: string;
 };
 
-// Helper function to ensure URLs have a protocol
+// Helper function to ensure URLs have a protocol and handle Supabase storage URLs
 const formatUrl = (url: string | null): string | null => {
   if (!url) return null;
+  
+  // If it's a Supabase storage URL that might be signed
+  if (url.includes('supabase.co/storage/v1/object/sign')) {
+    return url;
+  }
   
   // If URL already has a protocol, return as is
   if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -31,11 +36,11 @@ export const useVideos = () => {
     queryKey: ['videos'],
     queryFn: async () => {
       // Log the start of the query for debugging
-      console.log('Fetching videos from Supabase...');
+      console.log('Fetching videos from Supabase video_page table...');
 
       const { data, error } = await supabase
-        .from('Videos')
-        .select('id, Name, thumbnail_url, video_url, created_at')
+        .from('video_page')
+        .select('id, name, thumbnail_url, video_url, created_at')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -49,7 +54,7 @@ export const useVideos = () => {
       }
 
       // Debug log the fetched data
-      console.log('Videos data received:', data);
+      console.log('Videos data received from video_page table:', data);
       
       // Process video data - ensure URLs are properly formatted
       const processedData = data?.map(video => ({

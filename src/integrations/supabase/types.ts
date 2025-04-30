@@ -208,6 +208,30 @@ export type Database = {
         }
         Relationships: []
       }
+      video_page: {
+        Row: {
+          created_at: string
+          id: number
+          name: string | null
+          thumbnail_url: string | null
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name?: string | null
+          thumbnail_url?: string | null
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string | null
+          thumbnail_url?: string | null
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       Videos: {
         Row: {
           created_at: string

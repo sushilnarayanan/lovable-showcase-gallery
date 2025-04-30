@@ -29,6 +29,12 @@ const VideoThumbnail = ({ src, alt }: VideoThumbnailProps) => {
   const tryAlternateProtocol = (originalSrc: string | null) => {
     if (!originalSrc || attemptedHttps) return;
     
+    // Skip for Supabase storage URLs
+    if (originalSrc.includes('supabase.co/storage')) {
+      setHasError(true);
+      return;
+    }
+    
     // If URL started with https, try http instead, or vice versa
     let newSrc: string | null = null;
     if (originalSrc.startsWith('https://')) {
