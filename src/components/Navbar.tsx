@@ -1,12 +1,18 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useSocialMediaIcons } from '@/hooks/useSocialMediaIcons';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: socialIcons, isLoading, error } = useSocialMediaIcons();
+  const location = useLocation();
+  
+  // Determine if we're on the about page to set the text color
+  const isAboutPage = location.pathname === '/about';
+  const textColor = isAboutPage ? 'text-black' : 'text-white';
+  const hoverColor = isAboutPage ? 'hover:text-gray-600' : 'hover:text-gray-300';
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -23,11 +29,11 @@ const Navbar = () => {
           </Link>
           <nav className="hidden md:flex ml-8">
             <ul className="flex space-x-6">
-              <li><Link to="/" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Home</Link></li>
-              <li><Link to="/about" className="text-base font-medium text-black hover:text-gray-600 transition-colors">About</Link></li>
-              <li><Link to="/videos" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Videos</Link></li>
-              <li><a href="https://futuretenseai.substack.com/" target="_blank" rel="noopener noreferrer" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Substack</a></li>
-              <li><Link to="#products" className="text-base font-medium text-black hover:text-gray-600 transition-colors">Products</Link></li>
+              <li><Link to="/" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Home</Link></li>
+              <li><Link to="/about" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>About</Link></li>
+              <li><Link to="/videos" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Videos</Link></li>
+              <li><a href="https://futuretenseai.substack.com/" target="_blank" rel="noopener noreferrer" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Substack</a></li>
+              <li><Link to="#products" className={`text-base font-medium ${textColor} ${hoverColor} transition-colors`}>Products</Link></li>
             </ul>
           </nav>
         </div>
@@ -62,7 +68,7 @@ const Navbar = () => {
             ) : null}
           </div>
           
-          <button className="text-black md:hidden" onClick={toggleMobileMenu}>
+          <button className={`${textColor} md:hidden`} onClick={toggleMobileMenu}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
