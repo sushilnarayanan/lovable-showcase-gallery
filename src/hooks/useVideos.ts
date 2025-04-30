@@ -10,6 +10,7 @@ export type Video = {
   thumbnail_url: string | null;
   video_url: string | null;
   created_at: string;
+  date: string | null;
 };
 
 // Helper function to ensure URLs have a protocol and handle Supabase storage URLs
@@ -40,7 +41,7 @@ export const useVideos = () => {
 
       const { data, error } = await supabase
         .from('video_page')
-        .select('id, name, thumbnail_url, video_url, created_at')
+        .select('id, name, thumbnail_url, video_url, created_at, date')
         .order('created_at', { ascending: false }); // Explicitly set to descending order to show newest first
 
       if (error) {

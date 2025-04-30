@@ -211,6 +211,7 @@ export type Database = {
       video_page: {
         Row: {
           created_at: string
+          date: string | null
           id: number
           name: string | null
           thumbnail_url: string | null
@@ -218,6 +219,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          date?: string | null
           id?: number
           name?: string | null
           thumbnail_url?: string | null
@@ -225,6 +227,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          date?: string | null
           id?: number
           name?: string | null
           thumbnail_url?: string | null

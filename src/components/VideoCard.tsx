@@ -22,6 +22,11 @@ const VideoCard = ({ video }: VideoCardProps) => {
   // Ensure video URL is properly formatted
   const formattedVideoUrl = video.video_url;
 
+  // Format the date to show only the date portion (YYYY-MM-DD)
+  const formattedDate = video.date ? 
+    new Date(video.date).toLocaleDateString() : 
+    new Date(video.created_at).toLocaleDateString();
+
   return (
     <Card className="group overflow-hidden bg-netflix-card border-gray-800 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-gray-600">
       <div className="relative aspect-video">
@@ -65,7 +70,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
         </HoverCard>
         <div className="flex items-center mt-2 justify-between">
           <span className="text-sm text-gray-400">
-            {new Date(video.created_at).toLocaleDateString()}
+            {formattedDate}
           </span>
           {formattedVideoUrl && (
             <a
