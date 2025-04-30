@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { RefreshCcw } from 'lucide-react';
 import ProjectCard from './ProjectCard';
@@ -88,7 +87,7 @@ const ContentRow = ({
       {/* Grid container with padding */}
       <div className="px-4 sm:px-8 md:px-12 lg:px-[34px]">
         {displayItems.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {displayItems.map(project => (
               <ProjectCard 
                 key={project.id} 
