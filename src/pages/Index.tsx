@@ -125,17 +125,19 @@ const Index = () => {
       
       {/* Added consistent spacing class to ensure proper gap between hero and content */}
       <div className="pb-4 w-full mt-4">
-        {/* Display Exit category first */}
-        {!productsLoading && !productsError && exitItems && exitItems.length > 0 && (
-          <ContentRow title="Exit" productItems={exitItems} />
-        )}
+        {/* Reordered content rows: All Products first, then Exit, then others */}
         
         {/* Display products from Supabase if available - full-width container */}
         {!productsLoading && !productsError && productItems && productItems.length > 0 && (
           <ContentRow title="All Products" productItems={productItems} />
         )}
         
-        {/* Display category-specific products - ensure proper alignment */}
+        {/* Display Exit category second */}
+        {!productsLoading && !productsError && exitItems && exitItems.length > 0 && (
+          <ContentRow title="Exit" productItems={exitItems} />
+        )}
+        
+        {/* Display other category-specific products */}
         {!productsLoading && !productsError && (
           <>
             {featuredProductItems && featuredProductItems.length > 0 && (
