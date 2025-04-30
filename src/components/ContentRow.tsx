@@ -148,7 +148,7 @@ const ContentRow = ({
               <ProjectCard 
                 key={project.id} 
                 project={project} 
-                className={isAllProductsCategory ? "min-w-[calc(25%-12px)] w-[calc(25%-12px)]" : "min-w-[calc(25%-12px)] w-[calc(25%-12px)]"} 
+                className="min-w-[calc(100%/4 - 12px)] w-[calc(100%/4 - 12px)]" 
               />
             ))
           ) : (
