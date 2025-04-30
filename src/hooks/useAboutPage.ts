@@ -3,11 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
-type AboutPageData = {
+export type AboutPageData = {
   id: number;
   about_video: string | null;
   about_text: string | null;
   created_at: string;
+};
+
+/**
+ * Convert plain text with line breaks to HTML paragraphs
+ */
+export const formatAboutText = (text: string | null): string => {
+  if (!text) return '';
+  
+  // Split by double line breaks (common paragraph separator)
+  const paragraphs = text.split(/\n\s*\n/);
+  
+  // Convert each paragraph to a proper HTML paragraph
+  return paragraphs
+    .map(p => `<p>${p.trim()}</p>`)
+    .join('');
 };
 
 export const useAboutPage = () => {
