@@ -35,7 +35,7 @@ export const useVideos = () => {
 
       const { data, error } = await supabase
         .from('Videos')
-        .select('*')
+        .select('id, Name, thumbnail_url, video_url, created_at')
         .order('created_at', { ascending: false });
 
       if (error) {
