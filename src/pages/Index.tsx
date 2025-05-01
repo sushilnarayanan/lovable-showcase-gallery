@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -70,7 +69,7 @@ const Index = () => {
   }, [microSaasError, noCodeError]);
 
   return (
-    <div className="min-h-screen bg-netflix-background overflow-x-hidden w-full max-w-[100vw]">
+    <div className="min-h-screen bg-netflix-background overflow-x-hidden w-full max-w-full min-w-[100vw]">
       <Navbar />
       <Hero />
       

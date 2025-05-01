@@ -6,7 +6,9 @@
   text-align: left;
   overflow-x: hidden;
   max-width: 100vw;
+  min-width: 100vw; /* Ensure it covers the full viewport width */
   box-sizing: border-box;
+  background-color: #000;
 }
 
 body, html {
@@ -14,6 +16,7 @@ body, html {
   margin: 0;
   padding: 0;
   max-width: 100vw;
+  min-width: 100vw; /* Ensure it covers the full viewport width */
   box-sizing: border-box;
   background-color: #000;
 }
@@ -34,6 +37,7 @@ body, html {
 .netflix-container {
   width: 100%;
   max-width: 100vw;
+  min-width: 100vw; /* Ensure it covers the full viewport width */
   overflow-x: hidden;
   padding: 0;
   background-color: #000;
@@ -64,6 +68,7 @@ body, html {
   padding: 0;
   width: 100%;
   max-width: 100vw;
+  min-width: 100vw; /* Ensure it covers the full viewport width */
   background-color: #000;
 }
 
