@@ -70,7 +70,7 @@ const Index = () => {
   }, [microSaasError, noCodeError]);
 
   return (
-    <div className="min-h-screen bg-netflix-background overflow-x-hidden w-full">
+    <div className="min-h-screen bg-netflix-background overflow-x-hidden w-full max-w-[100vw]">
       <Navbar />
       <Hero />
       
